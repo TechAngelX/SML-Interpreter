@@ -19,12 +19,11 @@ amongst other skills.
 
 ## Details
 
-**Name**: Your name should appear here
+**Name**: Ricki Angel
 
-**Your userid**: e.g., myname01
+**Userid**:13928534
 
-Please do not forget to complete this part as too often we have "orphaned" repositories,
-which can require months to sort out.
+**E-Mail**: rangel03@student.bbk.ac.uk
 
 ## The problem
 
