@@ -19,7 +19,7 @@ public class LoadInstruction extends Instruction {
     private final Variable.Identifier varName;
 
     /**
-     * Constructor for the load instruction class.
+     * Constructor for the Load instruction class.
      * ==========================================
      *
      * @param label optional label (can be null)

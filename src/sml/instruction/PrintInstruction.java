@@ -10,6 +10,7 @@ public class PrintInstruction extends Instruction {
 
     public PrintInstruction(Label label) {
         super(label, OP_CODE);
+
     }
 
     @Override
