@@ -9,7 +9,7 @@ import java.util.Optional;
 public class loadInstruction extends Instruction {
 
 
-    public class LoadInstruc""
+    public class LoadInstrucction ()
     @Override
     public Optional<Frame> execute(Machine machine) {
         return Optional.empty();
