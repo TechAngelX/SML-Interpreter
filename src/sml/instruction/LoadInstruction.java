@@ -33,8 +33,8 @@ public class LoadInstruction extends Instruction {
 // ==================================== Methods ======================================
     /**
      * Overrides from the Instruction superclass.
-     * Retrieves the current frame, pops the top value from the stack, prints it,
-     * and advances the pointer.
+     * Retrieves the value (varName) from the current frame, pushes that value onto the
+     * top of the operand stack, prints it and advances the pointer.
      *
      * @param machine the machine the instruction runs on
      * @return An Optional containing the next frame after execution
@@ -43,8 +43,10 @@ public class LoadInstruction extends Instruction {
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        Variable variable = frame.variable(varName);
-        frame.push(variable.load());
+        Variable var = frame.variable(varName); // Get the Variable object
+        int value = var.load();                 // Use the load() method in Variable to get the value
+        frame.push(value);                      // Push the value onto stack
+        System.out.println(value);
         return Optional.of(frame.advance());
     }
     /**
