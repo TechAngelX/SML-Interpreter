@@ -1,20 +1,18 @@
 package sml.instruction;
 
-import sml.*;
-
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import sml.*;
 /**
- * This class represents the load instruction from my Simple Machine Language.
+ * This class represents the 'load' instruction from my Simple Machine Language.
  * The load instruction retrieves a value from a variable (either a method argument or
- * local variable),  and pushes it onto the current operand stack.
+ * local variable), and pushes it onto the current operand stack.
  * ===================================================================================
  *
  * @author Ricki Angel
  */
-
 public class LoadInstruction extends Instruction {
     public static final String OP_CODE = "load";
 
@@ -32,23 +30,16 @@ public class LoadInstruction extends Instruction {
         super(label, OP_CODE);
         this.varName = Objects.requireNonNull(varName);
     }
-
+// ==================================== Methods ======================================
     /**
-     * Methods for the load instruction class.
-     * ======================================
-     * /
-
-
-    /** execute()
-     * Overrides from the Instruction superclass. This method executes
-     * the load instruction. It gets the value from the specified variable
-     * and pushes it onto the current operand stack.
+     * Overrides from the Instruction superclass.
+     * Retrieves the current frame, pops the top value from the stack, prints it,
+     * and advances the pointer.
      *
      * @param machine the machine the instruction runs on
      * @return An Optional containing the next frame after execution
      * @throws  VariableNotFoundException if the specified variable is not found
      */
-
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
@@ -56,8 +47,7 @@ public class LoadInstruction extends Instruction {
         frame.push(variable.load());
         return Optional.of(frame.advance());
     }
-
-    /** getOperandsString()
+    /**
      * Returns a string version of the instruction's operands.
      *
      * @return the string of the variable name
@@ -96,13 +86,13 @@ public class LoadInstruction extends Instruction {
     }
 
     /** hashCode()
-     * Overrides hashCode in superclass to ensures consistent hash values for object comparisons .    *
+     * Overrides hashCode in superclass to ensures consistent hash values for object
+     * comparisons.
+     *
      * @return hash code incorporating the label, opcode, and variable name
      */
     @Override
     public int hashCode() {
         return Objects.hash(label, opcode, varName);
     }
-
-
 }

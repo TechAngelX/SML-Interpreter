@@ -40,5 +40,7 @@ public class PrintInstructionTest {
         ins0.execute(machine);
 
         assertEquals("42\n", outContent.toString());
+        System.out.println(outContent.toString());
+
     }
 }
