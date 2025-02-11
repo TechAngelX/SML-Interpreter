@@ -31,7 +31,7 @@ public class LoadInstructionTest {
     void testLoadInstructionPushesAndPrintsValue() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
         Instruction pushValInstruction0 = new LoadInstruction(null, varId); // Create LoadInstruction instance that loads from variable "testVar".
-        Instruction returnInstruction = new ReturnInstruction(null);  // End execution.
+        Instruction returnInstruction = new ReturnInstruction(null);  // End
 
         Method m = new Method(new Method.Identifier("@main"),
                 List.of(),
