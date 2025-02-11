@@ -4,16 +4,50 @@ import sml.*;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
+
+/**
+ * This class represents the load instruction from my Simple Machine Language.
+ * The load instruction retrieves a value from a variable (either a method argument or
+ * local variable),  and pushes it onto the current operand stack.
+ * ===================================================================================
+ *
+ * @author Ricki Angel
+ */
 
 public class LoadInstruction extends Instruction {
     public static final String OP_CODE = "load";
 
     private final Variable.Identifier varName;
 
+    /**
+     * Constructor for the load instruction class.
+     * ==========================================
+     *
+     * @param label optional label (can be null)
+     * @param varName the identifier of the variable to load (must not be null)
+     * @throws NullPointerException if varName is null
+     */
     public LoadInstruction(Label label, Variable.Identifier varName) {
         super(label, OP_CODE);
         this.varName = Objects.requireNonNull(varName);
     }
+
+    /**
+     * Methods for the load instruction class.
+     * ======================================
+     * /
+
+
+    /** execute()
+     * Overrides from the Instruction superclass. This method executes
+     * the load instruction. It gets the value from the specified variable
+     * and pushes it onto the current operand stack.
+     *
+     * @param machine the machine the instruction runs on
+     * @return An Optional containing the next frame after execution
+     * @throws  VariableNotFoundException if the specified variable is not found
+     */
 
     @Override
     public Optional<Frame> execute(Machine machine) {
@@ -23,9 +57,51 @@ public class LoadInstruction extends Instruction {
         return Optional.of(frame.advance());
     }
 
+    /** getOperandsString()
+     * Returns a string version of the instruction's operands.
+     *
+     * @return the string of the variable name
+     */
     @Override
     protected String getOperandsString() {
         return varName.toString();
+    }
+
+    /** variables()
+     * Returns a stream containng the variable used in this instruction.
+     *
+     * @return stream containing this instructions' variable identifier (varName)
+     */
+    @Override
+    public Stream<Variable.Identifier> variables() {
+        return Stream.of(varName);
+    }
+
+    /** equals()
+     * Compares this instruction with another object for equality.
+     * Two LoadInstructions are equal if they have the same label, opcode,
+     * and variable name.
+     *
+     * @param o object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LoadInstruction other = (LoadInstruction) o;
+        return Objects.equals(label, other.label)
+                && Objects.equals(opcode, other.opcode)
+                && Objects.equals(varName, other.varName);
+    }
+
+    /** hashCode()
+     * Overrides hashCode in superclass to ensures consistent hash values for object comparisons .    *
+     * @return hash code incorporating the label, opcode, and variable name
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(label, opcode, varName);
     }
 
 
