@@ -30,18 +30,21 @@ public class LoadInstructionTest {
     @Test
     void testLoadInstructionPushesAndPrintsValue() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
-        Instruction pushValInstruction0 = new LoadInstruction(null, varId);
-        Instruction returnInstruction = new ReturnInstruction(null);  // The return instruction
+        Instruction pushValInstruction0 = new LoadInstruction(null, varId); // Create LoadInstruction instance that loads from variable "testVar".
+        Instruction returnInstruction = new ReturnInstruction(null);  // End execution.
 
         Method m = new Method(new Method.Identifier("@main"),
                 List.of(),
                 List.of(pushValInstruction0, returnInstruction));
         machine.setProgram(List.of(m));
 
+    // Use the 'localVariables()' method from Method.
+        Variable var = machine.frame().variable(varId);
+        var.store(100);
+
         System.setOut(new PrintStream(outContent));
         pushValInstruction0.execute(machine);
 
-        assertEquals("42\n", outContent.toString());
-
+        assertEquals("100\n", outContent.toString());
     }
 }
