@@ -11,3 +11,6 @@ push
 add/sub/mul/div
 if_cmpgt
 if_cmpe
+
+THOUGHTS: execute() seems to be prevalent for most of the instruction subclasses.
+Perhaps make the execute method an interface?
