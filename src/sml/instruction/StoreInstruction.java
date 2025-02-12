@@ -1,10 +1,11 @@
 package sml.instruction;
+import sml.*;
+import sml.helperfiles.AbstractVarInstruction;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import sml.*;
 /**
  * This class represents the 'store' instruction from the Simple Machine Language.
  * The store instruction pops a value from the current operand stack and stores it
@@ -13,9 +14,9 @@ import sml.*;
  * @author Ricki Angel
  */
 
-public class StoreInstruction  extends Instruction {
+public class StoreInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "store";
-    private final Variable.Identifier varName;
+
     /**
      * Constructor for the Store instruction class.
      * ==========================================
@@ -25,8 +26,7 @@ public class StoreInstruction  extends Instruction {
      * @throws NullPointerException if varName is null
      */
     public StoreInstruction(Label label, Variable.Identifier varName) {
-        super(label, OP_CODE);
-        this.varName = Objects.requireNonNull(varName);
+        super(label, OP_CODE, varName);
     }
 
     // ==================================== Methods ======================================
@@ -49,27 +49,8 @@ public class StoreInstruction  extends Instruction {
         var.store(value);                          // Store the value in the variable using the Variable store() method.
         return Optional.of(frame.advance());       // Advance to the next instruction
     }
-    /**
-     * Returns a string representation of the instruction's operands.
-     *
-     * @return the string of the variable name
-     */
-    @Override
-    protected String getOperandsString() {
-        return varName.toString();
-    }
 
-    /** variables()
-     * Returns a stream containing the variable used in this instruction.
-     *
-     * @return a stream containing just one variable - the one this instruction stores into
-     */
-
-    @Override
-    public Stream<Variable.Identifier> variables() {
-        return Stream.of(varName);
-    }
-    /** equals()
+       /** equals()
      * Compares this instruction with another object for equality.
      * Two LoadInstructions are equal if they have the same label, opcode,
      * and variable name.
