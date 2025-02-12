@@ -1,26 +1,53 @@
+### SML Working Notes: My Workflow: Ricki Angel
 
-Create subclasses of the Instruction class that extend the Instruction class functionality. Do this ONLY AFTER completing methods in the Instruction class.
+Create subclasses of the `Instruction` class that extend its functionality.  
+Do this **ONLY AFTER** completing methods in the `Instruction` class.
 
-The Entry point for the programme - the Main method - RunSml Class.
-Remember to override .equals() and .hashCode() for the subclasses.
+#### Entry Point
+The entry point for the program—the `Main` method—is in the `RunSml` class.  
+Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
-Missing instruction classes that need to be implemented:
-load  ✅ LoadInstruction class created.
-store ✅ Working on ....
-push
-add/sub/mul/div
-if_cmpgt
-if_cmpe
+### Missing Instruction Classes to Implement:
+- **Load** ✅ `LoadInstruction` class completed.
+- **Store** ✅ `StoreInstruction` class completed.
+- **Push**  Working on...
+- **Add/Sub/Mul/Div**
+- **if_cmpgt**
+- **if_cmpe**
+
+### Instruction Classes:
+
+#### `LoadInstruction` ClassL - Should **read** from the variable using `variable.load()`.
+
+#### `StoreInstruction` Class: - Should **write** to the variable using `variable.store(value)`.
+
+---
+
+### Test Classes:
+Then create the test classes and run each unit:
+
+- **LoadInstructionTest** ✅ `LoadInstruction` class tests completed.
+- **StoreInstructionTest** ✅ `StoreInstruction` class tests completed.
 
 
-variables() provably needed in all instructiuon classes to report which
-ariable the instruction uses by returning it in a stream.
+### Identified Problems & Solutions
 
+#### **PROBLEM 1:**
+The `variables()` method seems to be prevalent across most instruction subclasses.  
+In terms of **DRY (Don't Repeat Yourself)**, should `variables()` be part of an interface  
+or remain as an abstract method in a base abstract class for better implementation and inheritance?
 
-LoadInstruction class. Should **read** from the variable using variable.load().
-StoreInstruction class. Should **write**  o the variable using variable.store(value).
+#### **SOLUTION 1: ** 
+✅ Created an `AbstractVarInstruction` class to be used by `Store`, `Load`, `Push`, etc.
 
+---
 
-THOUGHTS: execute() seems to be prevalent for most of the instruction subclasses.
-in terms of D.R.Y, Perhaps make the execute() method an interface? Or leave the 
-abstract method in a base abstract class for better implementation and inheritance?
+#### **PROBLEM 2:**
+The `execute()` method seems to be prevalent across most instruction subclasses.  
+In terms of **DRY**, perhaps should `execute()` be part of an interface?  
+Or should it remain as an abstract method in a base abstract class for better implementation and inheritance?
+
+#### **SOLUTION 2:** 
+_(To be decided)_
+
+---
