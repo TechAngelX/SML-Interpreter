@@ -49,21 +49,52 @@ public class StoreInstruction  extends Instruction {
         var.store(value);                          // Store the value in the variable using the Variable store() method.
         return Optional.of(frame.advance());       // Advance to the next instruction
     }
+    /**
+     * Returns a string representation of the instruction's operands.
+     *
+     * @return the string of the variable name
+     */
     @Override
     protected String getOperandsString() {
-        return "";
+        return varName.toString();
     }
 
-    /**
+    /** variables()
      * Returns a stream containing the variable used in this instruction.
      *
-     * @return stream containing this instruction's variable identifier (varName)
+     * @return a stream containing just one variable - the one this instruction stores into
      */
+
     @Override
     public Stream<Variable.Identifier> variables() {
         return Stream.of(varName);
     }
+    /** equals()
+     * Compares this instruction with another object for equality.
+     * Two LoadInstructions are equal if they have the same label, opcode,
+     * and variable name.
+     *
+     * @param o object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StoreInstruction other = (StoreInstruction) o;
+        return Objects.equals(label, other.label)
+                && Objects.equals(opcode, other.opcode)
+                && Objects.equals(varName, other.varName);
+    }
 
-
-
+    /** hashCode()
+     * Overrides hashCode in superclass to ensures consistent hash values for object
+     * comparisons.
+     *
+     * @return hash code incorporating the label, opcode, and variable name
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(label, opcode, varName);
+    }
 }

@@ -62,7 +62,7 @@ public class LoadInstruction extends Instruction {
     /** variables()
      * Returns a stream containng the variable used in this instruction.
      *
-     * @return stream containing this instructions' variable identifier (varName)
+     * @return a stream containing just one variable - the one this instruction stores into
      */
     @Override
     public Stream<Variable.Identifier> variables() {
