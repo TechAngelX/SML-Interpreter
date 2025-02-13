@@ -4,8 +4,9 @@ import sml.*;
 import java.util.Optional;
 /**
  * Represents the 'push' instruction in the Simple Machine Language (SML).
- * The push instruction adds a constant integer value directly onto the current frame's operand stack.
+ * Adds a constant integer value directly onto the current frame's operand stack.
  *  ===================================================================================
+ *
  * @author Ricki Angel
  */
 
@@ -15,14 +16,7 @@ public class PushInstruction extends Instruction {
     public static final String OP_CODE = "push";
     private final int value;
 
-    /**
-     * Constructs a new PushInstruction with an optional label and a specific integer value.
-     *
-     * @param label an optional label for the instruction (can be null)
-     * @param value the integer value to be pushed onto the operand stack
-     */
-
-    /**
+      /**
      * Constructor for the Store instruction class.
      * ==========================================
      *

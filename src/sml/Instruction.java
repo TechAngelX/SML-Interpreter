@@ -65,14 +65,35 @@ public abstract class Instruction {
     protected abstract String getOperandsString();
 
     /**
-     * Returns a string representation of the instruction.
-     * It consists of
-     *    - the optional label followed by a colon,
-     *    - the opcode,
-     *    - the operands (@see getOperandsString).
+     * Compares this instruction with another object for equality, and/or null.
+     * Subclasses should override this method to include their specific fields.
      *
-     * @return a string representation of the instruction
+     * @param o the object to compare with
+     * @return true if the objects are equal, false otherwise
      */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Instruction that = (Instruction) o;
+        return Objects.equals(label, that.label) &&
+                Objects.equals(opcode, that.opcode);
+    }
+
+    /**
+     * Generates a hash code incorprating just label and opcode for this instruction
+     * and its subclasses.
+     * Objects that are considered equal should have the same hashCode.
+     * Subclasses MAY override this method to include their specific fields.
+     *
+     * @return a hash code value for this instruction
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(label, opcode);
+    }
+
+
 
     @Override
     public String toString() {
@@ -82,5 +103,4 @@ public abstract class Instruction {
                 getOperandsString());
     }
 
-    // TODO: Make sure the subclasses override .equals and .hashCode
 }
