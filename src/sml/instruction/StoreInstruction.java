@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * This class represents the 'store' instruction from the Simple Machine Language.
+ * This class represents the 'store' instruction from my Simple Machine Language.
  * The store instruction pops a value from the current operand stack and stores it
  * in a specified variable (either a method argument or local variable).
  *

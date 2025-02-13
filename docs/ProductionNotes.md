@@ -27,7 +27,8 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 Then create the test classes and run each unit:
 
 - **LoadInstructionTest** ✅ `LoadInstruction` class tests completed.
-- **StoreInstructionTest** ✅ `StoreInstruction` class tests completed.
+- **StoreInstructionTest** ✅ `StoreInstruction` TEST WON'T WORK AS I NEED TO PUSH A VALUE ONTO THE STACK FIRST.
+- 
 
 
 ### Identified Problems & Solutions
