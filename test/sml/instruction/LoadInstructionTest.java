@@ -12,54 +12,60 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for the {@link LoadInstruction} class.
+ */
 public class LoadInstructionTest {
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream(); // Capture output.
+    // An optional stream for capturing console output as a byte array, useful for test verification.
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private Machine machine;
 
     @BeforeEach
-    void setUp() { // Create a new instance of the machine before each test.
+    void setUp() {
+        // Initialize a new Machine instance before each test.
         machine = new Machine();
     }
 
     @AfterEach
-    void tearDown() { // Clean up the machine instance after each test.
+    void tearDown() {
+        // Clean up the Machine instance and reset System.out to its default.
         machine = null;
-        System.setOut(System.out);  // Reset System.out to its original state
+        System.setOut(System.out);
     }
 
-    //Tests the main functionality of LoadInstruction
+
+    //Tests the main functionality of LoadInstruction,
     //Checks if it loads a value (55) and prints it correctly
     @Test
-    void testLoadInstructionPushesAndPrintsValue() {
+    void loadInstructionShouldLoadAndPrintValue() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
-        Instruction pushValInstruction0 = new LoadInstruction(null, varId); // Create LoadInstruction instance that loads from variable "testVar".
-        Instruction returnInstruction = new ReturnInstruction(null);  // End
+        Instruction loadInstruction = new LoadInstruction(null, varId);
+        Instruction returnInstruction = new ReturnInstruction(null);
 
-        Method m = new Method(new Method.Identifier("@main"),
-                List.of(),
-                List.of(pushValInstruction0, returnInstruction));
-        machine.setProgram(List.of(m));
+        Method mainMethod = new Method(new Method.Identifier("@main"),
+                List.of(), List.of(loadInstruction, returnInstruction));
+        machine.setProgram(List.of(mainMethod));
 
-        // Use the 'localVariables()' method from Method.
-        Variable var = machine.frame().variable(varId);
-        var.store(55);
+        // Set the value of the variable before executing the instruction.
+        Variable variable = machine.frame().variable(varId);
+        variable.store(55);
 
+        // Redirect System.out to capture the output.
         System.setOut(new PrintStream(outContent));
-        pushValInstruction0.execute(machine);
+        loadInstruction.execute(machine);
 
         assertEquals("55\n", outContent.toString());
     }
 
-
-    // Tests the variables() method inherited from AbstractVarInstruction
-    // Checks if it correctly returns a stream containing just the single variable identifier
+    /**
+     * Verifies that the variables() method for LoadInstruction returns a stream containing the single variable identifier.
+     */
     @Test
-    void testVariablesReturnsCorrectVariable() {
-        // Test the variables() method that was moved to AbstractVarInstruction
+    void loadInstructionVariablesShouldReturnSingleVariable() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
-        LoadInstruction instruction = new LoadInstruction(null, varId);
-        List<Variable.Identifier> vars = instruction.variables().collect(Collectors.toList());
-        assertEquals(1, vars.size());
-        assertEquals(varId, vars.get(0));
+        LoadInstruction loadInstruction = new LoadInstruction(null, varId);
+        List<Variable.Identifier> variables = loadInstruction.variables().collect(Collectors.toList());
+        assertEquals(1, variables.size());
+        assertEquals(varId, variables.get(0));
     }
 }

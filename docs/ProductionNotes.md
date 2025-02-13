@@ -10,7 +10,7 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 ### Missing Instruction Classes to Implement:
 - **Load** ✅ `LoadInstruction` class completed.
 - **Store** ✅ `StoreInstruction` class completed - issues with the test.
-- **Push**  Working on...
+- **Push** `PushInstruction` class completed.
 - **Add/Sub/Mul/Div**
 - **if_cmpgt**
 - **if_cmpe**
@@ -28,7 +28,8 @@ Then create the test classes and run each unit:
 
 - **LoadInstructionTest** ✅ `LoadInstruction` class tests completed.
 - **StoreInstructionTest** ✅ `StoreInstruction` TEST WON'T WORK AS I NEED TO PUSH A VALUE ONTO THE STACK FIRST.
-- 
+- **PushInstructionTest** ✅ `PushInstruction` class tests completed.
+
 
 
 ### Identified Problems & Solutions

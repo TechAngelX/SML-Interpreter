@@ -27,11 +27,9 @@ public class StoreInstructionTest {
         machine = null;
         System.setOut(System.out);
     }
-
-    //The test is checking the basic functionality of the StoreInstruction by verify if it can:
-    // - Take a value from the operand stack
-    // - Store that value in a specified variable
-    // - Ensure the value is correctly saved in the variable
+// This test verifies the basic functionality of the PushInstruction by ensuring it can:
+// - Push a specified value (e.g., 55) onto the machine's operand stack
+// - Correctly add the value to the stack, which is then confirmed by retrieving (popping) it
 
     @Test
     void testStoreInstructionStoresValueInVariable() {
