@@ -9,7 +9,7 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
 ### Missing Instruction Classes to Implement:
 - **Load** ✅ `LoadInstruction` class completed.
-- **Store** ✅ `StoreInstruction` class completed.
+- **Store** ✅ `StoreInstruction` class completed - issues with the test.
 - **Push**  Working on...
 - **Add/Sub/Mul/Div**
 - **if_cmpgt**
