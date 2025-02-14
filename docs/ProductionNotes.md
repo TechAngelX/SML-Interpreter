@@ -8,10 +8,10 @@ The entry point for the program—the `Main` method—is in the `RunSml` class.
 Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
 ### Missing Instruction Classes to Implement:
-- **Load** ✅ `LoadInstruction` class completed.
-- **Store** ✅ `StoreInstruction` class completed - issues with the test.
-- **Push** `PushInstruction` class completed.
-- **Add/Sub/Mul/Div**
+- **Load**   ✅ `LoadInstruction` class completed.
+- **Store**  ✅ `StoreInstruction` class completed 
+- **Push** ` ✅ PushInstruction` class completed.
+- **Add/Sub/Mul/Div** ... Working on ...
 - **if_cmpgt**
 - **if_cmpe**
 
@@ -27,7 +27,7 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 Then create the test classes and run each unit:
 
 - **LoadInstructionTest** ✅ `LoadInstruction` class tests completed.
-- **StoreInstructionTest** ✅ `StoreInstruction` TEST WON'T WORK AS I NEED TO PUSH A VALUE ONTO THE STACK FIRST.
+- **StoreInstructionTest** ✅ `StoreInstruction`class tests completed.
 - **PushInstructionTest** ✅ `PushInstruction` class tests completed.
 
 
