@@ -12,9 +12,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/**
- * Unit tests for the {@link LoadInstruction} class.
- */
+
 public class LoadInstructionTest {
     // An optional stream for capturing console output as a byte array, useful for test verification.
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
