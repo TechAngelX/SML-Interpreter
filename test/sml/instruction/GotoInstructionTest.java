@@ -22,6 +22,7 @@ class GotoInstructionTest {
     }
 
     @AfterEach
+    
     void tearDown() {
         machine = null;
     }
