@@ -1,17 +1,14 @@
-package java.sml.instruction;
+package sml.instruction;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import sml.*;
-import sml.instruction.AddInstruction;
-import sml.instruction.ReturnInstruction;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test class for AddInstruction to see if:
- * - Two numbers can be add correctly
+ * - Two numbers can be added correctly
  * - If it can Handle stack operations properly
  * - It if moves to next instruction after adding
  */
@@ -22,27 +19,33 @@ class AddInstructionTest {
     void setUp() {
         machine = new Machine();
 
-        // No tearDown needed - all objects will be garbage collected and no system resources were used.    @Test
+        // No tearDown needed - all objects will be garbage collected and no system resources were used.
 
-        // Create a simple method that just returns.
-        Method mainMethod = new Method(
-                new Method.Identifier("@main"),
-                List.of(),
-                List.of(new ReturnInstruction(null))
-        );
-        machine.setProgram(List.of(mainMethod));
+
     }
+ @Test
+void testExecuteAddInstruction() {
+    // Create instructions for addition and program termination.
+    Instruction addInstruction = new AddInstruction(null);
+    Instruction returnInstruction = new ReturnInstruction(null);
 
-    void testExecuteAddInstruction() {
-        // Push two numbers onto stack (in the CORRECT order)
-        machine.frame().push(5);  // First number
-        machine.frame().push(3);  // Second number
+    // Set up the program with both instructions
+    Method mainMethod = new Method(
+            new Method.Identifier("@main"),
+            List.of(),
+            List.of(addInstruction, returnInstruction)
+    );
+    machine.setProgram(List.of(mainMethod));
 
-        Instruction instruction = new AddInstruction(null);
-        instruction.execute(machine);
+    // Push operands onto stack in LIFO order
+    machine.frame().push(64);  // First operand
+    machine.frame().push(36);  // Second operand (will be popped first)
 
-        // Pop and check result
-        int result = machine.frame().pop();
-        assertEquals(8, result, "5 + 3 should equal 8");
-    }
+    // Execute addition
+    addInstruction.execute(machine);
+
+    // Verify result
+    int result = machine.frame().pop();
+    assertEquals(100, result, "64 + 36 should equal 100");
+}
 }
