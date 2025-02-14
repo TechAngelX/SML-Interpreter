@@ -5,22 +5,20 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sml.*;
-import sml.instruction.LoadInstruction;
-import sml.instruction.ReturnInstruction;
-import sml.instruction.StoreInstruction;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests that a value can be successfully stored in a variable using StoreInstruction,
- * verifying the complete store operation from stack to variable.
+ * Test class for StoreInstruction to verify:
+ * - A value can be stored from the stack to a variable
+ * - Storing to a non-existent variable throws an exception
+ * - The variables() method returns the correct variable
+ * - Equals and hashCode methods work correctly
  */
-
 public class StoreInstructionTest {
     private Machine machine;
-
 
     // Initialise frame BEFORE each test - otherwiase machine fram would be empty, causing NullPointerException.
 
@@ -67,7 +65,7 @@ public class StoreInstructionTest {
     }
 
     /**
-     * Tests that attempting to store to a non-existent variable throws an exception.
+     * Test to see if attempting to store to a non-existent variable throws an exception.
      */
     @Test
     void executeWithNonExistentVariableShouldThrowException() {
@@ -84,7 +82,8 @@ public class StoreInstructionTest {
                 () -> machine.frame().variable(nonExistentVarId));
     }
     /**
-     * Verifies that the variables() method returns a stream containing the single variable identifier.
+     * test to verify that the variables() method returns a stream containing the s
+     * ingle variable identifier.
      */
     @Test
     void storeInstructionVariablesShouldReturnSingleVariable() {
@@ -110,7 +109,6 @@ public class StoreInstructionTest {
         StoreInstruction instruction2 = new StoreInstruction(label, varId);
         StoreInstruction instruction3 = new StoreInstruction(null, varId);
 
-        // Test equality / inequality with identical instructions / dfferent labels.
         assertEquals(instruction1, instruction2);
         assertNotEquals(instruction1, instruction3);
 
@@ -129,7 +127,9 @@ public class StoreInstructionTest {
         StoreInstruction instruction1 = new StoreInstruction(label, varId);
         StoreInstruction instruction2 = new StoreInstruction(label, varId);
 
-        // Test that equal objects have equal hash codes
+    /**
+    * Test that equal objects have equal hash codes
+    */
         assertEquals(instruction1.hashCode(), instruction2.hashCode());
     }
 }
