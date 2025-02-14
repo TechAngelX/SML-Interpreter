@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * This class represents the 'store' instruction from my Simple Machine Language.
- * The store instruction pops a value from the current operand stack and stores it
+ * Represents the 'store' instruction from the Simple Machine Language.
+ * ===================================================================
+
+ * Pops a value from the current operand stack and stores it
  * in a specified variable (either a method argument or local variable).
- *
- * @author Ricki Angel
  */
 
 public class StoreInstruction extends AbstractVarInstruction {
@@ -22,8 +22,6 @@ public class StoreInstruction extends AbstractVarInstruction {
      * ==========================================
      *
      * @param label optional label (can be null)
-     * @param varName the identifier of the variable to store the value in (must not be null)
-     * @throws NullPointerException if varName is null
      */
     public StoreInstruction(Label label, Variable.Identifier varName) {
         super(label, OP_CODE, varName);

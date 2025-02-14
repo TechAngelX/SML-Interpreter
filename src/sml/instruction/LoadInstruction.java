@@ -7,22 +7,20 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * This class represents the 'load' instruction from my Simple Machine Language.
- * The load instruction retrieves a value from a variable (either a method argument or
+ * Represents the 'load' instruction from the Simple Machine Language.
+ * ================================================================
+
+ * Retrieves a value from a variable (either a method argument or
  * local variable), and pushes it onto the current operand stack.
- * ===================================================================================
- *
- * @author Ricki Angel
  */
 public class LoadInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "load";
     /**
-     * Constructor for the Store instruction class.
+     * Constructor for the Load instruction class.
      * ==========================================
      *
      * @param label optional label (can be null)
-     * @param varName the identifier of the variable to store the value in (must not be null)
-     * @throws NullPointerException if varName is null // TODO: Might not be needed. Investigate.
+     * @param varName the identifier of the variable to load
      */
 
     public LoadInstruction(Label label, Variable.Identifier varName) {
