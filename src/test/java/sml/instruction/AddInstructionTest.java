@@ -1,7 +1,9 @@
-package sml.instruction;
+package java.sml.instruction;
 
 import org.junit.jupiter.api.BeforeEach;
 import sml.*;
+import sml.instruction.AddInstruction;
+import sml.instruction.ReturnInstruction;
 
 import java.util.List;
 

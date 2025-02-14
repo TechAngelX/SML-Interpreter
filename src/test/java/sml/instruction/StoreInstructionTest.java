@@ -1,12 +1,15 @@
-package sml.instruction;
+package java.sml.instruction;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sml.*;
+import sml.instruction.LoadInstruction;
+import sml.instruction.ReturnInstruction;
+import sml.instruction.StoreInstruction;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -112,7 +115,7 @@ public class StoreInstructionTest {
         assertNotEquals(instruction1, instruction3);
 
         assertNotEquals(instruction1, null);
-        assertNotEquals(instruction1, new LoadInstruction(label, varId));
+        Assertions.assertNotEquals(instruction1, new LoadInstruction(label, varId));
     }
 
     /**

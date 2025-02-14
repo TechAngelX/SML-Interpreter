@@ -1,4 +1,3 @@
-import sml.Instruction;
 import sml.Machine;
 import sml.Method;
 import sml.Translator;

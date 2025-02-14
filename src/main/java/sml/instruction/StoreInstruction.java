@@ -4,7 +4,6 @@ import sml.helperfiles.AbstractVarInstruction;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Represents the 'store' instruction from the Simple Machine Language.
