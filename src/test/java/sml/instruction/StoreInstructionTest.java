@@ -1,4 +1,4 @@
-package java.sml.instruction;
+package sml.instruction;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
