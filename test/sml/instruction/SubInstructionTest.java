@@ -21,3 +21,16 @@ class SubInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
     }
+
+    @Test
+    void executeSubInstruction() {
+        machine.frame().push(34);  // Note the First number.
+        machine.frame().push(16);  // And the Second number.
+
+        Instruction instruction = new SubInstruction(null);
+        instruction.execute(machine);
+
+        int result = machine.frame().pop();
+        assertEquals(18, result, "34 - 16 should equal 18");
+    }
+}
