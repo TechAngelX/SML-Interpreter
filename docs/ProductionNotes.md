@@ -11,24 +11,20 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 - **Load**   ✅ `LoadInstruction` class completed.
 - **Store**  ✅ `StoreInstruction` class completed 
 - **Push** ` ✅ PushInstruction` class completed.
-- **Add/Sub/Mul/Div** ... Working on ...
+- **Add** ` ✅ AddInstruction` class completed.
+
+- **Sub/Mul/Div** ... Working on ...
 - **if_cmpgt**
 - **if_cmpe**
 
-### Instruction Classes:
-
-#### `LoadInstruction` ClassL - Should **read** from the variable using `variable.load()`.
-
-#### `StoreInstruction` Class: - Should **write** to the variable using `variable.store(value)`.
-
 ---
-
 ### Test Classes:
 Then create the test classes and run each unit:
 
 - **LoadInstructionTest** ✅ `LoadInstruction` class tests completed.
 - **StoreInstructionTest** ✅ `StoreInstruction`class tests completed.
 - **PushInstructionTest** ✅ `PushInstruction` class tests completed.
+- **AddInstructionTest** ✅ `AddInstruction` class tests completed.
 
 
 
