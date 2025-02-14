@@ -38,7 +38,7 @@ public class LoadInstructionTest {
     //Checks if it loads a value (55) and prints it correctly
     @Test
     void loadInstructionShouldLoadAndPrintValue() {
-        Variable.Identifier varId = new Variable.Identifier("testVar");
+        Variable.Identifier varId = new Variable.Identifier("testLoadVar");
         Instruction loadInstruction = new LoadInstruction(null, varId);
         Instruction returnInstruction = new ReturnInstruction(null);
 

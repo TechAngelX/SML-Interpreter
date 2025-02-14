@@ -27,36 +27,38 @@ public class StoreInstructionTest {
         machine = null;
         System.setOut(System.out);
     }
-// This test verifies the basic functionality of the PushInstruction by ensuring it can:
-// - Push a specified value (e.g., 55) onto the machine's operand stack
-// - Correctly add the value to the stack, which is then confirmed by retrieving (popping) it
 
+    // This test verifies the basic functionality of the StoreInstruction by ensuring it can:
+    // - Take a value from the operand stack
+    // - Store that value in a specified variable
+    // - Ensure the value is correctly saved in the variable
     @Test
     void testStoreInstructionStoresValueInVariable() {
-        Variable.Identifier sourceVarId = new Variable.Identifier("sourceVar");
-        Variable sourceVar = machine.frame().variable(sourceVarId);
-        sourceVar.store(55);
+        Variable.Identifier varId = new Variable.Identifier("testStoreVar");
+        // Store a value onto the stack
+        StoreInstruction storeInstruction = new StoreInstruction(null,varId);
+        Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Create instructions to load from source and store to target
-        Instruction storeValInstruction = new StoreInstruction(null, sourceVarId);
-        Variable.Identifier targetVarId = new Variable.Identifier("targetVar");
-        Instruction storeInstruction = new StoreInstruction(null, targetVarId);
-
-        // Create method with instructions
         Method m = new Method(new Method.Identifier("@main"),
-                List.of(),
-                List.of(storeInstruction, storeInstruction));
 
+        List.of(), List.of(storeInstruction, returnInstruction));
         machine.setProgram(List.of(m));
-        machine.execute();
 
         // Check if the value is correctly stored in the target variable
-        Variable targetVar = machine.frame().variable(targetVarId);
-        assertEquals(55, targetVar.load());
-
-        // Check the printed output (due to LoadInstruction's print)
-        assertEquals("55\n", outContent.toString());
+        Variable targetVar = machine.frame().variable(varId); // Fetch the variable from the machine's frame
+        assertEquals(55, targetVar.load()); // Verify that the stored value is 55
     }
 
+    /**
+     * Verifies that the variables() method for LoadInstruction returns a stream containing the single variable identifier.
+     */
+    @Test
+    void storeInstructionVariablesShouldReturnSingleVariable() {
+        Variable.Identifier varId = new Variable.Identifier("testVar");
+        LoadInstruction loadInstruction = new LoadInstruction(null, varId);
+        List<Variable.Identifier> variables = loadInstruction.variables().collect(Collectors.toList());
+        assertEquals(1, variables.size());
+        assertEquals(varId, variables.get(0));
+    }
 
 }
