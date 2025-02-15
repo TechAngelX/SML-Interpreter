@@ -65,7 +65,7 @@ class IfEqualGotoInstructionTest {
      * specified label but proceed to the next instruction.
      */
     @Test
-    void testContinueWhenValuesNotEqual() {
+    void testShouldNotJumpToTargetIfValuesAreEqual() {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
@@ -76,7 +76,7 @@ class IfEqualGotoInstructionTest {
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
-                List.of(ifEqualGotoInstruction, jumpTargetInstruction, nextInstruction)
+                List.of(ifEqualGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
         machine.setProgram(List.of(mainMethod));
 
@@ -90,5 +90,5 @@ class IfEqualGotoInstructionTest {
         // Verify did not jump
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         int programCounter = nextFrame.get().programCounter();
-        assertEquals(1, programCounter, "Should continue to next instruction at index 1");    }
+        assertEquals(1, programCounter, "Should not jump to target, but continue to next instruction at index 1");    }
 }

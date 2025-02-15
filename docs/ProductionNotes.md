@@ -20,7 +20,7 @@ Sub         ✅  SubInstruction class completed.
 Mul         ✅  MultiplyInstruction class completed.
 Div         ✅  DivInstruction class completed.
 if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
-if_cmpeq    ❌  IfEqualGotoInstruction class Work in progress...
+if_cmpeq    ✅  IfEqualGotoInstruction class completed.
 ```
 
 ### Test Classes:
@@ -36,7 +36,7 @@ SubInstructionTest           ✅  SubInstruction class tests completed.
 MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.  
 DivInstructionTest           ✅  DivInstruction class tests completed.  
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
-IfEqualGotoInstruction       ❌  IfEqualGotoInstruction class tests Work in progress...
+IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
 ```
 
 
