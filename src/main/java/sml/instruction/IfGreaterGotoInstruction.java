@@ -25,7 +25,7 @@ public class IfGreaterGotoInstruction extends Instruction {
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        int value2 = frame.pop();
+        int value2 = frame.pop(); // Remember Important LIFO pop order.
         int value1 = frame.pop();
 
         if (value1 > value2) {

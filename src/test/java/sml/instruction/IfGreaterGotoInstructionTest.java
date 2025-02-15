@@ -25,13 +25,16 @@ class IfGreaterGotoInstructionTest {
 
     @Test
     void testJumpWhenFirstValueGreater() {
-        // Create labels
+        // Create labels.
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
+        // Create instruction objects. IfGreaterGotoInstruction will jump to jumpLabel
+        // if the first value popped from the stack is greater than the second value popped.
         Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
+
 
         // Set up the program with instructions
         Method mainMethod = new Method(
@@ -41,8 +44,9 @@ class IfGreaterGotoInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        //Basically, when first number on the stack is larrger than second number, the test
-        // checks that the programme moves to the next instruction, which is at index 1.
+
+        //Basically, when first number popped from the stack is largar than second number, the test
+        // checks that the program moves to the next instruction, which is at index 1.
         // This should verifies that the jump instruction works correctly by advancing to the instruction
         // immediately following the comparison when comparison condition is met.
 
@@ -52,14 +56,16 @@ class IfGreaterGotoInstructionTest {
         // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Verify jumped to correct instruction
+        // Verify jump occurred
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        assertEquals(1, nextFrame.get().programCounter(), "Should jump to jump target instruction");
-    }
 
+        // Check that the current instruction is the jump target instruction
+        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
+        assertEquals(jumpTargetInstruction, currentInstruction, "Should jump to the correct instruction");
+    }
     @Test
     void testContinueWhenFirstValueNotGreater() {
-        // Create labels
+        // Create labels to repreesent locations in the programme.
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
@@ -83,23 +89,23 @@ class IfGreaterGotoInstructionTest {
         // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Verify continued to next instruction
+        // Verify did not jump
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        assertEquals(1, nextFrame.get().programCounter(), "Should continue to next instruction");
+
+        // Check that the current instruction is the next instruction
+        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
+        assertEquals(nextInstruction, currentInstruction, "Should continue to next instruction");
     }
 
     @Test
-    void testEqualValues() {
-        // Create labels
+    void testWenEqualValues() {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        // Create instructions
         Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
 
-        // Set up the program with instructions
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -114,8 +120,11 @@ class IfGreaterGotoInstructionTest {
         // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Verify continued to next instruction
+        // Verify did not jump
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        assertEquals(1, nextFrame.get().programCounter(), "Should continue to next instruction");
+
+        // Check that the current instruction is the next instruction
+        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
+        assertEquals(nextInstruction, currentInstruction, "Should continue to next instruction");
     }
 }
