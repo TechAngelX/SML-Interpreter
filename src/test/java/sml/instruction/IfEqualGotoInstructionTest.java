@@ -15,3 +15,77 @@ import static org.junit.jupiter.api.Assertions.*;
  * - Continues to next instruction when values are not equal
  * - Handles stack operations properly
  */
+class IfEqualGotoInstructionTest {
+    private Machine machine;
+
+    @BeforeEach
+    void setUp() {
+        machine = new Machine();
+    }
+
+    @Test
+    void testJumpWhenValuesEqual() {
+        // Create labels to repreesnt locations in the programme.
+        Label jumpLabel = new Label("jump");
+        Label returnLabel = new Label("return");
+
+        // Create instructions
+        Instruction ifEqualGotoInstruction = new IfEqualGotoInstruction(null, jumpLabel);
+        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
+        Instruction nextInstruction = new ReturnInstruction(returnLabel);
+
+        // Set up program with instructions
+        Method mainMethod = new Method(
+                new Method.Identifier("@main"),
+                List.of(),
+                List.of(ifEqualGotoInstruction, jumpTargetInstruction, nextInstruction)
+        );
+        machine.setProgram(List.of(mainMethod));
+
+        // Push equal values onto stack
+        machine.frame().push(42);  // First operand
+        machine.frame().push(42);  // Second operand
+
+        // Execute instruction
+        Optional<Frame> nextFrame = ifEqualGotoInstruction.execute(machine);
+
+        // Verify jump occurred
+        assertTrue(nextFrame.isPresent(), "Next frame should exist");
+        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
+        assertEquals(jumpTargetInstruction, currentInstruction, "Should jump to the correct instruction");
+    }
+
+    /**
+     * Verifies that the IfEqualGotoInstruction behaves correctly when the two values
+     * popped from the stack are not equal. If so the instruction should NOT jump to the
+     * specified label but proceed to the next instruction.
+     */
+    @Test
+    void testContinueWhenValuesNotEqual() {
+        Label jumpLabel = new Label("jump");
+        Label returnLabel = new Label("return");
+
+        Instruction ifEqualGotoInstruction = new IfEqualGotoInstruction(null, jumpLabel);
+        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
+        Instruction nextInstruction = new ReturnInstruction(returnLabel);
+
+        Method mainMethod = new Method(
+                new Method.Identifier("@main"),
+                List.of(),
+                List.of(ifEqualGotoInstruction, jumpTargetInstruction, nextInstruction)
+        );
+        machine.setProgram(List.of(mainMethod));
+
+        // Push different values onto stack.
+        machine.frame().push(99);  // First operand.
+        machine.frame().push(2);  // Second operand.
+
+        // Execute.
+        Optional<Frame> nextFrame = ifEqualGotoInstruction.execute(machine);
+
+        // Verify did not jump
+        assertTrue(nextFrame.isPresent(), "Next frame should exist");
+        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
+        assertEquals(nextInstruction, currentInstruction, "Should continue to next instruction");
+    }
+}
