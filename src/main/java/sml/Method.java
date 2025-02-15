@@ -86,8 +86,16 @@ public class Method {
 
     @Override
     public String toString() {
-        // TODO: Provide an implementation (using Stream API)
-        return "";
+                   return String.format("Metho: )",
+                    name,
+                    arguments.stream()
+                            .map(Variable.Identifier::toString)
+                            .collect(Collectors.joining(", ")),
+
+                    instructions.stream()
+                            .map(Instruction::toString)
+                            .collect(Collectors.joining("; "))
+            );
     }
 
     // TODO: Override .equals and .hashCode
