@@ -22,9 +22,13 @@ class IfEqualGotoInstructionTest {
     void setUp() {
         machine = new Machine();
     }
-
+    /**
+     * Verifies {@link IfEqualGotoInstruction} continues to the next instruction
+     * when stack values are not equal. Pushes unequal values, executes, and confirms
+     * the program counter does not jump to next label/instructionsjhit.
+            */
     @Test
-    void testJumpWhenValuesEqual() {
+    void testShouldJumpToTargetIfValuesAreEqual() {
         // Create labels to repreesnt locations in the programme.
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
@@ -34,7 +38,7 @@ class IfEqualGotoInstructionTest {
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
 
-        // Set up program with instructions
+        // Set up program with instructions. Indexing is based on the order put in the List.of() method.
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -43,16 +47,16 @@ class IfEqualGotoInstructionTest {
         machine.setProgram(List.of(mainMethod));
 
         // Push equal values onto stack
-        machine.frame().push(42);  // First operand
-        machine.frame().push(42);  // Second operand
+        machine.frame().push(42);  // First operand.
+        machine.frame().push(42);  // Second operand.
 
-        // Execute instruction
+        // Execute instruction.
         Optional<Frame> nextFrame = ifEqualGotoInstruction.execute(machine);
 
-        // Verify jump occurred
+        // Verify jump occurred - Should jump to instruction with jumpLabel (jumpTargetInstruction).
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
-        assertEquals(jumpTargetInstruction, currentInstruction, "Should jump to the correct instruction");
+        int programCounter = nextFrame.get().programCounter();
+        assertEquals(2, programCounter, "Should jump to instruction at index 2");
     }
 
     /**
@@ -85,7 +89,6 @@ class IfEqualGotoInstructionTest {
 
         // Verify did not jump
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
-        assertEquals(nextInstruction, currentInstruction, "Should continue to next instruction");
-    }
+        int programCounter = nextFrame.get().programCounter();
+        assertEquals(1, programCounter, "Should continue to next instruction at index 1");    }
 }
