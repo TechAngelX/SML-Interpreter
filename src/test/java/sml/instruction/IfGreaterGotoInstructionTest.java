@@ -35,16 +35,15 @@ class IfGreaterGotoInstructionTest {
      */
     @Test
     void testShouldJumpWhenFirstValueGreater() {
-        // Create labels.
+        // Check that the current instruction is the jump target instruction
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        // Create instruction objects. IfGreaterGotoInstruction will jump to jumpLabel
-        // if the first value popped from the stack (v1) is greater than the second value popped.
+        // Create instruction objects. IfGreaterGotoInstruction will jump to jumpLabel.
+        // if the first value popped from the stack is greater than the second value popped.
         Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
-        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
-        Instruction nextInstruction = new ReturnInstruction(returnLabel);
-
+        Instruction nextInstruction = new ReturnInstruction(returnLabel); // Next instruction after comparison
+        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel); // Instruction to jump to
 
         // Set up the program with instructions
         Method mainMethod = new Method(
@@ -63,26 +62,19 @@ class IfGreaterGotoInstructionTest {
         // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Check that the current instruction is the jump target instruction
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         int programCounter = nextFrame.get().programCounter();
-        assertEquals(2, programCounter, "Should jump to instruction at index 2");
-
-
-
+        assertEquals(2, programCounter, "Should jump to the jumptarget instruction at index 2");
     }
     @Test
-    void testContinueWhenFirstValueNotGreater() {
-        // Create labels to repreesent locations in the programme.
+    void testContinueToNextInstructionWhenFirstValueNotGreater() {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        // Create instructions
         Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
-        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
+        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
 
-        // Set up program with instructions. Indexing is based on the order put in the List.of() method.
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -90,49 +82,46 @@ class IfGreaterGotoInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        // Push values onto stack (first value not greater)
-        machine.frame().push(5);   // First operand
-        machine.frame().push(10);  // Second operand
+        machine.frame().push(36);
+        machine.frame().push(101);
 
-        // Execute instruction
+        // Execute.
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
         // Verify did not jump
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
+        int programCounter = nextFrame.get().programCounter();
+        assertEquals(1, programCounter, "if first value smaller than second, should not jump, but continue to next instruction");
 
-        // Check that the current instruction is the next instruction
-        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
-        assertEquals(nextInstruction, currentInstruction, "Should continue to next instruction");
     }
 
     @Test
-    void testWenEqualValues() {
+    void testContinueToNextInstructionIfFirstAndSecondValueAreEqual() {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
         Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
-        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
+        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
 
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
-                List.of(ifGreaterGotoInstruction, jumpTargetInstruction, nextInstruction)
+                List.of(ifGreaterGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
         machine.setProgram(List.of(mainMethod));
 
-        // Push equal values onto stack
-        machine.frame().push(7);   // First operand
-        machine.frame().push(7);   // Second operand
+        machine.frame().push(4);
+        machine.frame().push(4);
 
-        // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Verify did not jump
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
+        int programCounter = nextFrame.get().programCounter();
+        assertEquals(1, programCounter, "If equal, should not jump, but continue to the next instruction at index 1");
 
-        // Check that the current instruction is the next instruction
-        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
-        assertEquals(nextInstruction, currentInstruction, "Should continue to next instruction");
     }
+
+
+
 }
