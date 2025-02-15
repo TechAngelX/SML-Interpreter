@@ -23,14 +23,24 @@ class IfGreaterGotoInstructionTest {
         machine = new Machine();
     }
 
+    /**
+     * Verifies that the {@link IfGreaterGotoInstruction} correctly advances to the next instruction
+     * (at index 1) when the first value popped from the stack is larger than the second.
+     * <p>
+     * This test confirms that the instruction proceeds sequentially when the comparison condition
+     * (first value greater than second) is met. Specifically, it validates the non-jump behavior
+     * by ensuring that the program counter advances to the instruction immediately following
+     * the comparison instruction, which is located at index 1 in the instruction list.
+     * </p>
+     */
     @Test
-    void testJumpWhenFirstValueGreater() {
+    void testShouldJumpWhenFirstValueGreater() {
         // Create labels.
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
         // Create instruction objects. IfGreaterGotoInstruction will jump to jumpLabel
-        // if the first value popped from the stack is greater than the second value popped.
+        // if the first value popped from the stack (v1) is greater than the second value popped.
         Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
@@ -40,15 +50,12 @@ class IfGreaterGotoInstructionTest {
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
-                List.of(ifGreaterGotoInstruction, jumpTargetInstruction, nextInstruction)
+                List.of(ifGreaterGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
         machine.setProgram(List.of(mainMethod));
 
-
-        //Basically, when first number popped from the stack is largar than second number, the test
-        // checks that the program moves to the next instruction, which is at index 1.
-        // This should verifies that the jump instruction works correctly by advancing to the instruction
-        // immediately following the comparison when comparison condition is met.
+        // Basically, when first number popped from the stack is largar than second number, the test checks
+        // that the program jumps to the jumptarget instruction - the third instruction, which is at index 2.
 
         machine.frame().push(10);  // First operand
         machine.frame().push(5);   // Second operand
@@ -56,12 +63,13 @@ class IfGreaterGotoInstructionTest {
         // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Verify jump occurred
-        assertTrue(nextFrame.isPresent(), "Next frame should exist");
-
         // Check that the current instruction is the jump target instruction
-        Instruction currentInstruction = mainMethod.instructions().get(nextFrame.get().programCounter());
-        assertEquals(jumpTargetInstruction, currentInstruction, "Should jump to the correct instruction");
+        assertTrue(nextFrame.isPresent(), "Next frame should exist");
+        int programCounter = nextFrame.get().programCounter();
+        assertEquals(2, programCounter, "Should jump to instruction at index 2");
+
+
+
     }
     @Test
     void testContinueWhenFirstValueNotGreater() {
@@ -74,11 +82,11 @@ class IfGreaterGotoInstructionTest {
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
 
-        // Set up the program with instructions
+        // Set up program with instructions. Indexing is based on the order put in the List.of() method.
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
-                List.of(ifGreaterGotoInstruction, jumpTargetInstruction, nextInstruction)
+                List.of(ifGreaterGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
         machine.setProgram(List.of(mainMethod));
 
