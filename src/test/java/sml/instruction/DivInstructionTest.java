@@ -58,3 +58,4 @@ class DivInstructionTest {
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
     }
+}

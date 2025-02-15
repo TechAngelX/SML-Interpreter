@@ -12,10 +12,11 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 - **Store**  ✅ `StoreInstruction` class completed 
 - **Push** ` ✅ PushInstruction` class completed.
 - **Add** ` ✅ AddInstruction` class completed.
-
-- **Sub/Mul/Div** ... Working on ...
-- **if_cmpgt**
-- **if_cmpe**
+- **Sub** ` ✅ SubInstruction` class completed.
+- **Mul** ` ✅ MultiplyInstruction` class completed.
+- **Div** ... Working on ... ISSUES
+- **if_cmpgt** Working on the comparer files...
+- **if_cmpe**  Work in progress ...
 
 ---
 ### Test Classes:
@@ -25,6 +26,7 @@ Then create the test classes and run each unit:
 - **StoreInstructionTest** ✅ `StoreInstruction`class tests completed.
 - **PushInstructionTest** ✅ `PushInstruction` class tests completed.
 - **AddInstructionTest** ✅ `AddInstruction` class tests completed.
+- **SubInstructionTest** ✅ `SubInstruction` class tests completed.
 
 
 
