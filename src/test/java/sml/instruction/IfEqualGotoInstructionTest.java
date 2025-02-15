@@ -65,7 +65,7 @@ class IfEqualGotoInstructionTest {
      * specified label but proceed to the next instruction.
      */
     @Test
-    void testShouldNotJumpToTargetIfValuesAreEqual() {
+    void testShouldNotJumpToTargetIfValuesAreUnequal() {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
