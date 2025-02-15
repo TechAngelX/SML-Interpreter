@@ -42,7 +42,7 @@ class IfEqualGotoInstructionTest {
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
-                List.of(ifEqualGotoInstruction, jumpTargetInstruction, nextInstruction)
+                List.of(ifEqualGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
         machine.setProgram(List.of(mainMethod));
 
