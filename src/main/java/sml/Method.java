@@ -86,12 +86,14 @@ public class Method {
 
     @Override
     public String toString() {
-                   return String.format("Metho: )",
+                   return String.format("Method @%s(args: %s, locals: %s, instructions: %s)",
                     name,
                     arguments.stream()
                             .map(Variable.Identifier::toString)
                             .collect(Collectors.joining(", ")),
-
+                    localVariables.stream()
+                            .map(Variable.Identifier::toString)
+                            .collect(Collectors.joining(", ")),
                     instructions.stream()
                             .map(Instruction::toString)
                             .collect(Collectors.joining("; "))
