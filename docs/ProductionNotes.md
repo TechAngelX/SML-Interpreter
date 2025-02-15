@@ -19,8 +19,8 @@ Add         ✅  AddInstruction class completed.
 Sub         ✅  SubInstruction class completed.
 Mul         ✅  MultiplyInstruction class completed.
 Div         ✅  DivInstruction class completed.
-if_cmpgt    ❌  Working on the comparer files...
-if_cmpe     ❌  Work in progress...
+if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
+if_cmpeq    ❌  IfEqualGotoInstruction class Work in progress...
 ```
 
 ### Test Classes:
@@ -35,6 +35,8 @@ AddInstructionTest           ✅  AddInstruction class tests completed.
 SubInstructionTest           ✅  SubInstruction class tests completed.  
 MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.  
 DivInstructionTest           ✅  DivInstruction class tests completed.  
+IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
+IfEqualGotoInstruction       ❌  IfEqualGotoInstruction class tests Work in progress...
 ```
 
 
