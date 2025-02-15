@@ -58,4 +58,56 @@ class DivInstructionTest {
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
     }
+
+    @Test
+    void testDivisionWithNegativeNumbers() {
+        // Create division instruction and return instruction
+        Instruction divInstruction = new DivInstruction(null);
+        Instruction returnInstruction = new ReturnInstruction(null);
+
+        // Set up the program with both instructions
+        Method mainMethod = new Method(
+                new Method.Identifier("@main"),
+                List.of(),
+                List.of(divInstruction, returnInstruction)
+        );
+        machine.setProgram(List.of(mainMethod));
+
+        // Push operands
+        machine.frame().push(-56);  // First operand
+        machine.frame().push(8);    // Second operand
+
+        Optional<Frame> nextFrame = divInstruction.execute(machine);
+
+        int result = machine.frame().pop();
+        assertEquals(-7, result, "-56 / 8 should equal -7");
+
+        // Verify program advances correctly
+        assertTrue(nextFrame.isPresent(), "Next frame should exist");
+        assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
+    }
+
+    @Test
+    void testDivisionByZero() {
+        // Create division instruction and return instruction
+        Instruction divInstruction = new DivInstruction(null);
+
+        // Set up the program with division instruction
+        Method mainMethod = new Method(
+                new Method.Identifier("@main"),
+                List.of(),
+                List.of(divInstruction)
+        );
+        machine.setProgram(List.of(mainMethod));
+
+        // Push operands for division by zero
+        machine.frame().push(50);  // First operand
+        machine.frame().push(0);   // Second operand
+
+        // Verify that division by zero throws an ArithmeticException
+        assertThrows(ArithmeticException.class,
+                () -> divInstruction.execute(machine),
+                "Division by zero should throw ArithmeticException"
+        );
+    }
 }

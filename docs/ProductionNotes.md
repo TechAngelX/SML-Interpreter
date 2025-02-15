@@ -8,26 +8,34 @@ The entry point for the program—the `Main` method—is in the `RunSml` class.
 Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
 ### Missing Instruction Classes to Implement:
-- **Load**   ✅ `LoadInstruction` class completed.
-- **Store**  ✅ `StoreInstruction` class completed 
-- **Push** ` ✅ PushInstruction` class completed.
-- **Add** ` ✅ AddInstruction` class completed.
-- **Sub** ` ✅ SubInstruction` class completed.
-- **Mul** ` ✅ MultiplyInstruction` class completed.
-- **Div** ... Working on ... ISSUES
-- **if_cmpgt** Working on the comparer files...
-- **if_cmpe**  Work in progress ...
 
----
+### Missing Instruction Classes to Implement:
+
+```
+Load        ✅  LoadInstruction class completed.
+Store       ✅  StoreInstruction class completed.
+Push        ✅  PushInstruction class completed.
+Add         ✅  AddInstruction class completed.
+Sub         ✅  SubInstruction class completed.
+Mul         ✅  MultiplyInstruction class completed.
+Div         ✅  DivInstruction class completed.
+if_cmpgt    ❌  Working on the comparer files...
+if_cmpe     ❌  Work in progress...
+```
+
 ### Test Classes:
 Then create the test classes and run each unit:
+```
+### Instruction Test Status:
 
-- **LoadInstructionTest** ✅ `LoadInstruction` class tests completed.
-- **StoreInstructionTest** ✅ `StoreInstruction`class tests completed.
-- **PushInstructionTest** ✅ `PushInstruction` class tests completed.
-- **AddInstructionTest** ✅ `AddInstruction` class tests completed.
-- **SubInstructionTest** ✅ `SubInstruction` class tests completed.
-
+LoadInstructionTest          ✅  LoadInstruction class tests completed.  
+StoreInstructionTest         ✅  StoreInstruction class tests completed.  
+PushInstructionTest          ✅  PushInstruction class tests completed.  
+AddInstructionTest           ✅  AddInstruction class tests completed.  
+SubInstructionTest           ✅  SubInstruction class tests completed.  
+MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.  
+DivInstructionTest           ✅  DivInstruction class tests completed.  
+```
 
 
 ### Identified Problems & Solutions
