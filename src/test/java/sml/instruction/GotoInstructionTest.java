@@ -42,16 +42,44 @@ class GotoInstructionTest {
         assertEquals(2, frame.get().programCounter());
     }
 
+
+    /**
+     * Tests that a {@link GotoInstruction} throws a {@link LabelNotFoundException} when the
+     * target label is missing. The test checks that the exception message, missing label, and
+     * method are correctly set when a label is not found in the method's program.
+     *
+     * @throws LabelNotFoundException if the referenced label is not found in the method.
+     */
+
     @Test
     void missingLabelGotoInstruction() {
-        Instruction ins0 = new GotoInstruction(null, new Label("L2"));
+        // Create a Label instance representing the missing label "L2".
+        Label missingLabel = new Label("L2");
+
+
+        Instruction ins0 = new GotoInstruction(null, missingLabel);
         Instruction ins1 = new ReturnInstruction(null);
 
+        // Create a Method instance named "@main" that contains the instructions ins0 (Goto)
+        // and ins1 (Return).
         Method m = new Method(new Method.Identifier("@main"),
                 List.of(), List.of(ins0, ins1));
-        machine.setProgram(List.of(m));
-        LabelNotFoundException ex = assertThrows(LabelNotFoundException.class, () ->  ins0.execute(machine));
 
+        // Set the program.
+        machine.setProgram(List.of(m));
+
+        // Execute the GotoInstruction (ins0), expecting it to throw a LabelNotFoundException
+        // because the label "L2" is missing.
+        LabelNotFoundException ex = assertThrows(LabelNotFoundException.class, () -> ins0.execute(machine));
+
+        // Verify the exception message to ensure it correctly indicates
+        // that "Label L2 not found in main".
         assertEquals("Label L2 not found in main", ex.getMessage());
+
+        assertEquals(missingLabel, ex.getLabel(), "Exception should contain the missing label");
+
+        assertEquals(m, ex.getMethod(), "Exception should reference the correct method");
     }
+
+
 }
