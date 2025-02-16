@@ -35,7 +35,6 @@ class IfGreaterGotoInstructionTest {
      */
     @Test
     void testShouldJumpWhenFirstValueGreater() {
-        // Check that the current instruction is the jump target instruction
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 

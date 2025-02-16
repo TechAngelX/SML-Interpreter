@@ -14,7 +14,7 @@ import java.util.Optional;
  * specified label; else, continues to next instruction.
  */
 public class IfGreaterGotoInstruction extends Instruction {
-    public static final String OP_CODE = "if_cmpgtL";
+    public static final String OP_CODE = "if_cmpgt";
     private final Label jumpLabel;
 
     public IfGreaterGotoInstruction(Label label, Label jumpLabel) {
@@ -28,11 +28,10 @@ public class IfGreaterGotoInstruction extends Instruction {
         int value2 = frame.pop(); // Remember Important LIFO pop order.
         int value1 = frame.pop();
 
-        if (value1 > value2) {
-            // If value1 > value2, jump to specified label
+        if (value1 > value2) {   // If value1 > value2, jump to specified label.
             return Optional.of(frame.jumpTo(jumpLabel));
         } else {
-            // Otherwise, advance to next instruction
+            // Otherwise, advance to next instruction.
             return Optional.of(frame.advance());
         }
     }
