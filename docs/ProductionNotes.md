@@ -19,6 +19,9 @@ Mul         ✅  MultiplyInstruction class completed.
 Div         ✅  DivInstruction class completed.
 if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
 if_cmpeq    ✅  IfEqualGotoInstruction class completed.
+
+InstructionFactory   ❌  Work in progress....
+```
 ```
 
 ### Testing Strategy: Points to Note:
