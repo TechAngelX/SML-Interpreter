@@ -110,18 +110,22 @@ public final class Translator {
 
         return switch (opcode) {
             case GotoInstruction.OP_CODE -> {
-                String s = scan();
+                String s = scan(); // State Change
                 yield new GotoInstruction(label, new Label(s));
             }
             case ReturnInstruction.OP_CODE -> new ReturnInstruction(label);
             case InvokeInstruction.OP_CODE -> {
-                String s = scan();
+                String s = scan(); // State Change
                 yield new InvokeInstruction(label, new Method.Identifier(s));
             }
-            case PrintInstruction.OP_CODE -> new PrintInstruction(label);
+            case PrintInstruction.OP_CODE -> new PrintInstruction(label); // No State Change
+            }
+             case AddInstruction.OP_CODE -> new AddInstruction(label); // No State Change
+
+            }
 
 
-            // TODO: add code for all other types of instructions
+
 
             // TODO: Then, replace the switch by using the Reflection API
 

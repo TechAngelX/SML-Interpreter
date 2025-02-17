@@ -7,7 +7,8 @@ Do this **ONLY AFTER** completing methods in the `Instruction` class.
 The entry point for the program—the `Main` method—is in the `RunSml` class.  
 Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
-### Missing Instruction Classes to Implement:
+### PART I
+#### Missing Instruction Classes to Implement:
 
 ```
 Load        ✅  LoadInstruction class completed.
@@ -22,6 +23,10 @@ if_cmpeq    ✅  IfEqualGotoInstruction class completed.
 
 InstructionFactory   ❌  Work in progress....
 ```
+
+### PART II
+Translator and Reflection   ❌  Work in progress....
+
 ```
 
 ### Testing Strategy: Points to Note:
