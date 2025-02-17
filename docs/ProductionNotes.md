@@ -9,8 +9,6 @@ Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
 ### Missing Instruction Classes to Implement:
 
-### Missing Instruction Classes to Implement:
-
 ```
 Load        ✅  LoadInstruction class completed.
 Store       ✅  StoreInstruction class completed.
@@ -23,10 +21,15 @@ if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
 if_cmpeq    ✅  IfEqualGotoInstruction class completed.
 ```
 
-### Test Classes:
-Then create the test classes and run each unit:
+### Testing Strategy: Points to Note:
+- Write tests that supply incorrect input values.
+- Ensure the code fails appropriately, throwing the expected exceptions.
+- Once errors are identified, correct them and re-run the tests.
+- Tests should confirm that invalid inputs trigger the appropriate runtime exceptions.
+
 ```
 ### Instruction Test Status:
+Create the test classes AFTER finishing their respective concrete classes, and run each unit:
 
 LoadInstructionTest          ✅  LoadInstruction class tests completed.  
 StoreInstructionTest         ✅  StoreInstruction class tests completed.  
@@ -38,7 +41,6 @@ DivInstructionTest           ✅  DivInstruction class tests completed.
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
 ```
-
 
 ### Identified Problems & Solutions
 
