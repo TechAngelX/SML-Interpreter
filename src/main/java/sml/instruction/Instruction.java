@@ -1,6 +1,11 @@
-package sml;
+package sml.instruction;
 
 // TODO: write JavaDoc for the class
+
+import sml.Frame;
+import sml.Label;
+import sml.Machine;
+import sml.Variable;
 
 import java.util.Objects;
 import java.util.Optional;

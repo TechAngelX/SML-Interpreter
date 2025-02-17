@@ -4,8 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sml.*;
-import sml.instruction.PushInstruction;
-import sml.instruction.ReturnInstruction;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;

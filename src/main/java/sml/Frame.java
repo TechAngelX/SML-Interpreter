@@ -1,5 +1,6 @@
 package sml;
-import sml.Variable.Identifier;
+import sml.instruction.Instruction;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Objects;

@@ -6,8 +6,8 @@ import java.util.Optional;
 
 /**
  * Represents the 'push' instruction in the Simple Machine Language (SML).
- * Adds a constant integer value directly onto the current frame's operand stack.
- *  ===================================================================================
+ * Pushes a constant integer value directly onto the current frame's operand stack.
+ * ================================================================================
  *
  * @author Ricki Angel
  */

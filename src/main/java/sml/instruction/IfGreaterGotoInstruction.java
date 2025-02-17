@@ -1,7 +1,6 @@
 package sml.instruction;
 
 import sml.Frame;
-import sml.Instruction;
 import sml.Label;
 import sml.Machine;
 
