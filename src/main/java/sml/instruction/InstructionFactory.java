@@ -1,7 +1,8 @@
-package sml;
+package sml.instruction;
 
-import sml.instruction.PushInstruction;
-import sml.instruction.StoreInstruction;
+import sml.Instruction;
+import sml.Label;
+import sml.Variable;
 
 public class InstructionFactory {
     /**
