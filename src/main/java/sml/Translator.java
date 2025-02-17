@@ -17,6 +17,8 @@ import java.util.Scanner;
  * This is part of an SML interpreter that reads, translates, and prepares programs for execution. The translation
  * process involves parsing each line of the input to identify labels, opcodes,
  * and operands, then creating corresponding {@link Instruction} objects grouped under methods.
+ *
+ * @author Ricki Angel
  */
 public final class Translator {
 
