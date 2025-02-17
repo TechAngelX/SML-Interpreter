@@ -9,6 +9,13 @@ public class InstructionFactory {
      * Creates an instruction based on the given opcode and parameters.
      *
      */
+
+    //TODO: Instruction Factory setup in theory, workout best way to integrate,
+    // and do some CLI Reflection peeking....
+
+    // TODO: Add IfGreater and IfEquals Instructions ...
+
+
     public static Instruction createInstruction(String opcode, Label label, Object... args) {
         return switch (opcode) {
             case PushInstruction.OP_CODE -> {
