@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * This class ....
- * <p>
- * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
+ * The Translator class, translates Simple Machine Language (SML) programs into a collection of {@link Method} objects.
+ * ====================================================================================================================
  *
- * @author ...
+ * This is part of an SML interpreter that reads, translates, and prepares programs for execution. The translation
+ * process involves parsing each line of the input to identify labels, opcodes,
+ * and operands, then creating corresponding {@link Instruction} objects grouped under methods.
  */
 public final class Translator {
 
@@ -94,15 +95,7 @@ public final class Translator {
         return methods;
     }
 
-    /**
-     * Translates the current line into an instruction with the given label
-     * <p>
-     * The input line should consist of a single SML instruction,
-     * with its label already removed.
-     *
-     * @param label the instruction label
-     * @return the new instruction
-     */
+    // Refactor with helper guide determining whether the instruction needs to return (State change) or not.
     private Instruction getInstruction(Label label) {
         String opcode = scan();
         if (opcode.isEmpty())
@@ -118,25 +111,14 @@ public final class Translator {
                 String s = scan(); // State Change
                 yield new InvokeInstruction(label, new Method.Identifier(s));
             }
-            case PrintInstruction.OP_CODE -> new PrintInstruction(label); // No State Change
+            case PrintInstruction.OP_CODE -> new PrintInstruction(label);
+            case AddInstruction.OP_CODE -> new AddInstruction(label);
+            case MultiplyInstruction.OP_CODE -> new MultiplyInstruction(label);
+            case DivInstruction.OP_CODE -> new DivInstruction(label);
+            case LoadInstruction.OP_CODE -> {
+                String varName = scan(); // State Change
+                yield new LoadInstruction(label, new Variable.Identifier(varName));
             }
-             case AddInstruction.OP_CODE -> new AddInstruction(label); // No State Change
-
-            }
-
-
-
-
-            // TODO: Then, replace the switch by using the Reflection API
-
-            // TODO: Next, use dependency injection to allow this machine class
-            //       to work with different sets of opcodes (different CPUs)
-
-            default -> {
-                yield  null;
-            } //new IllegalArgumentException("Unknown instruction: " + opcode);
-        };
-    }
 
     private String getLabel() {
         String word = scan();
