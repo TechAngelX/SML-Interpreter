@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Tests the functionality of PushInstruction in the Simple Machine Language.
  * ==========================================================================
  * Verifies pushing values onto the stack and variables method behavior.
+ *
+ * @author Ricki Angel
  */
 public class PushInstructionTest {
     // An optional stream for capturing console output as a byte array, useful for test verification.

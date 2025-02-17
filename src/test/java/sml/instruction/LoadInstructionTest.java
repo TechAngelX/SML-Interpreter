@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Tests the functionality of LoadInstruction in the Simple Machine Language.
  * =========================================================================
  * Verifies loading and printing values from variables, and variables method behavior.
+ *
+ * @author Ricki Angel
  */
 
 public class LoadInstructionTest {

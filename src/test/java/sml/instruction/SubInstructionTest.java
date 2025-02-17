@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the functionality of SubInstruction in the Simple Machine Language.
  * ========================================================================
  * Verifies correct subtraction of numbers from the stack and instruction progression.
+ *
+ * @author Ricki Angel
  */
 
 class SubInstructionTest {

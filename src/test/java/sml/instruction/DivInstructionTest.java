@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * ========================================================================
  * Verifies correct division of numbers from the stack, including edge cases
  * like negative numbers and division by zero.
+ *
+ * @author Ricki Angel
  */
 class DivInstructionTest {
     private Machine machine;

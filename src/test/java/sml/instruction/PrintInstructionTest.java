@@ -16,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Tests the functionality of PrintInstruction in the Simple Machine Language.
  * ===========================================================================
  * Simply verifies printing values from the stack.
+ *
+ * @author Ricki Angel
  */
 public class PrintInstructionTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the functionality of IfGreaterGotoInstruction in the Simple Machine Language.
  * ===================================================================================
  * Verifies correct comparison and conditional jumping based on stack value comparison.
+ *
+ * @author Ricki Angel
  */
 class IfGreaterGotoInstructionTest {
     private Machine machine;

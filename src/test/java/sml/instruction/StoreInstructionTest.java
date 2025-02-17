@@ -8,11 +8,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Test class for StoreInstruction to verify:
- * - A value can be stored from the stack to a variable
- * - Storing to a non-existent variable throws an exception
- * - The variables() method returns the correct variable
- * - Equals and hashCode methods work correctly
+ * Tests the functionality of StoreInstruction in the Simple Machine Language.
+ * ==========================================================================
+ * Verifies storing values to variables, handling variable access, and instruction
+ * object behavior.
+ *
+ * @author Ricki Angel
  */
 public class StoreInstructionTest {
     private Machine machine;

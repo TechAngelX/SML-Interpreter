@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * Tests the functionality of GotoInstruction in the Simple Machine Language.
  * =========================================================================
  * Verifies correct label jumping and error handling for goto instructions.
+ *
+ * @author Ricki Angel
  */
 
 class GotoInstructionTest {

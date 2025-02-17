@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * Tests the functionality of IfEqualGotoInstruction in the Simple Machine Language.
  * ================================================================================
  * Verifies correct comparison and conditional jumping based on stack value equality.
+ *
+ * @author Ricki Angel
  */
 class IfEqualGotoInstructionTest {
     private Machine machine;

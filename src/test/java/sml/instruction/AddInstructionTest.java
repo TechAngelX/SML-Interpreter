@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests the functionality of AddInstruction in the Simple Machine Language.
  * ========================================================================
  * Verifies correct addition of numbers from the stack and instruction progression.
+ *
+ * @author Ricki Angel
  */
 class AddInstructionTest {
     private Machine machine;

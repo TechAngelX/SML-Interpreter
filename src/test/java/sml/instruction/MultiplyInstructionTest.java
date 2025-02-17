@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Tests the functionality of MultiplyInstruction in the Simple Machine Language.
  * =============================================================================
  * Verifies correct multiplication of numbers from the stack, and instruction progression.
+ *
+ * @author Ricki Angel
  */
 class MultiplyInstructionTest {
     private Machine machine;
