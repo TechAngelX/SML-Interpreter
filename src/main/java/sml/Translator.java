@@ -119,6 +119,25 @@ public final class Translator {
                 String varName = scan(); // State Change
                 yield new LoadInstruction(label, new Variable.Identifier(varName));
             }
+            case IfEqualGotoInstruction.OP_CODE -> {
+                String jumpLabelName = scan(); // State Change
+                yield new IfEqualGotoInstruction(label, new Label(jumpLabelName));
+            }
+            case IfGreaterGotoInstruction.OP_CODE -> {
+                String jumpLabelName = scan(); // State Change
+                yield new IfGreaterGotoInstruction(label, new Label(jumpLabelName));
+            }
+            default -> {
+                yield null;
+            }
+        };
+    }
+
+
+    // TODO: Then, replace the switch by using the Reflection API
+
+    // TODO: Next, use dependency injection to allow this machine class
+    //       to work with different sets of opcodes (different CPUs)
 
     private String getLabel() {
         String word = scan();
