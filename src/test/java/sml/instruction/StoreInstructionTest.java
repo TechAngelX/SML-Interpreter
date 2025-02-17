@@ -1,9 +1,6 @@
 package sml.instruction;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import sml.*;
 
 import java.util.List;
@@ -32,43 +29,35 @@ public class StoreInstructionTest {
         machine = null;
     }
 
-    /**
-     * Tests that a value can be successfully stored in a variable.
-     */
     @Test
-    void executeValidStore() {
-        // Create test variable identifier.
+    @DisplayName("Should successfully store a value from stack to a variable")
+    void testStoreValueFromStackToVariable() {
+        // Create test variable identifier:
         Variable.Identifier varId = new Variable.Identifier("testVar");
 
-        // Create store instruction and return instruction.
+        // Create store instruction and return instruction:
         Instruction storeInstruction = new StoreInstruction(null, varId);
         Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Create method with the instructions.
+        // Create method with the instructions:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
                 List.of(storeInstruction, returnInstruction)
         );
-
-        // Set up the machine and push a test value onto the stack.
+        // Set up the machine and push a test value onto the stack:
         machine.setProgram(List.of(mainMethod));
-
-        // Push a test value onto the stack.
         machine.frame().push(42);
-
         storeInstruction.execute(machine);
 
-        // Verify the value was stored correctly
+        // Verify the value was stored correctly:
         Variable var = machine.frame().variable(varId);
         assertEquals(42, var.load());
     }
 
-    /**
-     * Test to see if attempting to store to a non-existent variable throws an exception.
-     */
     @Test
-    void executeWithNonExistentVariableShouldThrowException() {
+    @DisplayName("Should throw VariableNotFoundException for non-existent variable")
+    void testNonExistentVariableShouldThrowException() {
         Variable.Identifier nonExistentVarId = new Variable.Identifier("nonExistentVar");
 
         Method mainMethod = new Method(
@@ -76,17 +65,14 @@ public class StoreInstructionTest {
                 List.of(),
                 List.of(new ReturnInstruction(null))  // Just a return instruction.
         );
-
         machine.setProgram(List.of(mainMethod));
         assertThrows(VariableNotFoundException.class,
                 () -> machine.frame().variable(nonExistentVarId));
     }
-    /**
-     * test to verify that the variables() method returns a stream containing the s
-     * ingle variable identifier.
-     */
+
     @Test
-    void storeInstructionVariablesShouldReturnSingleVariable() {
+    @DisplayName("Should return the correct variable when calling variables() method")
+    void testStoreInstructionVariablesShouldReturnSingleVariable() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
         StoreInstruction storeInstruction = new StoreInstruction(null, varId);
 
@@ -97,10 +83,8 @@ public class StoreInstructionTest {
         assertEquals(varId, variables.get(0));
     }
 
-    /**
-     * Tests equals() method for StoreInstruction.
-     */
     @Test
+    @DisplayName("Should correctly implement equals() method")
     void testEqualsMethod() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
         Label label = new Label("testLabel");
@@ -116,10 +100,8 @@ public class StoreInstructionTest {
         Assertions.assertNotEquals(instruction1, new LoadInstruction(label, varId));
     }
 
-    /**
-     * Tests hashCode() method for StoreInstruction.
-     */
     @Test
+    @DisplayName("Should generate consistent hash codes for equal objects")
     void testHashCodeMethod() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
         Label label = new Label("testLabel");
@@ -127,9 +109,6 @@ public class StoreInstructionTest {
         StoreInstruction instruction1 = new StoreInstruction(label, varId);
         StoreInstruction instruction2 = new StoreInstruction(label, varId);
 
-    /**
-    * Test that equal objects have equal hash codes
-    */
         assertEquals(instruction1.hashCode(), instruction2.hashCode());
     }
 }

@@ -2,6 +2,7 @@ package sml.instruction;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sml.*;
 
@@ -12,6 +13,11 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests the functionality of LoadInstruction in the Simple Machine Language.
+ * =========================================================================
+ * Verifies loading and printing values from variables, and variables method behavior.
+ */
 
 public class LoadInstructionTest {
     // An optional stream for capturing console output as a byte array, useful for test verification.
@@ -20,21 +26,19 @@ public class LoadInstructionTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize a new Machine instance before each test.
+        // Initialize a new Machine instance before each test:
         machine = new Machine();
     }
 
     @AfterEach
     void tearDown() {
-        // Clean up the Machine instance and reset System.out to its default.
+        // Clean up the Machine instance and reset System.out to its default:
         machine = null;
         System.setOut(System.out);
     }
 
-
-    //Tests the main functionality of LoadInstruction,
-    //Checks if it loads a value (55) and prints it correctly
     @Test
+    @DisplayName("Should load and print a value from a variable")
     void loadInstructionShouldLoadAndPrintValue() {
         Variable.Identifier varId = new Variable.Identifier("testLoadVar");
         Instruction loadInstruction = new LoadInstruction(null, varId);
@@ -44,21 +48,19 @@ public class LoadInstructionTest {
                 List.of(), List.of(loadInstruction, returnInstruction));
         machine.setProgram(List.of(mainMethod));
 
-        // Set the value of the variable before executing the instruction.
+        // Set the value of the variable before executing the instruction:
         Variable variable = machine.frame().variable(varId);
         variable.store(55);
 
-        // Redirect System.out to capture the output.
+        // Redirect System.out to capture the output:
         System.setOut(new PrintStream(outContent));
         loadInstruction.execute(machine);
 
         assertEquals("55\n", outContent.toString());
     }
 
-    /**
-     * Verifies that the variables() method for LoadInstruction returns a stream containing the single variable identifier.
-     */
     @Test
+    @DisplayName("Should return the correct variable when calling variables() method")
     void loadInstructionVariablesShouldReturnSingleVariable() {
         Variable.Identifier varId = new Variable.Identifier("testVar");
         LoadInstruction loadInstruction = new LoadInstruction(null, varId);

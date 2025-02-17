@@ -11,6 +11,8 @@ import java.util.Optional;
 
  * Retrieves a value from a variable (either a method argument or
  * local variable), and pushes it onto the current operand stack.
+ *
+ * @author Ricki Angel
  */
 public class LoadInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "load";

@@ -2,6 +2,7 @@ package sml.instruction;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sml.*;
 
@@ -11,6 +12,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Tests the functionality of PrintInstruction in the Simple Machine Language.
+ * ===========================================================================
+ * Simply verifies printing values from the stack.
+ */
 public class PrintInstructionTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -27,6 +33,7 @@ public class PrintInstructionTest {
     }
 
     @Test
+    @DisplayName("Should print the top value from the stack")
     void printInstruction() {
         Instruction ins0 = new PrintInstruction(null);
         Instruction ins1 = new ReturnInstruction(null);
@@ -41,6 +48,5 @@ public class PrintInstructionTest {
 
         assertEquals("42\n", outContent.toString());
         System.out.println(outContent.toString());
-
     }
 }
