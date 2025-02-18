@@ -1,6 +1,5 @@
 package sml.instruction;
 import sml.*;
-import sml.helperfiles.AbstractVarInstruction;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -16,7 +15,8 @@ import java.util.Optional;
 public class StoreInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "store";
 
-     public StoreInstruction(Label label, Variable.Identifier varName) {
+     public StoreInstruction
+             (Label label, Variable.Identifier varName) {
         super(label, OP_CODE, varName);
     }
 

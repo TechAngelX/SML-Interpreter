@@ -15,6 +15,7 @@ import java.util.Scanner;
  * Translates a Simple Machine Language (SML) program from a file into a collection of {@link Method} objects.
  * ====================================================================================================================
 + WOrk in process... blah blah blah...todo
+ @author Ricki Angel
  */
 
 public final class Translator {
@@ -40,6 +41,14 @@ public final class Translator {
             Variable.Identifier id = new Variable.Identifier(name);
             arguments.add(id);
         }
+    }
+
+    public void setLine(String line) {
+        this.line = line;
+    }
+
+    public void getLine() {
+        this.line = line;
     }
 
     private static final String ITEM_SEPARATOR = ",";
@@ -95,6 +104,7 @@ public final class Translator {
         String opcode = scan();
         if (opcode.isEmpty()) return null;
 
+            //TODO - Get rid of this lengthy hard-coded switch case statements.
         return switch (opcode) {
             case GotoInstruction.OP_CODE -> createGotoInstruction(label);
             case ReturnInstruction.OP_CODE -> new ReturnInstruction(label);

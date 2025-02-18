@@ -1,7 +1,6 @@
-package sml.helperfiles;
+package sml.instruction;
 
 import sml.*;
-import sml.instruction.Instruction;
 
 import java.util.Objects;
 import java.util.stream.Stream;
