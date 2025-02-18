@@ -11,18 +11,14 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * The Translator class, translates Simple Machine Language (SML) programs into a collection of {@link Method} objects.
  * ====================================================================================================================
- *
- * This is part of an SML interpreter that reads, translates, and prepares programs for execution. The translation
- * process involves parsing each line of the input to identify labels, opcodes,
- * and operands, then creating corresponding {@link Instruction} objects grouped under methods.
- *
- * @author Ricki Angel
+ * Translates a Simple Machine Language (SML) program from a file into a collection of {@link Method} objects.
+ * ====================================================================================================================
++ WOrk in process... blah blah blah...todo
  */
+
 public final class Translator {
 
-    // line contains the characters in the current line that's not been processed yet
     private String line = "";
 
     private static class State {
@@ -50,39 +46,24 @@ public final class Translator {
     private static final String METHOD_LABEL = "@";
 
     public Collection<Method> readAndTranslate(String fileName) throws IOException {
-
         Collection<Method> methods = new ArrayList<>();
 
         try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
-            // each iteration processes the contents of line
-            // and reads the next input line into "line"
             State state = null;
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
                 String labelString = getLabel();
+
                 if (labelString != null && labelString.startsWith(METHOD_LABEL)) {
-                    if (state != null)
-                        methods.add(state.createMethod());
+                    if (state != null) methods.add(state.createMethod());
 
                     state = new State(new Method.Identifier(labelString));
-                    for (String s = scan(); !s.isEmpty(); s = scan()) {
-
-                        String variable = s.endsWith(ITEM_SEPARATOR)
-                                ? s.substring(0, s.length() - 1).trim()
-                                : s;
-
-                        state.addArgument(variable);
-
-                        if (!s.endsWith(ITEM_SEPARATOR))
-                            break;
-                    }
+                    processMethodArguments(state);
                 }
                 else {
-                    Label label = labelString != null
-                            ? new Label(labelString)
-                            : null;
-
+                    Label label = labelString != null ? new Label(labelString) : null;
                     Instruction instruction = getInstruction(label);
+
                     if (instruction != null) {
                         if (state != null)
                             state.instructions.add(instruction);
@@ -91,68 +72,85 @@ public final class Translator {
                     }
                 }
             }
-            if (state != null)
-                methods.add(state.createMethod());
+            if (state != null) methods.add(state.createMethod());
         }
         return methods;
     }
 
-    // Refactor with helper guide determining whether the instruction needs to return (State change) or not.
+    // Method to process arguments for a method
+    private void processMethodArguments(State state) {
+        for (String s = scan(); !s.isEmpty(); s = scan()) {
+            String variable = s.endsWith(ITEM_SEPARATOR)
+                    ? s.substring(0, s.length() - 1).trim()
+                    : s;
+
+            state.addArgument(variable);
+
+            if (!s.endsWith(ITEM_SEPARATOR)) break;
+        }
+    }
+
+    // Refactored method to retrieve instructions using a helper function to identify state changes
     private Instruction getInstruction(Label label) {
         String opcode = scan();
-        if (opcode.isEmpty())
-            return null;
+        if (opcode.isEmpty()) return null;
 
         return switch (opcode) {
-            case GotoInstruction.OP_CODE -> {
-                String s = scan(); // State Change
-                yield new GotoInstruction(label, new Label(s));
-            }
+            case GotoInstruction.OP_CODE -> createGotoInstruction(label);
             case ReturnInstruction.OP_CODE -> new ReturnInstruction(label);
-            case InvokeInstruction.OP_CODE -> {
-                String s = scan(); // State Change
-                yield new InvokeInstruction(label, new Method.Identifier(s));
-            }
+            case InvokeInstruction.OP_CODE -> createInvokeInstruction(label);
             case PrintInstruction.OP_CODE -> new PrintInstruction(label);
             case AddInstruction.OP_CODE -> new AddInstruction(label);
             case MultiplyInstruction.OP_CODE -> new MultiplyInstruction(label);
             case DivInstruction.OP_CODE -> new DivInstruction(label);
-            case LoadInstruction.OP_CODE -> {
-                String varName = scan(); // State Change
-                yield new LoadInstruction(label, new Variable.Identifier(varName));
-            }
-            case IfEqualGotoInstruction.OP_CODE -> {
-                String jumpLabelName = scan(); // State Change
-                yield new IfEqualGotoInstruction(label, new Label(jumpLabelName));
-            }
-            case IfGreaterGotoInstruction.OP_CODE -> {
-                String jumpLabelName = scan(); // State Change
-                yield new IfGreaterGotoInstruction(label, new Label(jumpLabelName));
-            }
-            default -> {
-                yield null;
-            }
+            case LoadInstruction.OP_CODE -> createLoadInstruction(label);
+            case IfEqualGotoInstruction.OP_CODE -> createIfEqualGotoInstruction(label);
+            case IfGreaterGotoInstruction.OP_CODE -> createIfGreaterGotoInstruction(label);
+            default -> null;
         };
     }
 
+    // Helper method for state-changing instructions like Goto
+    private GotoInstruction createGotoInstruction(Label label) {
+        String targetLabel = scan();
+        return new GotoInstruction(label, new Label(targetLabel));
+    }
 
-    // TODO: Then, replace the switch by using the Reflection API
+    // Helper method y InvokeInstruction
+    private InvokeInstruction createInvokeInstruction(Label label) {
+        String methodName = scan();
+        return new InvokeInstruction(label, new Method.Identifier(methodName));
+    }
 
-    // TODO: Next, use dependency injection to allow this machine class
-    //       to work with different sets of opcodes (different CPUs)
+    // Helper method for LoadInstruction
+    private LoadInstruction createLoadInstruction(Label label) {
+        String varName = scan();
+        return new LoadInstruction(label, new Variable.Identifier(varName));
+    }
+
+    // Helper method for IfEqualGotoInstruction
+    private IfEqualGotoInstruction createIfEqualGotoInstruction(Label label) {
+        String jumpLabelName = scan();
+        return new IfEqualGotoInstruction(label, new Label(jumpLabelName));
+    }
+
+    // Helper method for IfGreaterGotoInstruction
+    private IfGreaterGotoInstruction createIfGreaterGotoInstruction(Label label) {
+        String jumpLabelName = scan();
+        return new IfGreaterGotoInstruction(label, new Label(jumpLabelName));
+    }
 
     private String getLabel() {
         String word = scan();
-        if (word.endsWith(":"))
-            return word.substring(0, word.length() - 1);
+        if (word.endsWith(":")) return word.substring(0, word.length() - 1);
 
-        // undo scanning the word
+        // Undo scanning the word
         line = word + " " + line;
         return null;
     }
 
     /**
-     * Returns the first word of line and remove it from line.
+     * Returns the first word of line and removes it from line.
      * If there is no word, return "".
      */
     private String scan() {
@@ -160,8 +158,7 @@ public final class Translator {
 
         int whiteSpacePosition = 0;
         while (whiteSpacePosition < line.length()) {
-            if (Character.isWhitespace(line.charAt(whiteSpacePosition)))
-                break;
+            if (Character.isWhitespace(line.charAt(whiteSpacePosition))) break;
             whiteSpacePosition++;
         }
 
