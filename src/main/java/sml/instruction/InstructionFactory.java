@@ -8,13 +8,16 @@ import java.util.Map;
 
 /**
  * ====================================================================================================================
- * A factory that creates instruction objects using reflection.
+ * A factory that creates instruction objects dynamicaly using Reflection.
  * --------------------------------------------------------------------------------------------------------------------
- * This will eventually allow new instruction types to be added without modifying this class.
+ * This will eventually allow new instruction types to be added without modifying this class and
+ * provide a centralised way to create instructions. Uses a static map to register the instruction types.
+ *
+ * ====================================================================================================================
  *
  * @author Ricki Angel
- * ====================================================================================================================
  */
+
 public class InstructionFactory {
     private static final Map<String, Class<? extends Instruction>> instructionMap = new HashMap<>();
 
@@ -24,7 +27,6 @@ public class InstructionFactory {
         instructionMap.put(AddInstruction.OP_CODE, AddInstruction.class);
         // ...
     }
-
     /**
      * Creates an instruction based on the opcode and label.
      * @param opcode the opcode to identify the instruction
@@ -42,7 +44,7 @@ public class InstructionFactory {
             return instructionClass.getConstructor(Label.class).newInstance(label);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;  // Handle exception if something goes wrong during instantiation
+            return null;  // Handle exception if something goes wrong during instantiation.
         }
     }
 }
