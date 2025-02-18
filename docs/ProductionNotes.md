@@ -48,7 +48,7 @@ MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.
 DivInstructionTest           ✅  DivInstruction class tests completed.  
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
-TranslatorTest                ❌  Work in progress....
+TranslatorTest               ✅  TranslatorTest class tests completed.
 
 ```
 
