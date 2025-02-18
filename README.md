@@ -125,7 +125,7 @@ program is incorrect if it contains a method that does not end with a `return` i
 Your interpreter will:
 
 1. Read the name of a file that contains the program from the command line 
-(via `String[] args` and the `RunSml` class).
+(via `String[] args` and the `sml.RunSml` class).
 2. Read the program from the file and translate it into an internal representation (classes `Machine`, `Method`, `Instruction` and others).
 3. Execute the program and print its output.
 
@@ -143,7 +143,7 @@ in a program and translating it to an internal representation; you can concentra
 code that executes the program. 
 
 We suggest that you examine the `Machine` class first, as it is the heart 
-of the program (you can use the `main` method in the `RunSml` class to guide you as well).
+of the program (you can use the `main` method in the `sml.RunSml` class to guide you as well).
 
 ## Studying the program
 
@@ -164,7 +164,7 @@ some instructions (e.g., `if_cmpgt`) can change the order of execution by jumpin
 The `Translator` class contains the methods that read in the program and translate 
 it into an internal representation; be warned, very little error checking goes on here. 
 
-Finally, study the `main` method of the `RunSml` class (if you think it will help you).
+Finally, study the `main` method of the `sml.RunSml` class (if you think it will help you).
 
 ## The `Instruction` class and its subclasses
 

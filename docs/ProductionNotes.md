@@ -4,7 +4,7 @@ Create subclasses of the `Instruction` class that extend its functionality.
 Do this **ONLY AFTER** completing methods in the `Instruction` class.
 
 #### Entry Point
-The entry point for the program—the `Main` method—is in the `RunSml` class.  
+The entry point for the program—the `Main` method—is in the `sml.RunSml` class.  
 Remember to override `.equals()` and `.hashCode()` for the subclasses.
 
 ### PART I
@@ -48,6 +48,8 @@ MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.
 DivInstructionTest           ✅  DivInstruction class tests completed.  
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
+TranslatorTest                ❌  Work in progress....
+
 ```
 
 ### Identified Problems & Solutions

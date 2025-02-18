@@ -1,6 +1,4 @@
-import sml.Machine;
-import sml.Method;
-import sml.Translator;
+package sml;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -13,7 +11,7 @@ public class RunSml {
      */
     public static void main(String... args) {
         if (args.length != 1) {
-            System.err.println("Incorrect number of arguments - RunSml <file> - required");
+            System.err.println("Incorrect number of arguments - sml.RunSml <file> - required");
             System.exit(-1);
         }
 
