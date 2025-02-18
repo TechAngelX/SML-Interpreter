@@ -1,68 +1,68 @@
 package sml.instruction;
 
-import sml.Label;
-import sml.Variable;
+import sml.*;
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.*;
 
-
+/**
+ * A factory that creates instruction objects using reflection.
+ * This allows new instruction types to be added without modifying this class.
+ *//**
+ * A factory that dynamically discovers and creates instruction objects using reflection.
+ */
 public class InstructionFactory {
+    private static final String INSTRUCTION_PKG = "sml.instruction";
+    private static final Map<String, Class<?>> instructionTypes = new HashMap<>();
+
+    static {
+        loadInstructionClasses(); //TODO Create class to dynamically load all instructuiiins at once.
+    }
+
     /**
-     * Creates an instruction based on the given opcode and parameters.
-     *
+     * Creates an instruction based on opcode and arguments.
      */
-
-    //TODO: Instruction Factory setup in theory, workout best way to integrate,
-    // and do some CLI Reflection peeking....
-
-
-    public static Class <? extends Instruction> createInstruction(String opcode, Label label, Object... args)  throws ClassNotFoundException  {
+    public static Instruction createInstruction(String opcode, Label label, Object... args) {
         try {
-            return switch (opcode) {
-                case PushInstruction.OP_CODE -> {
-                    if (args.length == 1 || !(args[0] instanceof Integer value)) {
-                        throw new IllegalArgumentException("Push instruction needs exactly one integer argument.");
-                    }
-                    yield new PushInstruction(label, value);
+            Class<?> instructionClass = instructionTypes.get(opcode);
+            if (instructionClass == null) {
+                return null;
+            }
+
+            Constructor<?>[] constructors = instructionClass.getConstructors();
+            if (constructors.length == 0) return null;
+
+            Object[] params = new Object[args.length + 1];
+            params[0] = label;
+            System.arraycopy(args, 0, params, 1, args.length);
+
+            for (Constructor<?> constructor : constructors) {
+                if (isCompatible(constructor, params)) {
+                    return (Instruction) constructor.newInstance(params);
                 }
-                case StoreInstruction.OP_CODE -> {
-                    if (args.length == 1 || !(args[0] instanceof Variable.Identifier identifier)) {
-                        throw new IllegalArgumentException("Store instruction needs a Variable.Identifier as an argument.");
-                    }
-                    yield new StoreInstruction(label, identifier);
-                }
-                case LoadInstruction.OP_CODE -> {
-                    if (args.length == 1 || !(args[0] instanceof Variable.Identifier identifier)) {
-                        throw new IllegalArgumentException("Load instruction needs a Variable.Identifier as an argument.");
-                    }
-                    yield new LoadInstruction(label, identifier);
-                }
-                case InvokeInstruction.OP_CODE -> {
-                    if (args.length == 1 || !(args[0] instanceof sml.Method.Identifier methodIdentifier)) {
-                        throw new IllegalArgumentException("Invoke instruction needs a Method.Identifier as an argument.");
-                    }
-                    yield new InvokeInstruction(label, methodIdentifier);
-                }
-                case ReturnInstruction.OP_CODE -> {
-                    if (args.length == 0) {
-                        throw new IllegalArgumentException("Return instruction doesn't take any arguments.");
-                    }
-                    yield new ReturnInstruction(label);
-                }
-                case PrintInstruction.OP_CODE -> {
-                    if (args.length == 0) {
-                        throw new IllegalArgumentException("Print instruction doesn't take any arguments.");
-                    }
-                    yield new PrintInstruction(label);
-                }
-                case GotoInstruction.OP_CODE -> {
-                    if (args.length == 1 || !(args[0] instanceof Label targetLabel)) {
-                        throw new IllegalArgumentException("Goto instruction needs a Label as an argument.");
-                    }
-                    yield new GotoInstruction(label, targetLabel);
-                }
-                default -> throw new IllegalArgumentException("Unknown instruction type: " + opcode);
-            };
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            }
+            return null;
+        } catch (Exception e) {
+            System.err.println("Error creating the instruction: " + e.getMessage());
+            return null;
         }
+    }
+
+
+    /**
+     * Checks if a constructor is compatible with given parameters.
+     */
+    private static boolean isCompatible(Constructor<?> constructor, Object[] params) {
+        Class<?>[] ctorTypes = constructor.getParameterTypes();
+        if (ctorTypes.length != params.length) return false;
+
+        for (int i = 0; i < ctorTypes.length; i++) {
+            if (params[i] != null && !ctorTypes[i].isAssignableFrom(params[i].getClass())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

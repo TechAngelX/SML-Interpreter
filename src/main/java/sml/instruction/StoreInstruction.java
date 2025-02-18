@@ -16,13 +16,7 @@ import java.util.Optional;
 public class StoreInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "store";
 
-    /**
-     * Constructor for the Store instruction class.
-     * ==========================================
-     *
-     * @param label optional label (can be null)
-     */
-    public StoreInstruction(Label label, Variable.Identifier varName) {
+     public StoreInstruction(Label label, Variable.Identifier varName) {
         super(label, OP_CODE, varName);
     }
 
@@ -41,10 +35,10 @@ public class StoreInstruction extends AbstractVarInstruction {
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        int value = frame.pop();                   // Pop value from the stack
-        Variable var = frame.variable(varName);    // Get the Variable object
+        int value = frame.pop();                   // Pop value from the stack.
+        Variable var = frame.variable(varName);    // Get the Variable object.
         var.store(value);                          // Store the value in the variable using the Variable store() method.
-        return Optional.of(frame.advance());       // Advance to the next instruction
+        return Optional.of(frame.advance());       // Advance to the next instruction.
     }
 
        /** equals()
