@@ -7,19 +7,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * ====================================================================================================================
  * A factory that creates instruction objects using reflection.
- * This allows new instruction types to be added without modifying this class.
- *//**
- * A factory that dynamically discovers and creates instruction objects using reflection.
+ * --------------------------------------------------------------------------------------------------------------------
+ * This will eventually allow new instruction types to be added without modifying this class.
+ *
+ * @author Ricki Angel
+ * ====================================================================================================================
  */
 public class InstructionFactory {
     private static final Map<String, Class<? extends Instruction>> instructionMap = new HashMap<>();
 
     static {
-        instructionMap.put(SquareRootInstruction.OP_CODE, SquareRootInstruction.class);  // Just my test case.
+        instructionMap.put(SquareRootInstruction.OP_CODE, SquareRootInstruction.class);  // Just my bespoke test case.
         instructionMap.put(MultiplyInstruction.OP_CODE, MultiplyInstruction.class);
         instructionMap.put(AddInstruction.OP_CODE, AddInstruction.class);
-
+        // ...
     }
 
     /**
@@ -32,11 +35,10 @@ public class InstructionFactory {
         Class<? extends Instruction> instructionClass = instructionMap.get(opcode);
 
         if (instructionClass == null) {
-            return null;  // No matching instruction found
+            return null;
         }
 
         try {
-            // Use the constructor of the instruction class to create an instance
             return instructionClass.getConstructor(Label.class).newInstance(label);
         } catch (Exception e) {
             e.printStackTrace();
