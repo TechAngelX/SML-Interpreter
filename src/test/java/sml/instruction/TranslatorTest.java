@@ -6,6 +6,7 @@ import sml.Method;
 import sml.Translator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -23,34 +24,52 @@ import java.util.Collection;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TranslatorTest {
+    String path = "src/test/resources/";
+    String fileName1 = "test1.sml";
+    String fileName2 = "test2.sml";
 
     @Test
-    public void shouldFindFile() throws IOException {
+    @DisplayName("Verify test SML files exist in the resources directory")
+    public void shouldFindFile() throws FileNotFoundException, IOException {
         Translator translator = new Translator();
 
-        // Define the file paths
-        String filePath1 = "src/test/resources/test1.sml";
-        String filePath2 = "src/test/resources/test5.sml";
+        File filePath1 = new File(path + fileName1);
+        File filePath2 = new File(path + fileName2);
 
-        // Check if the files exist
-        File file1 = new File(filePath1);
-        File file2 = new File(filePath2);
-
-        assertTrue(file1.exists(), "test1.sml should exist");
-        assertTrue(file2.exists(), "test2.sml should exist" + "");
-
-        // If the files exist, proceed to translation
-        if (file1.exists()) {
-            Collection<Method> methods1 = translator.readAndTranslate(filePath1);
-            // Add assertions based on the expected behavior
-        }
-
-        if (file2.exists()) {
-            Collection<Method> methods2 = translator.readAndTranslate(filePath2);
-            // Add assertions based on the expected behavior
-        }
+        assertTrue(filePath1.exists(), "test1.sml should exist at " + filePath1.getAbsolutePath());
+        assertTrue(filePath2.exists(), "test2.sml should exist at " + filePath2.getAbsolutePath());
     }
 
+    @Test
+    @DisplayName("Should correctly translate methods with arguments")
+    public void translatesMethodsWithArguments() throws IOException {
+        Translator translator = new Translator();
+        Collection<Method> methods = translator.readAndTranslate("src/test/resources/test1.sml");
 
+        // Find main method:
+        Method mainMethod = methods.stream()
+                .filter(m -> m.name().toString().equals("main"))
+                .findFirst()
+                .orElse(null);
+
+        assertNotNull(mainMethod, "Main method should be translated");
+        assertEquals(0, mainMethod.arguments().size(), "Main method should have no arguments");
+        assertFalse(mainMethod.instructions().isEmpty(), "Main method should have instructions");
+    }
+
+    @Test
+    @DisplayName("getLabel method extracts label when line ends with colon")
+    public void extractsValidLabelWithColon() throws Exception {
+        Translator translator = new Translator();
+        translator.setLine("label1: add");
+
+        // Private getLabel method originally in Translator class, so using reflection to access it.
+        java.lang.reflect.Method getLabelMethod = Translator.class.getDeclaredMethod("getLabel");
+        getLabelMethod.setAccessible(true); // Make the private method accessible
+
+        String label = (String) getLabelMethod.invoke(translator);
+
+        assertEquals("label1", label);
+    }
 
 }
