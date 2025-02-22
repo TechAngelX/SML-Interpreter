@@ -17,7 +17,7 @@ public class PrintInstruction extends Instruction {
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
         int value = frame.pop();
-        System.out.println(value);
+        System.out.println("Result: " + value);
         return Optional.of(frame.advance());
     }
 
