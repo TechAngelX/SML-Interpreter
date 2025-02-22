@@ -30,5 +30,4 @@ sml.instruction.InvokeInstruction
 # Other Instructions:
 # -------------------
 sml.instruction.SquareRootInstruction
-# TODO sml.instruction.HaltInstruction
 
