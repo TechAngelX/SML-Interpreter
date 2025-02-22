@@ -29,7 +29,7 @@ public class InstructionFactory {
         initiateInstructionMap();
     }
 
-      private static void initiateInstructionMap() {
+    private static void initiateInstructionMap() {
 
         boolean discovered = tryServiceLoaderDiscovery();
 
@@ -45,7 +45,8 @@ public class InstructionFactory {
             throw new RuntimeException("Failed to register any instruction classes");
         }
     }
-        private static boolean tryServiceLoaderDiscovery() {
+
+    private static boolean tryServiceLoaderDiscovery() {
         try {
             ServiceLoader<Instruction> loader = ServiceLoader.load(Instruction.class);
             boolean found = false;
@@ -62,7 +63,7 @@ public class InstructionFactory {
         }
     }
 
-     private static boolean tryPackageScanningDiscovery() {
+    private static boolean tryPackageScanningDiscovery() {
         try {
             Package instructionPackage = Instruction.class.getPackage();
             String packageName = instructionPackage.getName();
@@ -73,9 +74,7 @@ public class InstructionFactory {
 
             if (packageURL != null) {
                 java.io.File packageDir = new java.io.File(packageURL.getFile());
-                java.io.File[] classFiles = packageDir.listFiles(file ->
-                        file.isFile() && file.getName().endsWith(".class")
-                );
+                java.io.File[] classFiles = packageDir.listFiles(file -> file.isFile() && file.getName().endsWith(".class"));
 
                 if (classFiles != null && classFiles.length > 0) {
                     boolean found = false;
@@ -141,18 +140,14 @@ public class InstructionFactory {
      */
     private static boolean registerInstructionClass(Class<?> clazz) {
         try {
-            if (Instruction.class.isAssignableFrom(clazz)
-                    && !clazz.isInterface()
-                    && !java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
+            if (Instruction.class.isAssignableFrom(clazz) && !clazz.isInterface() && !java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
 
                 try {
                     java.lang.reflect.Field opcodeField = clazz.getField("OP_CODE");
                     Object opcodeValue = opcodeField.get(null);
 
                     if (opcodeValue instanceof String opcode) {
-                        @SuppressWarnings("unchecked")
-                        Class<? extends Instruction> instructionClass =
-                                (Class<? extends Instruction>) clazz;
+                        @SuppressWarnings("unchecked") Class<? extends Instruction> instructionClass = (Class<? extends Instruction>) clazz;
                         INSTRUCTION_MAP.put(opcode, instructionClass);
                         return true;
                     }
@@ -169,7 +164,7 @@ public class InstructionFactory {
      * Creates an instruction instance for the given opcode and label.
      *
      * @param opcode the instruction opcode
-     * @param label the optional label (can be null)
+     * @param label  the optional label (can be null)
      * @return the created instruction, or null if the opcode is unknown
      */
     public static Instruction createInstruction(String opcode, Label label) {
@@ -248,7 +243,7 @@ public class InstructionFactory {
         }
     }
 
-      public static Instruction createInvokeInstruction(Label label, Method.Identifier methodId) {
+    public static Instruction createInvokeInstruction(Label label, Method.Identifier methodId) {
         try {
             Class<? extends Instruction> cls = INSTRUCTION_MAP.get("invoke");
             if (cls == null) return null;
