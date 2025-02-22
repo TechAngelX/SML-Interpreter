@@ -85,75 +85,9 @@ public final class Machine {
      *
      * @return pretty formatted version of the code.
      */
-    /**
-     * ================================================================
-     * Provides string representation of the program state
-     * ================================================================
-     *
-     * Returns a human-readable string showing the current execution state
-     * including all nested calls in the call stack.
-     *
-     * @return Formatted string explaining the execution state
-     */
     @Override
     public String toString() {
-        if (program == null || program.isEmpty()) {
-            return "No program loaded";
-        }
-
-        return frame.map(currentFrame -> {
-            StringBuilder description = new StringBuilder();
-
-            // Build the technical nested frame representation first
-            StringBuilder technicalStack = new StringBuilder();
-            Frame current = currentFrame;
-
-            technicalStack.append(current.method().name())
-                    .append(", l ")
-                    .append(current.programCounter());
-
-            // Count nesting level and collect frames
-            int nestingLevel = 0;
-            Frame temp = current;
-            while (temp.invoker().isPresent()) {
-                temp = temp.invoker().get();
-                technicalStack.append(" (")
-                        .append(temp.method().name())
-                        .append(", l ")
-                        .append(temp.programCounter())
-                        .append(")");
-                nestingLevel++;
-            }
-
-            // Add human-readable description
-            description.append("Currently executing ")
-                    .append(current.method().name())
-                    .append(" at instruction ")
-                    .append(current.programCounter());
-
-            if (nestingLevel > 0) {
-                description.append("\nCall stack depth: ")
-                        .append(nestingLevel + 1)
-                        .append(" frames\n");
-                description.append("This is part of a nested call sequence:\n");
-                description.append("→ Started in main\n");
-
-                // Add arrow depth for visual hierarchy
-                Frame descFrame = current;
-                while (descFrame.invoker().isPresent()) {
-                    descFrame = descFrame.invoker().get();
-                    description.append("  → Waiting for ")
-                            .append(descFrame.method().name())
-                            .append(" to complete at instruction ")
-                            .append(descFrame.programCounter())
-                            .append("\n");
-                }
-            }
-
-            description.append("\nTechnical representation: ")
-                    .append(technicalStack);
-
-            return description.toString();
-        }).orElse("No active frame");
+        // TODO: implement
+        return "";
     }
 }
