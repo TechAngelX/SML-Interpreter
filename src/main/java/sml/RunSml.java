@@ -1,6 +1,7 @@
 package sml;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 
 public class RunSml {
@@ -40,23 +41,15 @@ public class RunSml {
     }
 
     public static void main(String... args) {
-        if (args.length != 1) {
-            System.err.println("Incorrect number of arguments - sml.RunSml <file> - required");
-            System.exit(-1);
-        }
-
-
         try {
-            Translator t = new Translator();
-            Collection<Method> instructions = t.readAndTranslate(args[0]);
-            Machine m = new Machine();
-            m.setProgram(instructions);
+            Constructor<RunSml> constructor = RunSml.class.getConstructor(Translator.class, Machine.class);
+            Translator translator = new Translator();
+            Machine machine = new Machine();
 
-            System.out.println("\n== Beginning Program Execution ==");
-            m.execute();
-            System.out.println("\n== Ending Program Execution ==");
-        } catch (IOException e) {
-            System.out.println("Error reading the program from " + args[0]);
+            RunSml runner = constructor.newInstance(translator, machine);
+            runner.run(args[0]);
+        } catch (Exception e) {
+            System.err.println("Error creating RunSml instance: " + e.getMessage());
         }
     }
 }
