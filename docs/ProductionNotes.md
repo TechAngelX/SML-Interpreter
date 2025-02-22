@@ -65,11 +65,10 @@ or remain as an abstract method in a base abstract class for better implementati
 ---
 
 PROBLEM 2:
-Unwieldy codebase in InstructionFactory.
+Unwieldy codebase in InstructionFactory / tight coupling.
 
 SOLUTION 2:
-Refactored code by simplifying the getInstruction method to improve maintainability and 
-readability, particularly by fixing the instantiation of ReturnInstruction.
+Now Refactored using Java ServiceLoader and modulear registration.
 
 ---
 #### **PROBLEM 3:**
