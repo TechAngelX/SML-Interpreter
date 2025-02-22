@@ -29,7 +29,6 @@ public class PushInstruction extends Instruction {
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
         frame.push(value);
-        System.out.println("Result: " + value);
         return Optional.of(frame.advance());
     }
 

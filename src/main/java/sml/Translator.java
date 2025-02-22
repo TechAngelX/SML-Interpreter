@@ -106,7 +106,7 @@ public final class Translator {
 
     private Instruction getInstruction(Label label) {
         String opcode = scan();
-        System.out.println("Scanned Opcode: '" + opcode + "'");
+//        System.out.println("Scanned Opcode: '" + opcode + "'"); // For Debugging.
         if (opcode.isEmpty()) return null;
 
         Instruction instruction;
@@ -149,7 +149,7 @@ public final class Translator {
                 instruction = InstructionFactory.createInstruction(opcode, label);
             }
         }
-        System.out.println("Created instruction: " + (instruction == null ? "NULL" : instruction));
+//        System.out.println("DEBUG: Created instruction: " + (instruction == null ? "NULL" : instruction));
 
         return instruction;
     }
