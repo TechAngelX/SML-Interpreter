@@ -21,11 +21,10 @@ public class RunSml {
             Machine m = new Machine();
             m.setProgram(instructions);
 
-            System.out.println("Beginning program execution.");
+            System.out.println("\n== Beginning Program Execution ==");
             m.execute();
-            System.out.println("Ending program execution.");
-        }
-        catch (IOException e) {
+            System.out.println("\n== Ending Program Execution ==");
+        } catch (IOException e) {
             System.out.println("Error reading the program from " + args[0]);
         }
     }
