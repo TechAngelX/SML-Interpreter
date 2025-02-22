@@ -26,7 +26,7 @@ InstructionFactory ✅  InstructionFactory completed.
 
 ### PART II
 Translator and Reflection API ✅  Completed. Test using: java sml.RunSml src/main/resources/test1.sml
-Dependency Injection (Manual) ❌  Working progress...
+Dependency Injection (Manual) ❌  Consstructor-based DI. Working progress...
 
 ```
 
