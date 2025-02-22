@@ -21,11 +21,12 @@ Div         ✅  DivInstruction class completed.
 if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
 if_cmpeq    ✅  IfEqualGotoInstruction class completed.
 
-InstructionFactory   ❌  Work in progress....
+InstructionFactory ✅  InstructionFactory completed.
 ```
 
 ### PART II
-Translator and Reflection   ❌  Work in progress....
+Translator and Reflection API ✅  Completed. Test using: java sml.RunSml src/main/resources/test1.sml
+
 
 ```
 
@@ -48,7 +49,6 @@ MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.
 DivInstructionTest           ✅  DivInstruction class tests completed.  
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
-TranslatorTest               ✅  TranslatorTest class tests completed.
 
 ```
 
@@ -64,12 +64,20 @@ or remain as an abstract method in a base abstract class for better implementati
 
 ---
 
-#### **PROBLEM 2:**
+PROBLEM 2:
+Unwieldy codebase in InstructionFactory.
+
+SOLUTION 2:
+Refactored code by simplifying the getInstruction method to improve maintainability and 
+readability, particularly by fixing the instantiation of ReturnInstruction.
+
+---
+#### **PROBLEM 3:**
 The `execute()` method seems to be prevalent across most instruction subclasses.  
 In terms of **DRY**, perhaps should `execute()` be part of an interface?  
 Or should it remain as an abstract method in a base abstract class for better implementation and inheritance?
 
-#### **SOLUTION 2:** 
+#### **SOLUTION 3:** 
 _(To be decided)_
 
 ---

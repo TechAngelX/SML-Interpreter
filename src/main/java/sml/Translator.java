@@ -114,12 +114,12 @@ public final class Translator {
 
         return switch (opcode) {
             case GotoInstruction.OP_CODE -> createGotoInstruction(label);
-            case ReturnInstruction.OP_CODE -> new ReturnInstruction(label);
+            case ReturnInstruction.OP_CODE ->  createReturnInstruction(label);
             case InvokeInstruction.OP_CODE -> createInvokeInstruction(label);
-            case PrintInstruction.OP_CODE -> new PrintInstruction(label);
-            case AddInstruction.OP_CODE -> new AddInstruction(label);
-            case MultiplyInstruction.OP_CODE -> new MultiplyInstruction(label);
-            case DivInstruction.OP_CODE -> new DivInstruction(label);
+            case PrintInstruction.OP_CODE ->  createPrintInstruction(label);
+            case AddInstruction.OP_CODE ->    createAddInstruction(label);
+            case MultiplyInstruction.OP_CODE -> createMultiplyInstruction(label);
+            case DivInstruction.OP_CODE -> createDivInstruction(label);
             case LoadInstruction.OP_CODE -> createLoadInstruction(label);
             case IfEqualGotoInstruction.OP_CODE -> createIfEqualGotoInstruction(label);
             case IfGreaterGotoInstruction.OP_CODE -> createIfGreaterGotoInstruction(label);
