@@ -1,4 +1,4 @@
-# ServiceLoader configuration file for the SML Instruction implementations.
+# ServiceLoader Configuration file for the SML Instruction implementations.
 # This file allows the dynamic discovery of instruction classes without hardcoding.
 # Run with java sml.RunSml src/main/resources/rickitest.sml
 

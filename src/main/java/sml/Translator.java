@@ -98,14 +98,13 @@ public final class Translator {
         }
     }
 
-    // Creates instruction objects based on opcode using reflection
     private Instruction getInstruction(Label label) {
         String opcode = scan();
+        System.out.println("Scanned Opcode: '" + opcode + "'"); // Just for debugging. Can remove.
         if (opcode.isEmpty()) return null;
 
-        // Try to create the instruction based on its opcode
         switch (opcode) {
-            case "add", "sub", "mul", "div", "print", "return" -> {
+            case "add", "sub", "mul", "div", "print", "return", "sqrt"-> {
                 return InstructionFactory.createInstruction(opcode, label);
             }
             case "goto" -> {

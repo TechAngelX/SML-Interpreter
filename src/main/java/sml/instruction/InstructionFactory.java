@@ -105,7 +105,7 @@ public class InstructionFactory {
 
     private static boolean tryDirectClassLoadingDiscovery() {
         try {
-            String[] commonOpcodes = {"add", "sub", "mul", "div", "goto", "if", "print", "load", "store", "push", "pop", "return", "invoke"};
+            String[] commonOpcodes = {"add", "sub", "mul", "div", "goto", "if", "print", "load", "store", "push", "pop", "return", "invoke","sqrt"};
             String[] suffixes = {"", "Instruction"};
             String packageName = Instruction.class.getPackage().getName();
             boolean found = false;
