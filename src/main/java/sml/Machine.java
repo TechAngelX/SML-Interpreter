@@ -6,34 +6,35 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Represents the machine, the context in which programs run.
- * <p>
- * An instance contains the program (as a table with methods) and
- * a program counter. The program counter represents the current
- * instruction and the call stack in the program execution.
+ * ================================================================
+ * Represents the virtual machine for Simple Machine Language execution.
+ * ================================================================
+ *
+ * The Machine class maintains and controls program execution state,
+ * including methods, execution frames, and program flow control.
+ * It serves as the runtime environment for SML programs.
+ *
+ * @author Ricki Angel
  */
 public final class Machine {
-
     private SymbolTable<Method.Identifier, Method> program;
-
-    // The current frame contains the current method name (with a list of instructions),
-    // its arguments and local variables, the operand stack and
-    // the program counter (the index of the instruction to be executed next)
     private Optional<Frame> frame;
 
-    /**
-     * Execute the program starting from method "main".
-     * Precondition: the program has been stored properly.
-     */
+
     public void execute() {
         try {
+            System.out.println("Beginning program execution.");
+
             while (frame.isPresent()) {
                 Frame f = frame.get();
                 Instruction instruction = f.currentInstruction();
-                System.out.println("[" + f + "] " + instruction);
+
+                System.out.println("[" + f + "]  " + instruction);
 
                 frame = instruction.execute(this);
             }
+
+            System.out.println("\n== Ending Program Execution ==");
         } catch (MethodNotFoundException e) {
             System.err.println("Error: Method not found - " + e.getMessage());
         } catch (IllegalStateException e) {
@@ -43,14 +44,12 @@ public final class Machine {
             e.printStackTrace();
         }
     }
-
     public void setProgram(Collection<Method> methods) {
         program = SymbolTable.of(methods.stream()
                 .collect(Collectors.toMap(Method::name, m -> m)));
         frame = Optional.empty();
         frame = newFrameForMethodInvocation(new Method.Identifier("@main"));
     }
-
 
     public Frame frame() {
         return frame.get();
@@ -66,13 +65,11 @@ public final class Machine {
             Frame currentFrame = frame.get();
             List<Variable.Identifier> methodArguments = newFrame.method().arguments();
 
-            // Check if there are enough elements on the stack
             if (methodArguments.size() > currentFrame.stackSize()) {
                 throw new IllegalStateException("Not enough arguments on the stack for method " + methodName +
                         ". Required: " + methodArguments.size() + ", Available: " + currentFrame.stackSize());
             }
 
-            // Pop arguments from the stack in reverse order
             for (int i = methodArguments.size() - 1; i >= 0; i--) {
                 Variable.Identifier var = methodArguments.get(i);
                 int value = currentFrame.pop();
@@ -88,9 +85,75 @@ public final class Machine {
      *
      * @return pretty formatted version of the code.
      */
+    /**
+     * ================================================================
+     * Provides string representation of the program state
+     * ================================================================
+     *
+     * Returns a human-readable string showing the current execution state
+     * including all nested calls in the call stack.
+     *
+     * @return Formatted string explaining the execution state
+     */
     @Override
     public String toString() {
-        // TODO: implement
-        return "";
+        if (program == null || program.isEmpty()) {
+            return "No program loaded";
+        }
+
+        return frame.map(currentFrame -> {
+            StringBuilder description = new StringBuilder();
+
+            // Build the technical nested frame representation first
+            StringBuilder technicalStack = new StringBuilder();
+            Frame current = currentFrame;
+
+            technicalStack.append(current.method().name())
+                    .append(", l ")
+                    .append(current.programCounter());
+
+            // Count nesting level and collect frames
+            int nestingLevel = 0;
+            Frame temp = current;
+            while (temp.invoker().isPresent()) {
+                temp = temp.invoker().get();
+                technicalStack.append(" (")
+                        .append(temp.method().name())
+                        .append(", l ")
+                        .append(temp.programCounter())
+                        .append(")");
+                nestingLevel++;
+            }
+
+            // Add human-readable description
+            description.append("Currently executing ")
+                    .append(current.method().name())
+                    .append(" at instruction ")
+                    .append(current.programCounter());
+
+            if (nestingLevel > 0) {
+                description.append("\nCall stack depth: ")
+                        .append(nestingLevel + 1)
+                        .append(" frames\n");
+                description.append("This is part of a nested call sequence:\n");
+                description.append("→ Started in main\n");
+
+                // Add arrow depth for visual hierarchy
+                Frame descFrame = current;
+                while (descFrame.invoker().isPresent()) {
+                    descFrame = descFrame.invoker().get();
+                    description.append("  → Waiting for ")
+                            .append(descFrame.method().name())
+                            .append(" to complete at instruction ")
+                            .append(descFrame.programCounter())
+                            .append("\n");
+                }
+            }
+
+            description.append("\nTechnical representation: ")
+                    .append(technicalStack);
+
+            return description.toString();
+        }).orElse("No active frame");
     }
 }
