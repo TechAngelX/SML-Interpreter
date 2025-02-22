@@ -5,9 +5,21 @@ import java.util.Collection;
 
 public class RunSml {
     /**
-     * Initialises the system and executes the program.
+     * ================================================================
+     * Entry point for executing Simple Machine Language (SML) programs.
+     * ================================================================
      *
-     * @param args name of the file containing the program text.
+     * Provides the main method to:
+     * - Load SML programs from a file
+     * - Translate program instructions
+     * - Execute the program using the Machine interpreter
+     *
+     * Handles program loading, translation, and execution with basic
+     * error handling for file reading and argument validation.
+     *
+     * Command-line Usage:
+     * Run the program with: java sml.RunSml src/main/resources/test1.sml
+     * @author Ricki Angel
      */
     public static void main(String... args) {
         if (args.length != 1) {
