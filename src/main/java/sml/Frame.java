@@ -1,10 +1,7 @@
 package sml;
 import sml.instruction.Instruction;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 // TODO: write JavaDoc for the class
@@ -101,9 +98,11 @@ public class Frame {
     }
 
     public int pop() {
+        if (stack.isEmpty()) {
+            throw new NoSuchElementException("Cannot pop from an empty stack in method " + method.name());
+        }
         return stack.pop();
     }
-
     public void push(int value) {
         stack.push(value);
     }
@@ -115,5 +114,9 @@ public class Frame {
                 + Optional.ofNullable(invoker)
                 .map(pc -> " (" + pc + ")")
                 .orElse("");
+    }
+
+    public int stackSize() {
+        return stack.size();
     }
 }

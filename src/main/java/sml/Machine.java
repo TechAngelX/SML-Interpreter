@@ -57,20 +57,25 @@ public final class Machine {
 
         if (frame.isPresent()) {
             Frame currentFrame = frame.get();
-            // the order of arguments is important
-            for (Variable.Identifier var : newFrame.method().arguments()) {
+            List<Variable.Identifier> methodArguments = newFrame.method().arguments();
+
+            // Check if there are enough elements on the stack
+            if (methodArguments.size() > currentFrame.stackSize()) {
+                throw new IllegalStateException("Not enough arguments on the stack for method " + methodName +
+                        ". Required: " + methodArguments.size() + ", Available: " + currentFrame.stackSize());
+            }
+
+            // Pop arguments from the stack in reverse order
+            for (int i = methodArguments.size() - 1; i >= 0; i--) {
+                Variable.Identifier var = methodArguments.get(i);
                 int value = currentFrame.pop();
                 Variable variable = newFrame.arguments().get(var)
                         .orElseThrow(() -> new AssertionError("Variable " + var + " not found (can never happen)"));
                 variable.store(value);
             }
-            // no need to initialise local variables as it is already done
-            // in the constructor of Frame
-            // TODO: explain where exactly do local variables get their default value (0)
         }
         return Optional.of(newFrame);
     }
-
 
     /**
      * String representation of the program under execution.
