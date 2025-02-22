@@ -65,7 +65,7 @@ public class Frame {
 
         return setProgramCounter(pc.get());
     }
- 
+
     private Frame setProgramCounter(int programCounter) {
         this.programCounter = programCounter;
         Objects.checkIndex(programCounter, method.instructions().size());
