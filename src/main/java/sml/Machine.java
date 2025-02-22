@@ -26,14 +26,21 @@ public final class Machine {
      * Precondition: the program has been stored properly.
      */
     public void execute() {
-        while (frame.isPresent()) {
-            Frame f = frame.get();
-            Instruction instruction = f.currentInstruction();
-            System.out.println("[" + f + "] " + instruction);
-            // TODO: Add exception handling for missing labels, etc.
-            //       Produce user-friendly error messages.
-            //       You may need to extend the functionality of the exception classes.
-            frame = instruction.execute(this);
+        try {
+            while (frame.isPresent()) {
+                Frame f = frame.get();
+                Instruction instruction = f.currentInstruction();
+                System.out.println("[" + f + "] " + instruction);
+
+                frame = instruction.execute(this);
+            }
+        } catch (MethodNotFoundException e) {
+            System.err.println("Error: Method not found - " + e.getMessage());
+        } catch (IllegalStateException e) {
+            System.err.println("Error: Illegal state - " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Unexpected error during execution: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
