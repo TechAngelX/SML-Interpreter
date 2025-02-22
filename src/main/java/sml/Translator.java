@@ -12,16 +12,22 @@ import java.util.Scanner;
 
 /**
  * ====================================================================================================================
- * Translates a Simple Machine Language (SML) program from a file into a collection of {@link Method} objects.
+ * The Translator class is responsible for reading a Simple Machine Language (SML) program from a file,
+ * parsing the content, and translating it into a collection of {@link Method} objects that represent
+ * the program's methods and instructions.
  * ====================================================================================================================
-+ WOrk in process... blah blah blah...todo
- @author Ricki Angel
+ *
+ * The class processes the file line by line, extracting method labels, arguments, and instructions,
+ * creating {@link Method} objects with corresponding {@link Instruction} objects as the content of each method.
+ *
+ *
+ * @author Ricki Angel
  */
-
 public final class Translator {
 
     private String line = "";
 
+    // Holds the current method's name, its instructions, and its arguments while parsing:
     private static class State {
         final Method.Identifier methodName;
         final List<Instruction> instructions;
@@ -54,6 +60,8 @@ public final class Translator {
     private static final String ITEM_SEPARATOR = ",";
     private static final String METHOD_LABEL = "@";
 
+
+    // Reads and translates an SML file into a collection of Method objects:
     public Collection<Method> readAndTranslate(String fileName) throws IOException {
         Collection<Method> methods = new ArrayList<>();
 
@@ -86,7 +94,7 @@ public final class Translator {
         return methods;
     }
 
-    // Method to process arguments for a method
+    // Processes the arguments of a method from the current line and adds them to the state:
     private void processMethodArguments(State state) {
         for (String s = scan(); !s.isEmpty(); s = scan()) {
             String variable = s.endsWith(ITEM_SEPARATOR)
@@ -99,12 +107,11 @@ public final class Translator {
         }
     }
 
-    // Refactored method to retrieve instructions using a helper function to identify state changes
+    // Matches an instructions opcode with corresponding instruction creation method
     private Instruction getInstruction(Label label) {
         String opcode = scan();
         if (opcode.isEmpty()) return null;
 
-            //TODO - Get rid of this lengthy hard-coded switch case statements.
         return switch (opcode) {
             case GotoInstruction.OP_CODE -> createGotoInstruction(label);
             case ReturnInstruction.OP_CODE -> new ReturnInstruction(label);
@@ -116,38 +123,65 @@ public final class Translator {
             case LoadInstruction.OP_CODE -> createLoadInstruction(label);
             case IfEqualGotoInstruction.OP_CODE -> createIfEqualGotoInstruction(label);
             case IfGreaterGotoInstruction.OP_CODE -> createIfGreaterGotoInstruction(label);
+            case PushInstruction.OP_CODE -> createPushInstruction(label);
+            case SubInstruction.OP_CODE -> createSubInstruction(label);
             default -> null;
         };
     }
 
-    // Helper method for state-changing instructions like Goto
+    // Helper methods for state-changing instructions like Goto, push etc.
     private GotoInstruction createGotoInstruction(Label label) {
         String targetLabel = scan();
         return new GotoInstruction(label, new Label(targetLabel));
     }
 
-    // Helper method y InvokeInstruction
+    private ReturnInstruction createReturnInstruction(Label label) {
+        return new ReturnInstruction(label);
+    }
+
     private InvokeInstruction createInvokeInstruction(Label label) {
         String methodName = scan();
         return new InvokeInstruction(label, new Method.Identifier(methodName));
     }
 
-    // Helper method for LoadInstruction
+    private PrintInstruction createPrintInstruction(Label label) {
+        return new PrintInstruction(label);
+    }
+
+    private AddInstruction createAddInstruction(Label label) {
+        return new AddInstruction(label);
+    }
+
+    private MultiplyInstruction createMultiplyInstruction(Label label) {
+        return new MultiplyInstruction(label);
+    }
+
+    private DivInstruction createDivInstruction(Label label) {
+        return new DivInstruction(label);
+    }
+
     private LoadInstruction createLoadInstruction(Label label) {
         String varName = scan();
         return new LoadInstruction(label, new Variable.Identifier(varName));
     }
 
-    // Helper method for IfEqualGotoInstruction
     private IfEqualGotoInstruction createIfEqualGotoInstruction(Label label) {
         String jumpLabelName = scan();
         return new IfEqualGotoInstruction(label, new Label(jumpLabelName));
     }
 
-    // Helper method for IfGreaterGotoInstruction
     private IfGreaterGotoInstruction createIfGreaterGotoInstruction(Label label) {
         String jumpLabelName = scan();
         return new IfGreaterGotoInstruction(label, new Label(jumpLabelName));
+    }
+
+    private PushInstruction createPushInstruction(Label label) {
+        int value = Integer.parseInt(scan());
+        return new PushInstruction(label, value);
+    }
+
+    private SubInstruction createSubInstruction(Label label) {
+        return new SubInstruction(label);
     }
 
     private String getLabel() {
