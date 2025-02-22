@@ -52,12 +52,12 @@ IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
 
 ### Identified Problems & Solutions
 ```
-#### **PROBLEM 1:**
+PROBLEM 1: DRY Issue
 The `variables()` method seems to be prevalent across most instruction subclasses.  
 In terms of **DRY (Don't Repeat Yourself)**, should `variables()` be part of an interface  
 or remain as an abstract method in a base abstract class for better implementation and inheritance?
 
-#### **SOLUTION 1: ** 
+SOLUTION 1:
 ✅ Created an `AbstractVarInstruction` class to be used by `Store`, `Load`, `Push`, etc.
 
 ```
@@ -66,35 +66,52 @@ PROBLEM 2:
 Unwieldy codebase in InstructionFactory / tight coupling.
 
 SOLUTION 2:
-Now Refactored using Java ServiceLoader and modulear registration.
+✅ Now Refactored using Java ServiceLoader and modulear registration.
 ```
 ```
-#### **PROBLEM 3:**
-The `execute()` method seems to be prevalent across most instruction subclasses.  
-In terms of **DRY**, perhaps should `execute()` be part of an interface?  
-Or should it remain as an abstract method in a base abstract class for better implementation and inheritance?
+PROBLEM 3: Execute Method Pattern Analysis*
+The execute() method implementation across instruction classes follows the Template Method pattern. However, 
+this raises a design question:
+1. Is Template Method the optimal pattern here?
+2. Would an interface-based approach provide better flexibility?
 
-#### **SOLUTION 3:** 
-_(To be decided)_
+SOLUTION 3: Confirm Template Method Pattern
+✅ Retained and reinforced the Template Method pattern because:
+1. The base Instruction class defines the algorithm skeleton
+2. Concrete instructions only need to implement execute() and getOperandsString()
+3. Common behavior (toString, label handling, etc.) stays in base class
+4. Pattern ensures consistent structure across all instructions
 ```
 ```
+PROBLEM 4: ServiceProvider - Overengineering
+Upon critically evaluating the code, it seems that the dynamic ServiceProvider solution might be overengineered. 
+Currently, the configuration already utilizes reflection to discover and load instruction classes. Additionally, 
+the design employs a factory pattern (InstructionFactory) to handle the creation of instructions. New instructions 
+can already be added without modifying existing code, simply by introducing new instruction classes. However, the 
+current implementation introduces additional complexity by creating more areas that need modification 
+when adding a new instruction. The opcode-to-class mapping is already dynamic through the INSTRUCTION_MAP, which 
+provides sufficient flexibility.
 
-#### **PROBLEM 4: Code Smell - Comment Hell !**
+SOLUTION 4:*
+✅ Remove the ServiceProvider and revert to using the simpler InstructionFactory process.
+```
+```
+PROBLEM 5: Code Smell - Comment Hell !
 Upon critical evaluation of my code, it is possible I have too much comments in my classes.
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
-#### **SOLUTION 4:** 
+SOLUTION 5:
 Work toward cleaning up and removing 'guideline' comments.
 ```
 
+
 ### Additional Functionality:
 
-Created a simple programe 'rickitest.sml' that:
+Created a simple programe 'sqrtTest.sml' that:
 - Loads a number.
 - Computes its square root.
 - Prints both the original number and the result.
 - Ends correctly without stack errors.
-- Implement a new halt instruction
 ```
 ```
 ### Opcodes:
