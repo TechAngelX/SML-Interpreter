@@ -26,7 +26,7 @@ InstructionFactory ✅  InstructionFactory completed.
 
 ### PART II
 Translator and Reflection API ✅  Completed. Test using: java sml.RunSml src/main/resources/test1.sml
-
+Dependency Injection (Manual) ❌  Working progress...
 
 ```
 
@@ -49,8 +49,6 @@ MultiplySubInstructionTest   ✅  MultiplySubInstruction class tests completed.
 DivInstructionTest           ✅  DivInstruction class tests completed.  
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
-
-
 
 ### Identified Problems & Solutions
 ```
@@ -86,10 +84,8 @@ Upon critical evaluation of my code, it is possible I have too much comments in 
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
 #### **SOLUTION 4:** 
-Comments are fine for me as I'm working (in the same wa a painter decorato marks lines on the wall with felt pen,
-but as the project moves towards production I aim to drastically clean up and remove all the // comments.
+Work toward cleaning up and removing 'guideline' comments.
 ```
-
 
 ### Additional Functionality:
 
