@@ -1,0 +1,32 @@
+# ServiceLoader configuration file for the SML Instruction implementations.
+# This file allows the dynamic discovery of instruction classes without hardcoding.
+
+# Basic arithmetic operations:
+# ----------------------------
+sml.instruction.AddInstruction
+sml.instruction.SubInstruction
+sml.instruction.MultiplyInstruction
+sml.instruction.DivInstruction
+
+# Control flow instructions:
+# --------------------------
+sml.instruction.GotoInstruction
+sml.instruction.IfEqualGotoInstruction
+sml.instruction.IfGreaterGotoInstruction
+
+# Stack and variable manipulations:
+# ---------------------------------
+sml.instruction.LoadInstruction
+sml.instruction.PrintInstruction
+sml.instruction.PushInstruction
+sml.instruction.ReturnInstruction
+sml.instruction.StoreInstruction
+
+# Method invocation:
+# ------------------
+sml.instruction.InvokeInstruction
+
+# Other Instructions:
+# -------------------
+sml.instruction.SquareRootInstruction # You can run with java sml.RunSml rangeltest.sml
+

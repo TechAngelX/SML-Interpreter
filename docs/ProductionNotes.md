@@ -50,10 +50,10 @@ DivInstructionTest           ✅  DivInstruction class tests completed.
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
 
-```
+
 
 ### Identified Problems & Solutions
-
+```
 #### **PROBLEM 1:**
 The `variables()` method seems to be prevalent across most instruction subclasses.  
 In terms of **DRY (Don't Repeat Yourself)**, should `variables()` be part of an interface  
@@ -62,15 +62,15 @@ or remain as an abstract method in a base abstract class for better implementati
 #### **SOLUTION 1: ** 
 ✅ Created an `AbstractVarInstruction` class to be used by `Store`, `Load`, `Push`, etc.
 
----
-
+```
+```
 PROBLEM 2:
 Unwieldy codebase in InstructionFactory / tight coupling.
 
 SOLUTION 2:
 Now Refactored using Java ServiceLoader and modulear registration.
-
----
+```
+```
 #### **PROBLEM 3:**
 The `execute()` method seems to be prevalent across most instruction subclasses.  
 In terms of **DRY**, perhaps should `execute()` be part of an interface?  
@@ -78,14 +78,26 @@ Or should it remain as an abstract method in a base abstract class for better im
 
 #### **SOLUTION 3:** 
 _(To be decided)_
+```
+```
 
----
-
-
-#### **PROBLEM 3: Code Smell - Comment Hell !**
+#### **PROBLEM 4: Code Smell - Comment Hell !**
 Upon critical evaluation of my code, it is possible I have too much comments in my classes.
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
-#### **SOLUTION 3:** 
+#### **SOLUTION 4:** 
 Comments are fine for me as I'm working (in the same wa a painter decorato marks lines on the wall with felt pen,
 but as the project moves towards production I aim to drastically clean up and remove all the // comments.
+```
+
+
+### Additional Functionality:
+
+Created a simple programe 'rickitest.sml' that:
+- Loads a number.
+- Computes its square root.
+- Prints both the original number and the result.
+- Ends correctly without stack errors.
+- Implement a new halt instruction
+```
+
