@@ -4,10 +4,17 @@ import sml.*;
 import java.util.Optional;
 
 /**
- * Equal comparison and Goto instruction for SML.
- * Pops two values from stack and compares them.
+ * ================================================================
+ * Equal Comparison and Goto instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
+ * Pops two values from stack and compares them for equality.
  * If values are equal, jumps to specified label;
- * else, continue to next instruction.
+ * otherwise, continues to next instruction.
+ *
+ * Provides conditional branching based on stack value comparison.
+ *
+ * @author Ricki Angel
  */
 public class IfEqualGotoInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpeq";
@@ -24,10 +31,10 @@ public class IfEqualGotoInstruction extends Instruction {
         int value2 = frame.pop(); // Remember LIFO pop order.
         int value1 = frame.pop();
 
-        if (value1 == value2) {   // If values are equal, jump to specified label.
+        if (value1 == value2) {
             return Optional.of(frame.jumpTo(jumpLabel));
         } else {
-            // Otherwise, advance to next instruction.
+
             return Optional.of(frame.advance());
         }
     }

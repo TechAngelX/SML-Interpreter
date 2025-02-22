@@ -5,6 +5,16 @@ import sml.*;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+/**
+ * ================================================================
+ * Abstract base class for instructions involving variable manipulation.
+ * ================================================================
+ *
+ * Provides common functionality for instructions that interact
+ * with variables, such as load and store operations.
+ *
+ * @author Ricki Angel
+ */
 public abstract class AbstractVarInstruction extends Instruction {
     protected final Variable.Identifier varName;
 

@@ -105,8 +105,7 @@ public class InstructionFactory {
 
     private static boolean tryDirectClassLoadingDiscovery() {
         try {
-            String[] commonOpcodes = {"add", "sub", "mul", "div", "goto", "if", "print", "load", "store", "push", "pop", "return", "invoke","sqrt"};
-            String[] suffixes = {"", "Instruction"};
+            String[] commonOpcodes = {"add", "sub", "mul", "div", "goto", "if", "if_cmpgt", "if_cmpeq", "print", "load", "store", "push", "pop", "return", "invoke", "sqrt"};            String[] suffixes = {"", "Instruction"};
             String packageName = Instruction.class.getPackage().getName();
             boolean found = false;
 
@@ -199,6 +198,18 @@ public class InstructionFactory {
         }
     }
 
+
+    public static Instruction createIfGreaterGotoInstruction(Label label, Label target) {
+        try {
+            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpgt");
+            if (cls == null) return new IfGreaterGotoInstruction(label, target);
+            Constructor<?> constructor = cls.getConstructor(Label.class, Label.class);
+            return (Instruction) constructor.newInstance(label, target);
+        } catch (Exception e) {
+            return new IfGreaterGotoInstruction(label, target);
+        }
+    }
+
     public static Instruction createIfEqualGotoInstruction(Label label, Label target) {
         try {
             Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpeq");
@@ -209,18 +220,6 @@ public class InstructionFactory {
             return null;
         }
     }
-
-    public static Instruction createIfGreaterGotoInstruction(Label label, Label target) {
-        try {
-            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpgt");
-            if (cls == null) return null;
-            Constructor<?> constructor = cls.getConstructor(Label.class, Label.class);
-            return (Instruction) constructor.newInstance(label, target);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     public static Instruction createLoadInstruction(Label label, Variable.Identifier varId) {
         try {
             Class<? extends Instruction> cls = INSTRUCTION_MAP.get("load");
@@ -254,6 +253,16 @@ public class InstructionFactory {
         }
     }
 
+    public static Instruction createSquareRootInstruction(Label label) {
+        try {
+            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("sqrt");
+            if (cls == null) return new SquareRootInstruction(label);
+            Constructor<?> constructor = cls.getConstructor(Label.class);
+            return (Instruction) constructor.newInstance(label);
+        } catch (Exception e) {
+            return new SquareRootInstruction(label);
+        }
+    }
     public static Instruction createPushInstruction(Label label, int value) {
         try {
             Class<? extends Instruction> cls = INSTRUCTION_MAP.get("push");

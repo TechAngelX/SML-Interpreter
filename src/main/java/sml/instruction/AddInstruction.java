@@ -4,8 +4,14 @@ import sml.*;
 import java.util.Optional;
 
 /**
- * Add instruction for SML.
- * Takes two numbers from stack, adds them, and pushes result back.
+ * ================================================================
+ * Add instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
+ * Takes two numbers from stack, adds them together,
+ * and pushes the result back onto the stack.
+ *
+ * @author Ricki Angel
  */
 public class AddInstruction extends Instruction {
     public static final String OP_CODE = "add";

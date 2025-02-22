@@ -4,7 +4,17 @@ import sml.*;
 
 import java.util.Objects;
 import java.util.Optional;
-
+/**
+ * ================================================================
+ * Goto instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
+ * Unconditionally jumps to a specified label within the method.
+ *
+ * Enables direct control flow manipulation during program execution.
+ *
+ * @author Ricki Angel
+ */
 public class GotoInstruction extends Instruction {
     public static final String OP_CODE = "goto";
 

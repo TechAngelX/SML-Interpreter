@@ -5,8 +5,10 @@ import java.util.Optional;
 
 /**
  * ====================================================================================================================
- * A bespoke instruction file to test injecting new future instructions into the InstructionFactory.
+ *  Square Root instruction for Simple Machine Language (SML).
+ *  A bespoke instruction file to test injecting new future instructions into the InstructionFactory.
  * --------------------------------------------------------------------------------------------------------------------
+ * Pops a value from the stack, calculates its square root, and pushes the integer result back onto the stack.
  * Provides a test case for dynamic instruction extension in the Simple Machine Language interpreter and
  * particularly the ServiceLoader function.
  * ====================================================================================================================

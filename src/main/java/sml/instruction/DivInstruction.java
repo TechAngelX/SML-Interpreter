@@ -7,8 +7,16 @@ import sml.Machine;
 import java.util.Optional;
 
 /**
- * Divide instruction for SML. Takes two numbers from stack,
- * divides them, and pushes result back.
+ * ================================================================
+ * Division instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
+ * Takes two numbers from stack, divides them,
+ * and pushes the result back onto the stack.
+ *
+ * Handles potential division by zero scenarios.
+ *
+ * @author Ricki Angel
  */
 public class DivInstruction extends Instruction {
     public static final String OP_CODE = "div";
@@ -27,7 +35,6 @@ public class DivInstruction extends Instruction {
         int value2 = frame.pop(); // Remember stack order !
         int value1 = frame.pop();
 
-        // Handle division by zero
         if (value2 == 0) {
             throw new ArithmeticException("Division by zero");
         }

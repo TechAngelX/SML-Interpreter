@@ -10,11 +10,15 @@ import sml.Variable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 /**
- * Represents an abstract instruction.
+ * ================================================================
+ * Abstract base class for instructions in the Simple Machine Language.
+ * ================================================================
  *
- * @author ...
+ * Defines the core structure and behavior for all language instructions,
+ * including execution, labeling, and comparison mechanisms.
+ *
+ * @author Ricki Angel
  */
 public abstract class Instruction {
     protected final Label label;

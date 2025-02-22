@@ -5,13 +5,17 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Represents the 'store' instruction from the Simple Machine Language.
- * ===================================================================
-
+ * ================================================================
+ * Store instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
  * Pops a value from the current operand stack and stores it
  * in a specified variable (either a method argument or local variable).
+ *
+ * Allows preservation of computational results in named variables.
+ *
+ * @author Ricki Angel
  */
-
 public class StoreInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "store";
 
@@ -19,8 +23,6 @@ public class StoreInstruction extends AbstractVarInstruction {
              (Label label, Variable.Identifier varName) {
         super(label, OP_CODE, varName);
     }
-
-    // ==================================== Methods ======================================
 
     /**
      * Executes the store instruction on the given machine.
@@ -35,10 +37,10 @@ public class StoreInstruction extends AbstractVarInstruction {
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        int value = frame.pop();                   // Pop value from the stack.
-        Variable var = frame.variable(varName);    // Get the Variable object.
-        var.store(value);                          // Store the value in the variable using the Variable store() method.
-        return Optional.of(frame.advance());       // Advance to the next instruction.
+        int value = frame.pop();
+        Variable var = frame.variable(varName);
+        var.store(value);
+        return Optional.of(frame.advance());
     }
 
        /** equals()

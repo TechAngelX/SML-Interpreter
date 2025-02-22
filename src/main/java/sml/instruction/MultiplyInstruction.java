@@ -7,8 +7,14 @@ import sml.Machine;
 import java.util.Optional;
 
 /**
- * Multiply instruction for SML. Takes two numbers from stack,
- * multiplies them together, and pushes result back.
+ * ================================================================
+ * Multiplication instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
+ * Takes two numbers from stack, multiplies them together,
+ * and pushes the result back onto the stack.
+ *
+ * @author Ricki Angel
  */
 public class MultiplyInstruction extends Instruction {
     public static final String OP_CODE = "mul";

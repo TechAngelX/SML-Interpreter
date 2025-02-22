@@ -5,9 +5,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * ================================================================
  * Represents the 'load' instruction from the Simple Machine Language.
  * ================================================================
-
+ *
  * Retrieves a value from a variable (either a method argument or
  * local variable), and pushes it onto the current operand stack.
  *
@@ -22,19 +23,16 @@ public class LoadInstruction extends AbstractVarInstruction {
      * @param label optional label (can be null)
      * @param varName the identifier of the variable to load
      */
-
     public LoadInstruction(Label label, Variable.Identifier varName) {
         super(label, OP_CODE, varName);
     }
 
-// ==================================== Methods ======================================
-
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        Variable var = frame.variable(varName); // Get the Variable object
-        int value = var.load();                 // Use the load() method in Variable to get the value
-        frame.push(value);                      // Push the value onto stack
+        Variable var = frame.variable(varName);
+        int value = var.load();
+        frame.push(value);
         System.out.println(value);
         return Optional.of(frame.advance());
     }

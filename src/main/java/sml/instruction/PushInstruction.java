@@ -25,13 +25,11 @@ public class PushInstruction extends Instruction {
         super(label, OP_CODE);
         this.value = value;
     }
-
-    // ==================================== Methods ======================================
-
     @Override
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
         frame.push(value);
+        System.out.println("Result: " + value);
         return Optional.of(frame.advance());
     }
 

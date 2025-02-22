@@ -5,12 +5,18 @@ import sml.Label;
 import sml.Machine;
 
 import java.util.Optional;
-
 /**
- * Compare amd Goto instruction for SML.
- * Pops two values from the stack and compares them.
- * If the first value is greater than the second, jumps to a
- * specified label; else, continues to next instruction.
+ * ================================================================
+ * Greater Than Comparison and Goto instruction for Simple Machine Language (SML).
+ * ================================================================
+ *
+ * Pops two values from stack and compares them.
+ * If the first value is greater than the second, jumps to specified label;
+ * otherwise, continues to next instruction.
+ *
+ * Provides conditional branching based on stack value comparison.
+ *
+ * @author Ricki Angel
  */
 public class IfGreaterGotoInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpgt";
