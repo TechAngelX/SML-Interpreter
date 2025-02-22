@@ -100,4 +100,19 @@ Created a simple programe 'rickitest.sml' that:
 - Ends correctly without stack errors.
 - Implement a new halt instruction
 ```
-
+```
+### Opcodes:
+- add
+- div
+- goto
+- if_cmpeq
+- if_cmpgt
+- invoke
+- load
+- mul
+- print
+- push
+- return
+- sqrt
+- store
+- sub

@@ -7,8 +7,8 @@ import java.util.Optional;
  * ====================================================================================================================
  * A bespoke instruction file to test injecting new future instructions into the InstructionFactory.
  * --------------------------------------------------------------------------------------------------------------------
- * Provides a test case for dynamic instruction extension in the
- * Simple Machine Language interpreter.
+ * Provides a test case for dynamic instruction extension in the Simple Machine Language interpreter and
+ * particularly the ServiceLoader function.
  * ====================================================================================================================
  * @author Ricki Angel
  */
@@ -27,12 +27,11 @@ public class SquareRootInstruction extends Instruction {
 
     @Override
     public Optional<Frame> execute(Machine machine) {
-        Frame frame = machine.frame();  // Get  current frame from the machine.
-        int value = frame.pop();  // Pop onto stack.
-        double result = Math.sqrt(value);  // Compute square root.
-        frame.push((int) result);  // Push result back to the stack (cast as int).
-        return Optional.of(frame.advance());  // Return the updated frame.
-    }
+        Frame frame = machine.frame();
+        int value = frame.pop();
+        double result = Math.sqrt(value);
+        frame.push((int) result);
+        return Optional.of(frame.advance());     }
 
     @Override
     protected String getOperandsString() {

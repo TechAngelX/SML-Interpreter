@@ -83,7 +83,6 @@ public final class Machine {
         }
         return Optional.of(newFrame);
     }
-
     /**
      * String representation of the program under execution.
      *
@@ -94,5 +93,4 @@ public final class Machine {
         // TODO: implement
         return "";
     }
-
 }

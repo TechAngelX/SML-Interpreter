@@ -11,17 +11,9 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * ====================================================================================================================
  * The Translator class is responsible for reading a Simple Machine Language (SML) program from a file,
  * parsing the content, and translating it into a collection of {@link Method} objects that represent
  * the program's methods and instructions.
- * ====================================================================================================================
- *
- * The class processes the file line by line, extracting method labels, arguments, and instructions,
- * creating {@link Method} objects with corresponding {@link Instruction} objects as the content of each method.
- *
- *
- * @author Ricki Angel
  */
 public final class Translator {
 
@@ -59,7 +51,6 @@ public final class Translator {
 
     private static final String ITEM_SEPARATOR = ",";
     private static final String METHOD_LABEL = "@";
-
 
     // Reads and translates an SML file into a collection of Method objects:
     public Collection<Method> readAndTranslate(String fileName) throws IOException {
@@ -107,83 +98,57 @@ public final class Translator {
         }
     }
 
-    // Matches an instructions opcode with corresponding instruction creation method
+    // Creates instruction objects based on opcode using reflection
     private Instruction getInstruction(Label label) {
         String opcode = scan();
         if (opcode.isEmpty()) return null;
 
-        return switch (opcode) {
-            case GotoInstruction.OP_CODE -> createGotoInstruction(label);
-            case ReturnInstruction.OP_CODE ->  createReturnInstruction(label);
-            case InvokeInstruction.OP_CODE -> createInvokeInstruction(label);
-            case PrintInstruction.OP_CODE ->  createPrintInstruction(label);
-            case AddInstruction.OP_CODE ->    createAddInstruction(label);
-            case MultiplyInstruction.OP_CODE -> createMultiplyInstruction(label);
-            case DivInstruction.OP_CODE -> createDivInstruction(label);
-            case LoadInstruction.OP_CODE -> createLoadInstruction(label);
-            case IfEqualGotoInstruction.OP_CODE -> createIfEqualGotoInstruction(label);
-            case IfGreaterGotoInstruction.OP_CODE -> createIfGreaterGotoInstruction(label);
-            case PushInstruction.OP_CODE -> createPushInstruction(label);
-            case SubInstruction.OP_CODE -> createSubInstruction(label);
-            default -> null;
-        };
+        // Try to create the instruction based on its opcode
+        switch (opcode) {
+            case "add", "sub", "mul", "div", "print", "return" -> {
+                return InstructionFactory.createInstruction(opcode, label);
+            }
+            case "goto" -> {
+                String targetLabel = scan();
+                return InstructionFactory.createGotoInstruction(label, new Label(targetLabel));
+            }
+            case "if_cmpeq" -> {
+                String targetLabel = scan();
+                return InstructionFactory.createIfEqualGotoInstruction(label, new Label(targetLabel));
+            }
+            case "if_cmpgt" -> {
+                String targetLabel = scan();
+                return InstructionFactory.createIfGreaterGotoInstruction(label, new Label(targetLabel));
+            }
+            case "load" -> {
+                String varName = scan();
+                return InstructionFactory.createLoadInstruction(label, new Variable.Identifier(varName));
+            }
+            case "store" -> {
+                String varName = scan();
+                return InstructionFactory.createStoreInstruction(label, new Variable.Identifier(varName));
+            }
+            case "invoke" -> {
+                String methodName = scan();
+                return InstructionFactory.createInvokeInstruction(label, new Method.Identifier(methodName));
+            }
+            case "push" -> {
+                int value = Integer.parseInt(scan());
+                return InstructionFactory.createPushInstruction(label, value);
+            }
+            default -> {
+                // Try the general method for any other opcodes
+                return InstructionFactory.createInstruction(opcode, label);
+            }
+        }
     }
 
-    // Helper methods for state-changing instructions like Goto, push etc.
-    private GotoInstruction createGotoInstruction(Label label) {
-        String targetLabel = scan();
-        return new GotoInstruction(label, new Label(targetLabel));
-    }
-
-    private ReturnInstruction createReturnInstruction(Label label) {
-        return new ReturnInstruction(label);
-    }
-
-    private InvokeInstruction createInvokeInstruction(Label label) {
-        String methodName = scan();
-        return new InvokeInstruction(label, new Method.Identifier(methodName));
-    }
-
-    private PrintInstruction createPrintInstruction(Label label) {
-        return new PrintInstruction(label);
-    }
-
-    private AddInstruction createAddInstruction(Label label) {
-        return new AddInstruction(label);
-    }
-
-    private MultiplyInstruction createMultiplyInstruction(Label label) {
-        return new MultiplyInstruction(label);
-    }
-
-    private DivInstruction createDivInstruction(Label label) {
-        return new DivInstruction(label);
-    }
-
-    private LoadInstruction createLoadInstruction(Label label) {
-        String varName = scan();
-        return new LoadInstruction(label, new Variable.Identifier(varName));
-    }
-
-    private IfEqualGotoInstruction createIfEqualGotoInstruction(Label label) {
-        String jumpLabelName = scan();
-        return new IfEqualGotoInstruction(label, new Label(jumpLabelName));
-    }
-
-    private IfGreaterGotoInstruction createIfGreaterGotoInstruction(Label label) {
-        String jumpLabelName = scan();
-        return new IfGreaterGotoInstruction(label, new Label(jumpLabelName));
-    }
-
-    private PushInstruction createPushInstruction(Label label) {
-        int value = Integer.parseInt(scan());
-        return new PushInstruction(label, value);
-    }
-
-    private SubInstruction createSubInstruction(Label label) {
-        return new SubInstruction(label);
-    }
-
+    /**
+     * Returns the label from the beginning of the line, if present.
+     * If a label is found, it is removed from the line.
+     *
+     * @return the label string without the trailing colon, or null if no label
+     */
     private String getLabel() {
         String word = scan();
         if (word.endsWith(":")) return word.substring(0, word.length() - 1);
@@ -196,8 +161,10 @@ public final class Translator {
     /**
      * Returns the first word of line and removes it from line.
      * If there is no word, return "".
+     *
+     * @return the next word from the current line
      */
-    private String scan() {
+    public String scan() {
         line = line.trim();
 
         int whiteSpacePosition = 0;
