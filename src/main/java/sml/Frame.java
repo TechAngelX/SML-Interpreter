@@ -4,14 +4,37 @@ import sml.instruction.Instruction;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: write JavaDoc for the class
-
+/**
+ * ====================================================================================================================
+ * The Frame class represents a method's execution context in Simple Machine Language (SML).
+ * --------------------------------------------------------------------------------------------------------------------
+ * Manages the state of a single method execution including its program counter, arguments, local variables,
+ * and operand stack. Provides functionality for instruction execution, variable access, and stack operations.
+ * This class is central to SML's execution model, maintaining the runtime environment for each method call.
+ * ====================================================================================================================
+ *
+ * @author Ricki Angel
+ */
 public class Frame {
     private final Method method;
-    private int programCounter; // mutable
-
-    // TODO: The three data structures below contain mutable components.
-    //       Explain what parts of the data structure are mutable (and what are the mutator methods).
+    private int programCounter;
+    /**
+     * ================================================================
+     * Frame's Mutable Data Structures:
+     * ================================================================
+     *
+     * 1. SymbolTable<Variable.Identifier, Variable> arguments:
+     *    - Contains mutable Variable objects (values can change).
+     *    - Modified through Variable's mutator methods.
+     *
+     * 2. SymbolTable<Variable.Identifier, Variable> localVariables:
+     *    - Contains mutable Variable objects (values can change).
+     *    - Modified through Variable's mutator methods.
+     *
+     * 3. Deque<Integer> stack:
+     *    - Mutable structure (elements can be added/removed).
+     *    - Modified by push() and pop() methods.
+     */
     private final SymbolTable<Variable.Identifier, Variable> arguments;
     private final SymbolTable<Variable.Identifier, Variable> localVariables;
     private final Deque<Integer> stack;
@@ -31,22 +54,10 @@ public class Frame {
         this.invoker = invoker;
     }
 
-    /**
-     * Returns a frame for the next instruction in the method
-     * of the current frame.
-     *
-     * @return the frame for the next instruction
-     */
-    public Frame advance() {
+     public Frame advance() {
         return setProgramCounter(programCounter + 1);
     }
 
-    /**
-     * Returns a frame for the instruction with a given label
-     * in the method of the current frame.
-     *
-     * @return the frame for the instruction with a given label
-     */
     public Frame jumpTo(Label label) {
         Optional<Integer> pc = method.labels().get(label);
         if (pc.isEmpty())
@@ -64,21 +75,13 @@ public class Frame {
     public Method method() {
         return method;
     }
-
     public Instruction currentInstruction() {
         return method.instructions().get(programCounter);
     }
-
     public int programCounter() {
         return programCounter;
     }
 
-    /**
-     * Returns an optional frame that for the invoker method.
-     * The invoker is empty only for the main method.
-     *
-     * @return the optional invoker program counter
-     */
     public Optional<Frame> invoker() {
         return Optional.ofNullable(invoker);
     }
