@@ -11,9 +11,16 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * The Translator class is responsible for reading a Simple Machine Language (SML) program from a file,
- * parsing the content, and translating it into a collection of {@link Method} objects that represent
- * the program's methods and instructions.
+ * ====================================================================================================================
+ * The Translator class reads and parses Simple Machine Language (SML) programs.
+ * --------------------------------------------------------------------------------------------------------------------
+ * Responsible for reading SML code from source files, parsing language constructs, and converting the program into
+ * executable {@link Method} objects with their associated {@link Instruction} objects and arguments. The parser
+ * supports method definitions with parameters, labeled instructions for control flow, and various instruction types.
+ * This modular design separates parsing from execution concerns, facilitating extensibility with new instruction types.
+ * ====================================================================================================================
+ *
+ * @author Ricki Angel
  */
 public final class Translator {
 
@@ -52,7 +59,7 @@ public final class Translator {
     private static final String ITEM_SEPARATOR = ",";
     private static final String METHOD_LABEL = "@";
 
-    // Reads and translates an SML file into a collection of Method objects:
+    // Read and translate an SML file into a collection of Method objects:
     public Collection<Method> readAndTranslate(String fileName) throws IOException {
         Collection<Method> methods = new ArrayList<>();
 
@@ -67,8 +74,7 @@ public final class Translator {
 
                     state = new State(new Method.Identifier(labelString));
                     processMethodArguments(state);
-                }
-                else {
+                } else {
                     Label label = labelString != null ? new Label(labelString) : null;
                     Instruction instruction = getInstruction(label);
 
@@ -85,7 +91,7 @@ public final class Translator {
         return methods;
     }
 
-    // Processes the arguments of a method from the current line and adds them to the state:
+    // Process the arguments of a method from the current line and adds them to the state:
     private void processMethodArguments(State state) {
         for (String s = scan(); !s.isEmpty(); s = scan()) {
             String variable = s.endsWith(ITEM_SEPARATOR)
@@ -100,59 +106,64 @@ public final class Translator {
 
     private Instruction getInstruction(Label label) {
         String opcode = scan();
-        System.out.println("Scanned Opcode: '" + opcode + "'"); // Just for debugging. Can remove.
+        System.out.println("Scanned Opcode: '" + opcode + "'");
         if (opcode.isEmpty()) return null;
 
+        Instruction instruction;
         switch (opcode) {
-            case "add", "sub", "mul", "div", "print", "return", "sqrt"-> {
-                return InstructionFactory.createInstruction(opcode, label);
+            case "add", "sub", "mul", "div", "print", "return" -> {
+                instruction = InstructionFactory.createInstruction(opcode, label);
             }
             case "goto" -> {
                 String targetLabel = scan();
-                return InstructionFactory.createGotoInstruction(label, new Label(targetLabel));
+                instruction = InstructionFactory.createGotoInstruction(label, new Label(targetLabel));
             }
             case "if_cmpeq" -> {
                 String targetLabel = scan();
-                return InstructionFactory.createIfEqualGotoInstruction(label, new Label(targetLabel));
+                instruction = InstructionFactory.createIfEqualGotoInstruction(label, new Label(targetLabel));
             }
             case "if_cmpgt" -> {
                 String targetLabel = scan();
-                return InstructionFactory.createIfGreaterGotoInstruction(label, new Label(targetLabel));
+                instruction = InstructionFactory.createIfGreaterGotoInstruction(label, new Label(targetLabel));
             }
             case "load" -> {
                 String varName = scan();
-                return InstructionFactory.createLoadInstruction(label, new Variable.Identifier(varName));
+                instruction = InstructionFactory.createLoadInstruction(label, new Variable.Identifier(varName));
             }
             case "store" -> {
                 String varName = scan();
-                return InstructionFactory.createStoreInstruction(label, new Variable.Identifier(varName));
+                instruction = InstructionFactory.createStoreInstruction(label, new Variable.Identifier(varName));
             }
             case "invoke" -> {
                 String methodName = scan();
-                return InstructionFactory.createInvokeInstruction(label, new Method.Identifier(methodName));
+                instruction = InstructionFactory.createInvokeInstruction(label, new Method.Identifier(methodName));
             }
             case "push" -> {
                 int value = Integer.parseInt(scan());
-                return InstructionFactory.createPushInstruction(label, value);
+                instruction = InstructionFactory.createPushInstruction(label, value);
+            }
+            case "sqrt" -> {
+                return InstructionFactory.createSquareRootInstruction(label);
             }
             default -> {
-                // Try the general method for any other opcodes
-                return InstructionFactory.createInstruction(opcode, label);
+                instruction = InstructionFactory.createInstruction(opcode, label);
             }
         }
+        System.out.println("Created instruction: " + (instruction == null ? "NULL" : instruction));
+
+        return instruction;
     }
 
     /**
-     * Returns the label from the beginning of the line, if present.
-     * If a label is found, it is removed from the line.
+     * Extracts and removes a leading label from the line, if present.
      *
-     * @return the label string without the trailing colon, or null if no label
+     * @return label string without trailing colon, or null if absent
      */
+
     private String getLabel() {
         String word = scan();
         if (word.endsWith(":")) return word.substring(0, word.length() - 1);
 
-        // Undo scanning the word
         line = word + " " + line;
         return null;
     }
