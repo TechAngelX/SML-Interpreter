@@ -1,38 +1,78 @@
 package sml.instruction;
 
-import sml.instruction.*;
-import sml.*;
+import sml.Label;
 
+import java.io.File;
+import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * ====================================================================================================================
- * A factory that creates instruction objects dynamicaly using Reflection.
+ * A factory that dynamically creates Instruction objects using Reflection.
  * --------------------------------------------------------------------------------------------------------------------
- * This will eventually allow new instruction types to be added without modifying this class and
- * provide a centralised way to create instructions. Uses a static map to register the instruction types.
- *
+ * This class discovers and registers Instruction classes within the same package, storing them in a HashMap,
+ * called instructionMap, allolwing for the creation of Instruction instances based on their opcode, facilitating
+ * a pluggable architecture where new Instruction types can be added without modifying the factory itself.
+ * --------------------------------------------------------------------------------------------------------------------
+ * The `instructionMap` static map holds the relationship between an opcode and a generic wildcard
+ * `Class<?>` that extends `Instruction`.
  * ====================================================================================================================
  *
  * @author Ricki Angel
  */
-
 public class InstructionFactory {
     private static final Map<String, Class<? extends Instruction>> instructionMap = new HashMap<>();
 
     static {
-        instructionMap.put(SquareRootInstruction.OP_CODE, SquareRootInstruction.class);  // Just my bespoke test case.
-        instructionMap.put(MultiplyInstruction.OP_CODE, MultiplyInstruction.class);
-        instructionMap.put(AddInstruction.OP_CODE, AddInstruction.class);
-        // ...
+        findAndRegisterInstructions();
     }
-    /**
-     * Creates an instruction based on the opcode and label.
-     * @param opcode the opcode to identify the instruction
-     * @param label the label associated with the instruction
-     * @return an Instruction instance, or null if the opcode is unknown
-     */
+
+    private static void findAndRegisterInstructions() {
+        try {
+            ClassLoader classLoader = InstructionFactory.class.getClassLoader();
+            String packageName = InstructionFactory.class.getPackage().getName();
+            String packagePath = packageName.replace('.', '/');
+
+            URL packageURL = classLoader.getResource(packagePath);
+            if (packageURL == null) {
+                System.err.println("Could not find package: " + packagePath);
+                return;
+            }
+
+            File packageDir = new File(packageURL.getFile());
+            File[] classFiles = packageDir.listFiles(file -> file.isFile() && file.getName().endsWith("Instruction.class") // Only load files that end with "Instruction" (not InstructionFactory) for example.
+            );
+
+            if (classFiles != null) {
+                for (File classFile : classFiles) {
+                    String className = packageName + "." + classFile.getName().replace(".class", "");
+
+                    Class<?> clazz = Class.forName(className);
+
+                    if (Instruction.class.isAssignableFrom(clazz) && !clazz.isInterface() && !java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
+
+                        try {
+                            Field opcodeField = clazz.getField("OP_CODE");
+                            Object opcodeValue = opcodeField.get(null);
+
+                            if (opcodeValue instanceof String opCode) {
+                                Class<? extends Instruction> instructionClass = clazz.asSubclass(Instruction.class);
+                                instructionMap.put(opCode, instructionClass);
+                            }
+                        } catch (Exception e) {
+                            System.err.println("Could not register instruction: " + className);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Instruction createInstruction(String opcode, Label label) {
         Class<? extends Instruction> instructionClass = instructionMap.get(opcode);
 
@@ -44,7 +84,7 @@ public class InstructionFactory {
             return instructionClass.getConstructor(Label.class).newInstance(label);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;  // Handle exception if something goes wrong during instantiation.
+            return null;
         }
     }
 }
