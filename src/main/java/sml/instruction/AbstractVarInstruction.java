@@ -4,14 +4,13 @@ import sml.*;
 
 import java.util.Objects;
 import java.util.stream.Stream;
-
 /**
- * ================================================================
- * Abstract base class for instructions involving variable manipulation.
- * ================================================================
- *
- * Provides common functionality for instructions that interact
- * with variables, such as load and store operations.
+ * ===========================================================================
+ * Abstract base class for instructions that manipulate variables.
+ * ---------------------------------------------------------------------------
+ * This class provides common functionality for instructions
+ * that interact with variables, such as load and store operations.
+ * It is extended by specific instructions that involve variable manipulation.
  *
  * @author Ricki Angel
  */
@@ -23,27 +22,29 @@ public abstract class AbstractVarInstruction extends Instruction {
         this.varName = Objects.requireNonNull(varName);
     }
 
-
-    /** variables()
-     * Returns a stream containng the variable used in this instruction.
-     *
-     * @return a stream containing just one variable - the one this instruction stores into
-     */
     @Override
     public Stream<Variable.Identifier> variables() {
         return Stream.of(varName);
     }
 
-    /**
-     * Returns a string version of the instruction's operands.
-     *
-     * @return the string of the variable name
-     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        AbstractVarInstruction that = (AbstractVarInstruction) o;
+        return Objects.equals(varName, that.varName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), varName);
+    }
+
     @Override
     protected String getOperandsString() {
         return varName.toString();
     }
-
-
-    // TODO equals and hashCode methods ...
 }
+
+
