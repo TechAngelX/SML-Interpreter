@@ -1,10 +1,12 @@
-package sml.instruction;
+package sml;
 
-import sml.*;
+import sml.instruction.*;
+
 import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  * ===========================================================================================================
  * Factory for dynamically discovering and creating Simple Machine Language (SML) instructions.
@@ -32,7 +34,8 @@ public class InstructionFactory {
         discoverInstructionClasses();
     }
 
-        public static Instruction createInstruction(String opcode, Label label) {
+
+    public static Instruction createInstruction(String opcode, Label label) {
         Class<? extends Instruction> instructionClass = INSTRUCTION_MAP.get(opcode);
         if (instructionClass == null) {
             return null;
@@ -46,6 +49,7 @@ public class InstructionFactory {
             return null;
         }
     }
+
     /**
      * Backward-compatible methods for specific instruction types
      */
@@ -60,27 +64,28 @@ public class InstructionFactory {
         }
     }
 
-    public static Instruction createIfGreaterGotoInstruction(Label label, Label target) {
+    public static Instruction createIfCmpeqInstruction(Label label, Label target) {
         try {
-            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpgt");
-            if (cls == null) return new IfGreaterGotoInstruction(label, target);
+            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpeq");
+            if (cls == null) return new IfCmpeqInstruction(label, target);
             Constructor<?> constructor = cls.getConstructor(Label.class, Label.class);
             return (Instruction) constructor.newInstance(label, target);
         } catch (Exception e) {
-            return new IfGreaterGotoInstruction(label, target);
+            return new IfCmpeqInstruction(label, target);
         }
     }
 
-    public static Instruction createIfEqualGotoInstruction(Label label, Label target) {
+    public static Instruction createIfCmpgtInstruction(Label label, Label target) {
         try {
-            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpeq");
-            if (cls == null) return new IfEqualGotoInstruction(label, target);
+            Class<? extends Instruction> cls = INSTRUCTION_MAP.get("if_cmpgt");
+            if (cls == null) return new IfCmpgtInstruction(label, target);
             Constructor<?> constructor = cls.getConstructor(Label.class, Label.class);
             return (Instruction) constructor.newInstance(label, target);
         } catch (Exception e) {
-            return new IfEqualGotoInstruction(label, target);
+            return new IfCmpgtInstruction(label, target);
         }
     }
+
 
     public static Instruction createLoadInstruction(Label label, Variable.Identifier varId) {
         try {
@@ -150,9 +155,17 @@ public class InstructionFactory {
     }
 
     /**
-     * ===========================
+     * =====================================================================================
      * Package Scanning Discovery.
-     * ---------------------------
+     * -------------------------------------------------------------------------------------
+     * The discoverByPackageScanning() method iterates through all .class files found in the
+     * sml/instruction package directory. For each file, it attempts to load the corresponding
+     * class using Class.forName(). It then checks if the loaded class is a subclass of
+     * Instruction (if it extends Instruction) and if it has a public static OP_CODE field.
+     * If the checks pass, it registers the class in the INSTRUCTION_MAP using the opcode as the key.
+     *
+     * The {@code doExecute} method defines the instruction's core operational logic.
+     * @author Ricki Angel
      */
     private static void discoverByPackageScanning() {
         try {
@@ -160,35 +173,45 @@ public class InstructionFactory {
             String packageName = instructionPackage.getName();
             String packagePath = packageName.replace('.', '/');
 
-            ClassLoader classLoader = InstructionFactory.class.getClassLoader();
-            java.net.URL packageURL = classLoader.getResource(packagePath);
+            String basePath = System.getProperty("user.dir");
+            String classesPath = basePath + "/target/classes/" + packagePath;
 
-            if (packageURL != null) {
-                java.io.File packageDir = new java.io.File(packageURL.getFile());
+            LOGGER.info("Base Path: " + basePath);
+            LOGGER.info("Constructed Classes Path: " + classesPath);
+
+            java.io.File packageDir = new java.io.File(classesPath);
+
+            if (packageDir.exists()) {
+                LOGGER.info("Package Directory exists: " + packageDir.getAbsolutePath());
+
                 java.io.File[] classFiles = packageDir.listFiles(
                         file -> file.isFile() && file.getName().endsWith(".class")
                 );
+
+                LOGGER.info("No: of class files found: " + (classFiles != null ? classFiles.length : "null"));
 
                 if (classFiles != null) {
                     for (java.io.File classFile : classFiles) {
                         String className = classFile.getName().replace(".class", "");
                         String fullClassName = packageName + "." + className;
 
+                        LOGGER.info("Attempting to load class: " + fullClassName);
+
                         try {
                             Class<?> clazz = Class.forName(fullClassName);
                             registerInstructionClass(clazz);
                         } catch (Exception e) {
-                            LOGGER.log(Level.FINE, "Error loading class: " + fullClassName, e);
+                            LOGGER.log(Level.WARNING, "Error loading class " + fullClassName, e);
                         }
                     }
                 }
+            } else {
+                LOGGER.warning("Package directory does not exist: " + packageDir.getAbsolutePath());
             }
         } catch (Exception e) {
-            LOGGER.log(Level.WARNING, "Package scanning discovery failed", e);
+            LOGGER.log(Level.WARNING, "Package scanning failed", e);
         }
     }
-
-
     /**
      * =====================
      * Direct Class Loading.
@@ -199,7 +222,7 @@ public class InstructionFactory {
             String[] commonOpcodes = {
                     "add", "sub", "mul", "div", "goto",
                     "if_cmpgt", "if_cmpeq", "print", "load", //Probably wouldn't load if_cmpgt and if_cmpeq. Need to change name.
-                    "store", "push", "pop", "return", "invoke", "sqrt"
+                    "store", "push", "pop", "return", "invoke", "sqrt",
             };
             String[] suffixes = {"", "Instruction"};
             String packageName = Instruction.class.getPackage().getName();
@@ -230,6 +253,8 @@ public class InstructionFactory {
      * Instruction subclass.
      */
     private static void registerInstructionClass(Class<?> clazz) {
+        LOGGER.info("Attempting to register class: " + clazz.getName());
+
         if (Instruction.class.isAssignableFrom(clazz)
                 && !clazz.isInterface()
                 && !java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
@@ -238,16 +263,21 @@ public class InstructionFactory {
                 java.lang.reflect.Field opcodeField = clazz.getField("OP_CODE");
                 Object opcodeValue = opcodeField.get(null);
 
+                LOGGER.info("Found opcode: " + opcodeValue);
+
                 if (opcodeValue instanceof String opcode) {
                     @SuppressWarnings("unchecked")
                     Class<? extends Instruction> instructionClass =
                             (Class<? extends Instruction>) clazz;
 
+                    LOGGER.info("Registering instruction: " + opcode);
                     INSTRUCTION_MAP.put(opcode, instructionClass);
                 }
             } catch (Exception e) {
-                LOGGER.log(Level.FINE, "Error registering instruction class", e);
+                LOGGER.log(Level.WARNING, "Error registering instruction class: " + clazz.getName(), e);
             }
+        } else {
+            LOGGER.info("Class did not meet registration criteria: " + clazz.getName());
         }
     }
 }

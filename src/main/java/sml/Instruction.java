@@ -1,9 +1,4 @@
-package sml.instruction;
-
-import sml.Frame;
-import sml.Label;
-import sml.Machine;
-import sml.Variable;
+package sml;
 
 import java.util.Objects;
 import java.util.Optional;
