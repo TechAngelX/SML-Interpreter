@@ -1,3 +1,4 @@
+
 package sml;
 
 import sml.instruction.Instruction;
@@ -8,12 +9,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-// TODO: Write JavaDoc for the class
-
+/**
+ * =====================================================================================
+ * Represents a method in the Simple Machine Language (SML) program.
+ * -------------------------------------------------------------------------------------
+ * A method consists of a unique identifier, a list of arguments, a set of local variables,
+ * and a sequence of instructions to execute.
+ *
+ * @author Ricki Angel
+ */
 public class Method {
-
     public record Identifier(String name) {
-
         public Identifier {
             if (name.charAt(0) != '@')
                 throw new IllegalArgumentException("Method identifier name must start with @");
@@ -52,7 +58,6 @@ public class Method {
                 .filter(v -> !argumentOccurrences.containsKey(v))
                 .collect(Collectors.toSet());
 
-        // must contain at least one instruction (at least a return instruction)
         if (this.instructions.isEmpty())
             throw new IllegalArgumentException("No instructions found");
 
@@ -88,22 +93,16 @@ public class Method {
 
     @Override
     public String toString() {
-                   return String.format("Method @%s(args: %s, locals: %s, instructions: %s)",
-                    name,
-                    arguments.stream()
-                            .map(Variable.Identifier::toString)
-                            .collect(Collectors.joining(", ")),
-                    localVariables.stream()
-                            .map(Variable.Identifier::toString)
-                            .collect(Collectors.joining(", ")),
-                    instructions.stream()
-                            .map(Instruction::toString)
-                            .collect(Collectors.joining("; "))
-            );
+        return String.format("Method @%s(args: %s, locals: %s, instructions: %s)",
+                name,
+                arguments.stream()
+                        .map(Variable.Identifier::toString)
+                        .collect(Collectors.joining(", ")),
+                localVariables.stream()
+                        .map(Variable.Identifier::toString)
+                        .collect(Collectors.joining(", ")),
+                instructions.stream()
+                        .map(Instruction::toString)
+                        .collect(Collectors.joining("; ")));
     }
-
-    // TODO: Override .equals and .hashCode
-    //       (use pattern matching for instanceof)
-    // https://docs.oracle.com/en/java/javase/14/language/pattern-matching-instanceof-operator.html
-
 }

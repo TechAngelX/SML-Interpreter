@@ -54,10 +54,12 @@ public class Frame {
         this.invoker = invoker;
     }
 
-     public Frame advance() {
+    public Frame advance() {
+        if (programCounter + 1 >= method.instructions().size()) {
+            return null;
+        }
         return setProgramCounter(programCounter + 1);
     }
-
     public Frame jumpTo(Label label) {
         Optional<Integer> pc = method.labels().get(label);
         if (pc.isEmpty())

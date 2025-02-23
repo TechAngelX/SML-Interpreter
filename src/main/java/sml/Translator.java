@@ -106,14 +106,11 @@ public final class Translator {
 
     private Instruction getInstruction(Label label) {
         String opcode = scan();
-//        System.out.println("Scanned Opcode: '" + opcode + "'"); // For Debugging.
+        System.out.println("Scanned Opcode: '" + opcode + "'"); // For Debugging.
         if (opcode.isEmpty()) return null;
 
         Instruction instruction;
         switch (opcode) {
-            case "add", "sub", "mul", "div", "print", "return" -> {
-                instruction = InstructionFactory.createInstruction(opcode, label);
-            }
             case "goto" -> {
                 String targetLabel = scan();
                 instruction = InstructionFactory.createGotoInstruction(label, new Label(targetLabel));
