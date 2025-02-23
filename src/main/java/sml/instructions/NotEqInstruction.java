@@ -5,13 +5,13 @@ import sml.*;
  * =====================================================================================
  * NotEqInstruction - Test Instruction for Package Scanning Dynamic Discovery.
  * -------------------------------------------------------------------------------------
- * This instruction is specifically created for testing the dynamic opcode discovery
- * {@code discoverByPackageScanning} mechanism of the InstructionFactory. It performs a
- * no-op operation during execution. The logic within this instruction is irrelevant
- * for the test; its primary purpose is to verify that the factory can successfully
- * discover and instantiate this instruction without modifying its code.
+ * This is a mock instruction, specifically created to test the dynamic opcode discovery
+ * {@code discoverByPackageScanning} mechanism of the InstructionFactory. It supposedly pops
+ * two values and prints first value to console if they are NOT equal. The logic within this
+ * instruction is irrelevant and not implemented for the test; its primary purpose is to verify
+ * that the factory can successfully discover and instantiate this instruction without modifying
+ * its code.
  *
- * The {@code doExecute} method defines the instruction's core operational logic.
  * @author Ricki Angel
  */
 public class NotEqInstruction extends Instruction {

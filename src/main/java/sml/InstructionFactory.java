@@ -171,11 +171,11 @@ public class InstructionFactory {
             String packageName = "sml.instructions";
             String packagePath = packageName.replace('.', '/');
 
-            String basePath = System.getProperty("user.dir");
-            String classesPath = basePath + "/target/classes/" + packagePath;
+            String rootPath = System.getProperty("user.dir");
+            String classesPath = rootPath + "/target/classes/" + packagePath;
 
-            LOGGER.info("Base Path: " + basePath);
-            LOGGER.info("Constructed Classes Path: " + classesPath);
+            LOGGER.info("Root Path: " + rootPath);
+            LOGGER.info("Instruction Classes Path: " + classesPath);
 
             java.io.File packageDir = new java.io.File(classesPath);
 
