@@ -4,11 +4,10 @@ import sml.instruction.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ====================================================================================================================
@@ -106,49 +105,72 @@ public final class Translator {
 
     private Instruction getInstruction(Label label) {
         String opcode = scan();
-        System.out.println("Scanned Opcode: '" + opcode + "'"); // For Debugging.
         if (opcode.isEmpty()) return null;
 
-        Instruction instruction;
-        switch (opcode) {
-            case "goto" -> {
-                String targetLabel = scan();
-                instruction = InstructionFactory.createGotoInstruction(label, new Label(targetLabel));
-            }
-            case "if_cmpeq" -> {
-                String targetLabel = scan();
-                instruction = InstructionFactory.createIfEqualGotoInstruction(label, new Label(targetLabel));
-            }
-            case "if_cmpgt" -> {
-                String targetLabel = scan();
-                instruction = InstructionFactory.createIfGreaterGotoInstruction(label, new Label(targetLabel));
-            }
-            case "load" -> {
-                String varName = scan();
-                instruction = InstructionFactory.createLoadInstruction(label, new Variable.Identifier(varName));
-            }
-            case "store" -> {
-                String varName = scan();
-                instruction = InstructionFactory.createStoreInstruction(label, new Variable.Identifier(varName));
-            }
-            case "invoke" -> {
-                String methodName = scan();
-                instruction = InstructionFactory.createInvokeInstruction(label, new Method.Identifier(methodName));
-            }
-            case "push" -> {
-                int value = Integer.parseInt(scan());
-                instruction = InstructionFactory.createPushInstruction(label, value);
-            }
-            case "sqrt" -> {
-                return InstructionFactory.createSquareRootInstruction(label);
-            }
-            default -> {
-                instruction = InstructionFactory.createInstruction(opcode, label);
-            }
+        try {
+            String className = getInstructionClassName(opcode);
+            Class<?> instructionClass = Class.forName(className);
+            return createInstructionInstance(instructionClass, label);
+        } catch (Exception e) {
+            System.err.println("Error creating instruction for opcode: " + opcode);
+            e.printStackTrace();
+            return null;
         }
-//        System.out.println("DEBUG: Created instruction: " + (instruction == null ? "NULL" : instruction));
+    }
 
-        return instruction;
+    private String getInstructionClassName(String opcode) {
+        String normalizedOpcode = normaliseOpcode(opcode);
+        return "sml.instruction." + normalizedOpcode + "Instruction";
+    }
+
+    private String normaliseOpcode(String opcode) {
+        if (!opcode.contains("_")) {
+            return capitalise(opcode);
+        }
+        return Arrays.stream(opcode.split("_"))
+                .map(this::capitalise)
+                .collect(Collectors.joining());
+    }
+
+    private String capitalise(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    private Instruction createInstructionInstance(Class<?> instructionClass, Label label) throws Exception {
+        var constructor = findLabelConstructor(instructionClass);
+        Object[] args = buildConstructorArgs(constructor, label);
+        return (Instruction) constructor.newInstance(args);
+    }
+
+    private Constructor<?> findLabelConstructor(Class<?> instructionClass) {
+        return Arrays.stream(instructionClass.getDeclaredConstructors())
+                .filter(c -> c.getParameterTypes().length > 0 && c.getParameterTypes()[0] == Label.class)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("No valid constructor found"));
+    }
+
+    private Object[] buildConstructorArgs(Constructor<?> constructor, Label label) {
+        var paramTypes = constructor.getParameterTypes();
+        Object[] args = new Object[paramTypes.length];
+        args[0] = label;
+
+        for (int i = 1; i < paramTypes.length; i++) {
+            String arg = scan();
+            args[i] = convertArgument(arg, paramTypes[i]);
+        }
+
+        return args;
+    }
+
+    private Object convertArgument(String arg, Class<?> paramType) {
+        return switch (paramType.getName()) {
+            case "sml.Label" -> new Label(arg);
+            case "sml.Variable$Identifier" -> new Variable.Identifier(arg);
+            case "sml.Method$Identifier" -> new Method.Identifier(arg);
+            case "int" -> Integer.parseInt(arg);
+            default -> throw new IllegalArgumentException(
+                    "Unsupported parameter type: " + paramType.getName());
+        };
     }
 
     /**
