@@ -1,23 +1,20 @@
 package sml.instruction;
-
 import sml.*;
-
 import java.util.Objects;
-import java.util.Optional;
 /**
- * ================================================================
+ * =======================================================================================
  * Goto instruction for Simple Machine Language (SML).
- * ================================================================
- *
- * Unconditionally jumps to a specified label within the method.
- *
- * Enables direct control flow manipulation during program execution.
+ * ---------------------------------------------------------------------------------------
+ * * Implements an unconditional jump to a specified label, altering the program's
+ * control flow. Execution proceeds from the instruction associated with the target label.
+ * <p>
+ * This instruction facilitates direct control flow manipulation, enabling loops and other
+ * non-sequential execution patterns.
  *
  * @author Ricki Angel
  */
 public class GotoInstruction extends Instruction {
     public static final String OP_CODE = "goto";
-
     private final Label branchLabel;
 
     public GotoInstruction(Label label, Label branchLabel) {
@@ -26,9 +23,13 @@ public class GotoInstruction extends Instruction {
     }
 
     @Override
-    public Optional<Frame> execute(Machine machine) {
-        Frame frame = machine.frame();
-        return Optional.of(frame.jumpTo(branchLabel));
+    protected void doExecute(Frame frame) {
+        // No-op: This subclass does not require execution logic.
+    }
+
+    @Override
+    protected Frame determineNextFrame(Frame frame) {
+        return frame.jumpTo(branchLabel);
     }
 
     @Override

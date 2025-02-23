@@ -1,24 +1,27 @@
 package sml.instruction;
-
 import sml.*;
-import java.util.Optional;
-
 /**
- * ================================================================
- * Equal Comparison and Goto instruction for Simple Machine Language (SML).
- * ================================================================
- *
- * Pops two values from stack and compares them for equality.
- * If values are equal, jumps to specified label;
- * otherwise, continues to next instruction.
- *
- * Provides conditional branching based on stack value comparison.
+ * =====================================================================================
+ * Conditional Jump (If Equal) instruction for Simple Machine Language (SML).
+ * -------------------------------------------------------------------------------------
+ * <p>
+ * Performs a conditional jump based on the equality of two values from the stack.
+ * Specifically, it pops two values, compares them, and if they are equal, transfers
+ * control to the instruction associated with the specified label. Otherwise, execution
+ * proceeds to the next sequential instruction.
+ * <p>
+ * This instruction enables conditional branching, allowing for dynamic program flow based
+ * on runtime data.
+ * <p>
+ * The {@code doExecute} method defines the instruction's core operational logic,
  *
  * @author Ricki Angel
  */
+
 public class IfEqualGotoInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpeq";
     private final Label jumpLabel;
+    private boolean shouldJump;
 
     public IfEqualGotoInstruction(Label label, Label jumpLabel) {
         super(label, OP_CODE);
@@ -26,17 +29,15 @@ public class IfEqualGotoInstruction extends Instruction {
     }
 
     @Override
-    public Optional<Frame> execute(Machine machine) {
-        Frame frame = machine.frame();
-        int value2 = frame.pop(); // Remember LIFO pop order.
+    protected void doExecute(Frame frame) {
+        int value2 = frame.pop();
         int value1 = frame.pop();
+        shouldJump = (value1 == value2);
+    }
 
-        if (value1 == value2) {
-            return Optional.of(frame.jumpTo(jumpLabel));
-        } else {
-
-            return Optional.of(frame.advance());
-        }
+    @Override
+    protected Frame determineNextFrame(Frame frame) {
+        return shouldJump ? frame.jumpTo(jumpLabel) : frame.advance();
     }
 
     @Override

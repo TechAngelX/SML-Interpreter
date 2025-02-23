@@ -2,25 +2,25 @@ package sml.instruction;
 
 import sml.Frame;
 import sml.Label;
-import sml.Machine;
 
-import java.util.Optional;
 /**
- * ================================================================
+ * =====================================================================================
  * Greater Than Comparison and Goto instruction for Simple Machine Language (SML).
- * ================================================================
- *
- * Pops two values from stack and compares them.
- * If the first value is greater than the second, jumps to specified label;
- * otherwise, continues to next instruction.
- *
+ * -------------------------------------------------------------------------------------
+ * <p>
+ * Pops two values from stack and compares them.If the first value is greater than the
+ * second, jumps to specified label; otherwise, continues to next instruction.
+ * <p>
  * Provides conditional branching based on stack value comparison.
+ * <p>
+ * The {@code doExecute} method defines the instruction's core operational logic.
  *
  * @author Ricki Angel
  */
 public class IfGreaterGotoInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpgt";
     private final Label jumpLabel;
+    private boolean shouldJump;
 
     public IfGreaterGotoInstruction(Label label, Label jumpLabel) {
         super(label, OP_CODE);
@@ -28,17 +28,15 @@ public class IfGreaterGotoInstruction extends Instruction {
     }
 
     @Override
-    public Optional<Frame> execute(Machine machine) {
-        Frame frame = machine.frame();
-        int value2 = frame.pop(); // Remember Important LIFO pop order.
+    protected void doExecute(Frame frame) {
+        int value2 = frame.pop();
         int value1 = frame.pop();
+        shouldJump = (value1 > value2);
+    }
 
-        if (value1 > value2) {   // If value1 > value2, jump to specified label.
-            return Optional.of(frame.jumpTo(jumpLabel));
-        } else {
-            // Otherwise, advance to next instruction.
-            return Optional.of(frame.advance());
-        }
+    @Override
+    protected Frame determineNextFrame(Frame frame) {
+        return shouldJump ? frame.jumpTo(jumpLabel) : frame.advance();
     }
 
     @Override
