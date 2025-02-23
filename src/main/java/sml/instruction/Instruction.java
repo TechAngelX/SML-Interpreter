@@ -9,27 +9,28 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * =====================================================================================================
+ * Abstract class representing an instruction in Simple Machine Language (SML).
+ * -----------------------------------------------------------------------------------------------------
+ * This class defines the general structure and behavior of SML instructions, providing a template for
+ * specific instruction types. It manages the execution flow and operand handling, while allowing
+ * subclass-specific execution logic through the template method pattern.
+ * <p>
+ * The class provides methods for: Label management, Opcode representation, Operand variable extraction
+ * and Execution flow control.
+ * <p>
+ * Subclasses should implement the execution-specific logic in doExecute()
+ * and provide the operands as a string in getOperandsString().
+ *
+ * @author Ricki Angel
+ */
+
 public abstract class Instruction {
     protected final Label label;
     protected final String opcode;
 
-    /**
-     * =====================================================================================================
-     * Abstract class representing an instruction in Simple Machine Language (SML).
-     * -----------------------------------------------------------------------------------------------------
-     * This class defines the general structure and behavior of SML instructions, providing a template for
-     * specific instruction types. It manages the execution flow and operand handling, while allowing
-     * subclass-specific execution logic through the template method pattern.
-     * <p>
-     * The class provides methods for: Label management, Opcode representation, Operand variable extraction
-     * and Execution flow control.
-     * <p>
-     * Subclasses should implement the execution-specific logic in doExecute()
-     * and provide the operands as a string in getOperandsString().
-     * ================================================================
-     *
-     * @author Ricki Angel
-     */
+
     public Instruction(Label label, String opcode) {
         this.label = label;
         this.opcode = Objects.requireNonNull(opcode);
@@ -42,7 +43,6 @@ public abstract class Instruction {
     public String opcode() {
         return opcode;
     }
-
     /**
      * Returns the stream of variables in the operands of the instruction.
      * This method must be overridden if the instruction has any variables.
@@ -73,6 +73,7 @@ public abstract class Instruction {
 
         return Optional.of(nextFrame);
     }
+
     /**
      * Hook method for instruction-specific execution logic.
      * Each concrete instruction must implement this.
@@ -82,8 +83,7 @@ public abstract class Instruction {
     protected abstract void doExecute(Frame frame);
 
     /**
-     * Template method to determine next frame.
-     * Default behavior advances to next instruction.
+     * Template method to determine next frame. Default behavior advances to next instruction.
      * Override for special flow control (jumps, returns).
      *
      * @param frame current execution frame
@@ -93,12 +93,6 @@ public abstract class Instruction {
         return frame.advance();
     }
 
-    /**
-     * Returns a string representation of the operands.
-     * Used in toString().
-     *
-     * @return a string representation of the operands
-     */
     protected abstract String getOperandsString();
 
     @Override
