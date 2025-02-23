@@ -115,10 +115,10 @@ public class Frame {
 
     @Override
     public String toString() {
-        return method.name() + ", l "
+        return method.name() + ", label "
                 + programCounter
                 + Optional.ofNullable(invoker)
-                .map(pc -> " (" + pc + ")")
+                .map(pc -> " |" + pc + "|")
                 .orElse("");
     }
 
