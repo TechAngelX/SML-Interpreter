@@ -12,13 +12,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests the functionality of MultiplyInstruction in the Simple Machine Language.
+ * Tests the functionality of MulInstruction in the Simple Machine Language.
  * =============================================================================
  * Verifies correct multiplication of numbers from the stack, and instruction progression.
  *
  * @author Ricki Angel
  */
-class MultiplyInstructionTest {
+class MulInstructionTest {
     private Machine machine;
 
     @BeforeEach
@@ -35,7 +35,7 @@ class MultiplyInstructionTest {
     @Test
     @DisplayName("Should correctly multiply two numbers from the stack")
     void testMultiplyTwoNumbers() {
-        Instruction multiplyInstruction = new MultiplyInstruction(null);
+        Instruction multiplyInstruction = new MulInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
 
         Method mainMethod = new Method(

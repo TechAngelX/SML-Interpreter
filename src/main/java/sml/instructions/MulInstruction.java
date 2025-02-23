@@ -13,10 +13,10 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class MultiplyInstruction extends Instruction {
+public class MulInstruction extends Instruction {
     public static final String OP_CODE = "mul";
 
-    public MultiplyInstruction(Label label) {
+    public MulInstruction(Label label) {
         super(label, OP_CODE);
     }
 
