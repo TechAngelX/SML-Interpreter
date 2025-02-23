@@ -11,13 +11,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the functionality of IfGreaterGotoInstruction in the Simple Machine Language.
+ * Tests the functionality of IfCmpgtInstruction in the Simple Machine Language.
  * ===================================================================================
  * Verifies correct comparison and conditional jumping based on stack value comparison.
  *
  * @author Ricki Angel
  */
-class IfGreaterGotoInstructionTest {
+class IfCmpgtInstructionTest {
     private Machine machine;
 
     @BeforeEach
@@ -25,7 +25,7 @@ class IfGreaterGotoInstructionTest {
         machine = new Machine();
     }
     /**
-     * NoteL verifies that the {@link IfGreaterGotoInstruction} correctly advances to the next instruction
+     * NoteL verifies that the {@link IfCmpgtInstruction} correctly advances to the next instruction
      * (at index 1) when the first value popped from the stack is larger than the second.
      * <p>
      * This test confirms that the instruction proceeds sequentially when the comparison condition
@@ -40,9 +40,9 @@ class IfGreaterGotoInstructionTest {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        // Create instruction objects. IfGreaterGotoInstruction will jump to jumpLabel.
+        // Create instruction objects. IfCmpgtInstruction will jump to jumpLabel.
         // if the first value popped from the stack is greater than the second value popped.
-        Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
+        Instruction ifGreaterGotoInstruction = new IfCmpgtInstruction(null, jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel); // Next instruction after comparison
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel); // Instruction to jump to
 
@@ -74,7 +74,7 @@ class IfGreaterGotoInstructionTest {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
+        Instruction ifGreaterGotoInstruction = new IfCmpgtInstruction(null, jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
 
@@ -102,7 +102,7 @@ class IfGreaterGotoInstructionTest {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        Instruction ifGreaterGotoInstruction = new IfGreaterGotoInstruction(null, jumpLabel);
+        Instruction ifGreaterGotoInstruction = new IfCmpgtInstruction(null, jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
 

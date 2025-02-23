@@ -18,12 +18,12 @@ import sml.*;
  * @author Ricki Angel
  */
 
-public class IfEqualGotoInstruction extends Instruction {
+public class IfCmpeqInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpeq";
     private final Label jumpLabel;
     private boolean shouldJump;
 
-    public IfEqualGotoInstruction(Label label, Label jumpLabel) {
+    public IfCmpeqInstruction(Label label, Label jumpLabel) {
         super(label, OP_CODE);
         this.jumpLabel = jumpLabel;
     }

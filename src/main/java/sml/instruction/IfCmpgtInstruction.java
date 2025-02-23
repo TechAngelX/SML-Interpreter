@@ -17,12 +17,12 @@ import sml.Label;
  *
  * @author Ricki Angel
  */
-public class IfGreaterGotoInstruction extends Instruction {
+public class IfCmpgtInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpgt";
     private final Label jumpLabel;
     private boolean shouldJump;
 
-    public IfGreaterGotoInstruction(Label label, Label jumpLabel) {
+    public IfCmpgtInstruction(Label label, Label jumpLabel) {
         super(label, OP_CODE);
         this.jumpLabel = jumpLabel;
     }

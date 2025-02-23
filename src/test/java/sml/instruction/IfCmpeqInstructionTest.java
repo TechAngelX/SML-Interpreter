@@ -10,13 +10,13 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the functionality of IfEqualGotoInstruction in the Simple Machine Language.
+ * Tests the functionality of IfCmpeqInstruction in the Simple Machine Language.
  * ================================================================================
  * Verifies correct comparison and conditional jumping based on stack value equality.
  *
  * @author Ricki Angel
  */
-class IfEqualGotoInstructionTest {
+class IfCmpeqInstructionTest {
     private Machine machine;
 
     @BeforeEach
@@ -24,7 +24,7 @@ class IfEqualGotoInstructionTest {
         machine = new Machine();
     }
     /**
-     * Note: verifies {@link IfEqualGotoInstruction} continues to the next instruction
+     * Note: verifies {@link IfCmpeqInstruction} continues to the next instruction
      * when stack values are not equal. Pushes unequal values, executes, and confirms
      * the program counter does not jump to next label/instruction.
      */
@@ -37,7 +37,7 @@ class IfEqualGotoInstructionTest {
         Label returnLabel = new Label("return");
 
         // Create instructions:
-        Instruction ifEqualGotoInstruction = new IfEqualGotoInstruction(null, jumpLabel);
+        Instruction ifEqualGotoInstruction = new IfCmpeqInstruction(null, jumpLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
 
@@ -67,7 +67,7 @@ class IfEqualGotoInstructionTest {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        Instruction ifEqualGotoInstruction = new IfEqualGotoInstruction(null, jumpLabel);
+        Instruction ifEqualGotoInstruction = new IfCmpeqInstruction(null, jumpLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
 
