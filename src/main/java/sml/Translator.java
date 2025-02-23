@@ -1,7 +1,5 @@
 package sml;
 
-import sml.instruction.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -81,7 +79,7 @@ public final class Translator {
                         if (state != null)
                             state.instructions.add(instruction);
                         else
-                            throw new IllegalArgumentException("Instructions cannot appear outside methods " + labelString + " " + instruction);
+                            throw new IllegalArgumentException("Instruction cannot appear outside methods " + labelString + " " + instruction);
                     }
                 }
             }
@@ -120,7 +118,7 @@ public final class Translator {
 
     private String getInstructionClassName(String opcode) {
         String normalizedOpcode = normaliseOpcode(opcode);
-        return "sml.instruction." + normalizedOpcode + "Instruction";
+        return "sml.instructions." + normalizedOpcode + "Instruction";
     }
 
     private String normaliseOpcode(String opcode) {

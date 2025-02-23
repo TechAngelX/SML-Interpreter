@@ -1,5 +1,4 @@
 package sml;
-import sml.instruction.Instruction;
 
 import java.util.*;
 import java.util.stream.Collectors;

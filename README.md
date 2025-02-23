@@ -36,7 +36,7 @@ store
 
 - values of method arguments and local variables, which are accessed by referring to their name,
 - operands of the instruction in the so-called *operand stack* 
-  (so instructions can pop their arguments and push the result back on the operand stack) and
+  (so instruction can pop their arguments and push the result back on the operand stack) and
 - the value of the *program counter*, which indicates which instruction of the method will be executed next.
 
 We refer to the frame of the currently executed method as the *current frame* and its operand stack 
@@ -54,17 +54,17 @@ The general form of an `SML` instruction is:
 where
 
 * `label` — is the optional label for the line. It is a sequence of non-whitespace characters.  
-	Other instructions might “jump” to that label. 
+	Other instruction might “jump” to that label. 
 * `opcode` — is the actual instruction name (operation code).
-	In `SML`, there are instructions, for example, for adding and comparing integers, for storing and reading them from the method arguments and local variables, 
+	In `SML`, there are instruction, for example, for adding and comparing integers, for storing and reading them from the method arguments and local variables, 
     and for conditionally branching to other labels  (like an `if` statement).
 * `parameter-list` — is the comma-separated list of parameters for the instruction. Parameters can be
   - integer numbers (`I` in the table below), 
   - variable names (`V` in the table below),
-  - labels for branching instructions (`L` in the table below),
+  - labels for branching instruction (`L` in the table below),
   - method names for method invocation (`M` in the table below).
 
-SML has the following types of instructions:
+SML has the following types of instruction:
 
 | Instruction  | Interpretation                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -114,10 +114,10 @@ A method declaration also specifies its arguments in
 a comma-separated list after the method name.
 In our example method `@fib`, we have one argument, `n`.
 In the `test2.sml` example, we have method `@fib2`, also with one argument, `n`. Note that
-variable names `fm2`, `fm1`, `i` and `f` used in its instructions are the local variables of `@fib2`.
+variable names `fm2`, `fm1`, `i` and `f` used in its instruction are the local variables of `@fib2`.
 
 Execution of a program starts with method `main`.
-The instructions of a method are executed in order (starting with the first one), 
+The instruction of a method are executed in order (starting with the first one), 
 unless the order is changed by execution of a "jump" instruction such as `goto` or `if_cmpgt`. 
 Execution of a method terminates when it reaches a `return` instruction. Note that a 
 program is incorrect if it contains a method that does not end with a `return` instruction.
@@ -158,7 +158,7 @@ It is a typical *fetch-decode-execute* cycle that all machines have in some form
 At each iteration, the instruction to execute is fetched, the instruction is executed and 
 the program counter is updated. In most cases, the program counter is simply incremented 
 to move to the next instruction in the program (see method `advance` in `Frame`); 
-some instructions (e.g., `if_cmpgt`) can change the order of execution by jumping to a specific label 
+some instruction (e.g., `if_cmpgt`) can change the order of execution by jumping to a specific label 
 (see method `jumpTo` in `Frame`).
 
 The `Translator` class contains the methods that read in the program and translate 
@@ -178,7 +178,7 @@ and examine it. This class is *abstract*, because it should not be instantiated.
 The method `execute` is also abstract, forcing every concrete subclass to implement it. 
 Every instruction has an optional *label* and an *operation code* — that is exactly 
 what is common to every instruction.  Therefore, these properties (fields) are maintained 
-in the base class of all instructions.
+in the base class of all instruction.
 
 ## Tasks
 
@@ -213,7 +213,7 @@ Introduce auxiliary abstract classes where that can help avoid code duplication.
    that instruction. The existing code for translating `print`, `goto`, `invoke` and `return` 
    should help you with this.
 
-8. There are also a few places in the code with `TODO:` labels — follow the instructions to
+8. There are also a few places in the code with `TODO:` labels — follow the instruction to
    improve the provided code (or implement missing methods as required). 
    Use the Java Stream API whenever possible instead of loops.
 
@@ -224,7 +224,7 @@ Introduce auxiliary abstract classes where that can help avoid code duplication.
    remove the explicit calls to the subclasses and the `switch` statement. 
    This will allow the `SML` language to be extended without having to modify the original code.
    Remember that your reflection code should not mention any instruction subclass names. It should also be 
-   fairly general to accommodate new types of instructions, for example, bitwise operations on integers that work similarly to `add`
+   fairly general to accommodate new types of instruction, for example, bitwise operations on integers that work similarly to `add`
    or branching on "less than" or "not equal" and so on.
 
 2. Modify the source code to use *dependency injection*, the *singleton* design pattern, 
