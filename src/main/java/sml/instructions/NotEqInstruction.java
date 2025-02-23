@@ -14,7 +14,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class NotEqInstruction extends Instruction {
+public non-sealed class NotEqInstruction extends Instruction {
     public static final String OP_CODE = "not_eq";
 
     public NotEqInstruction(Label label) {

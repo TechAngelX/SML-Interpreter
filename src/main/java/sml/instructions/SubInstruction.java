@@ -13,7 +13,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class SubInstruction extends Instruction {
+public non-sealed class SubInstruction extends Instruction {
     public static final String OP_CODE = "sub";
 
     public SubInstruction(Label label) {

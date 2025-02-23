@@ -1,6 +1,5 @@
 package sml.instructions;
 
-import sml.Instruction;
 import sml.Label;
 import sml.Variable;
 
@@ -16,7 +15,7 @@ import java.util.stream.Stream;
  *
  * @author Ricki Angel
  */
-public abstract class AbstractVarInstruction extends Instruction {
+public abstract sealed class AbstractVarInstruction extends Instruction permits LoadInstruction, StoreInstruction{
     protected final Variable.Identifier varName;
 
     protected AbstractVarInstruction(Label label, String opcode, Variable.Identifier varName) {

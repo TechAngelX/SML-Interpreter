@@ -19,7 +19,7 @@ import sml.*;
  * @author Ricki Angel
  */
 
-public class IfCmpeqInstruction extends Instruction {
+public non-sealed class IfCmpeqInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpeq";
     private final Label jumpLabel;
     private boolean shouldJump;

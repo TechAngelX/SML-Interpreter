@@ -1,5 +1,7 @@
 package sml;
 
+import sml.instructions.Instruction;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -88,7 +90,7 @@ public final class Translator {
         return methods;
     }
 
-    // Process the arguments of a method from the current line and adds them to the state:
+    // Process the arguments of a method from the current line and add them to the state:
     private void processMethodArguments(State state) {
         for (String s = scan(); !s.isEmpty(); s = scan()) {
             String variable = s.endsWith(ITEM_SEPARATOR)

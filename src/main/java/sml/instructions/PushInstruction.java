@@ -12,7 +12,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class PushInstruction extends Instruction {
+public non-sealed class PushInstruction extends Instruction {
     public static final String OP_CODE = "push";
     private final int value;
 

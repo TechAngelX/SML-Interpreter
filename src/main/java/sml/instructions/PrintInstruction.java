@@ -15,7 +15,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class PrintInstruction extends Instruction {
+public non-sealed class PrintInstruction extends Instruction {
     public static final String OP_CODE = "print";
 
     public PrintInstruction(Label label) {

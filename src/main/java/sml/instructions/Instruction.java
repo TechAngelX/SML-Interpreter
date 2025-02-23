@@ -1,4 +1,9 @@
-package sml;
+package sml.instructions;
+
+import sml.Frame;
+import sml.Label;
+import sml.Machine;
+import sml.Variable;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -21,7 +26,7 @@ import java.util.stream.Stream;
  * @author Ricki Angel
  */
 
-public abstract class Instruction {
+public abstract sealed class Instruction permits AbstractVarInstruction, AddInstruction, DivInstruction, GotoInstruction, IfCmpeqInstruction, IfCmpgtInstruction, InvokeInstruction, MulInstruction, NotEqInstruction, PrintInstruction, PushInstruction, ReturnInstruction, SqrtInstruction, SubInstruction {
     protected final Label label;
     protected final String opcode;
 

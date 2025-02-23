@@ -14,7 +14,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class LoadInstruction extends AbstractVarInstruction {
+public non-sealed class LoadInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "load";
 
     public LoadInstruction(Label label, Variable.Identifier varName) {

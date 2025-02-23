@@ -13,7 +13,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class MulInstruction extends Instruction {
+public non-sealed class MulInstruction extends Instruction {
     public static final String OP_CODE = "mul";
 
     public MulInstruction(Label label) {

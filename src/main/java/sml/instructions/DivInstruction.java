@@ -17,7 +17,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class DivInstruction extends Instruction {
+public non-sealed class DivInstruction extends Instruction {
     public static final String OP_CODE = "div";
 
     public DivInstruction(Label label) {

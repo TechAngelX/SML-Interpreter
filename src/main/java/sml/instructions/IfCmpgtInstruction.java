@@ -16,7 +16,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class IfCmpgtInstruction extends Instruction {
+public non-sealed class IfCmpgtInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpgt";
     private final Label jumpLabel;
     private boolean shouldJump;

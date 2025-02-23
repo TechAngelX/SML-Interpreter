@@ -14,7 +14,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public class StoreInstruction extends AbstractVarInstruction {
+public non-sealed class StoreInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "store";
 
     public StoreInstruction(Label label, Variable.Identifier varName) {

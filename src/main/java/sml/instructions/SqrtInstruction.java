@@ -15,7 +15,7 @@ import sml.*;
  * @author Ricki Angel
  */
 
-public class SqrtInstruction extends Instruction {
+public non-sealed class SqrtInstruction extends Instruction {
     public static final String OP_CODE = "sqrt";
 
     public SqrtInstruction(Label label) {

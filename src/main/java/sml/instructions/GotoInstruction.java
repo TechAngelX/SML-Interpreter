@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author Ricki Angel
  */
-public class GotoInstruction extends Instruction {
+public non-sealed class GotoInstruction extends Instruction {
     public static final String OP_CODE = "goto";
     private final Label branchLabel;
 

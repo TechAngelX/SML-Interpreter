@@ -34,6 +34,9 @@ public class RunSml {
         this.machine = machine;
     }
 
+    public static RunSml create() {
+        return new RunSml(new Translator(), new Machine());
+    }
     public void run(String filename) throws IOException {
         Collection<Method> instructions = translator.readAndTranslate(filename);
         machine.setProgram(instructions);
@@ -42,6 +45,8 @@ public class RunSml {
 
     public static void main(String... args) {
         try {
+
+
             Constructor<RunSml> constructor = RunSml.class.getConstructor(Translator.class, Machine.class);
             Translator translator = new Translator();
             Machine machine = new Machine();
