@@ -4,8 +4,7 @@ import sml.instructions.*;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 /**
  * ===========================================================================================================
@@ -28,9 +27,38 @@ import java.util.logging.Logger;
 public class InstructionFactory {
     private static final Logger LOGGER = Logger.getLogger(InstructionFactory.class.getName());
     private static final Map<String, Class<? extends Instruction>> INSTRUCTION_MAP = new HashMap<>();
+    private static final List<String> SUCCESSFULLY_REGISTERED = new ArrayList<>();
+    private static final List<String> FAILED_REGISTRATION = new ArrayList<>();
 
     static {
+        Logger rootLogger = Logger.getLogger("");
+        for (Handler handler : rootLogger.getHandlers()) {
+            if (handler instanceof ConsoleHandler) {
+                handler.setFormatter(new SimpleFormatter() {
+                    @Override
+                    public synchronized String format(LogRecord record) {
+                        return record.getMessage() + System.lineSeparator();
+                    }
+                });
+            }
+        }
+
         discoverInstructionClasses();
+
+        printRegistrationSummary();
+    }
+
+    private static void printRegistrationSummary() {
+        System.out.println("\n=== Instruction Registration Summary ===");
+        System.out.println("Successfully Registered Instructions:");
+        SUCCESSFULLY_REGISTERED.forEach(instruction -> System.out.println("  + " + instruction));
+
+        System.out.println("\nFailed Registration Instructions:");
+        FAILED_REGISTRATION.forEach(instruction -> System.out.println("  - " + instruction));
+
+        System.out.println("\nTotal Registered: " + SUCCESSFULLY_REGISTERED.size());
+        System.out.println("Total Failed: " + FAILED_REGISTRATION.size());
+        System.out.println("=======================================\n");
     }
 
     public static Instruction createInstruction(String opcode, Label label) {
@@ -50,7 +78,8 @@ public class InstructionFactory {
     private static <T> Instruction createSpecificInstruction(String opcode, Class<T> defaultClass, Object... params) {
         try {
             Class<? extends Instruction> cls = INSTRUCTION_MAP.get(opcode);
-            if (cls == null) return (Instruction) defaultClass.getConstructor(Label.class, params.getClass()).newInstance(params);
+            if (cls == null)
+                return (Instruction) defaultClass.getConstructor(Label.class, params.getClass()).newInstance(params);
             Constructor<?> constructor = cls.getConstructor(Arrays.stream(params).map(Object::getClass).toArray(Class[]::new));
             return (Instruction) constructor.newInstance(params);
         } catch (Exception e) {
@@ -82,8 +111,9 @@ public class InstructionFactory {
      * class using Class.forName(). It then checks if the loaded class is a subclass of
      * Instruction (if it extends Instruction) and if it has a public static OP_CODE field.
      * If the checks pass, it registers the class in the INSTRUCTION_MAP using the opcode as the key.
-     *
+     * <p>
      * The {@code doExecute} method defines the instruction's core operational logic.
+     *
      * @author Ricki Angel
      */
 
@@ -145,23 +175,32 @@ public class InstructionFactory {
     }
 
     private static void registerInstructionClass(Class<?> clazz) {
-        LOGGER.log(Level.INFO, "Attempting to register class: {0}", clazz.getSimpleName());
+        LOGGER.log(Level.INFO, "Attempting to register class: " + clazz.getSimpleName());
 
         if (Instruction.class.isAssignableFrom(clazz)) {
             try {
-                String opcode = (String) clazz.getDeclaredField("OP_CODE").get(null);
-                INSTRUCTION_MAP.put(opcode, clazz.asSubclass(Instruction.class));
-                LOGGER.log(Level.FINEST, "Successfully registered instruction: {0} for opcode: {1}",
-                        new Object[]{clazz.getSimpleName(), opcode});
-            } catch (NoSuchFieldException e) {
                 if (java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
-                    LOGGER.log(Level.FINEST, "Skipping abstract class: {0}", clazz.getName());
-                } else {
-                    LOGGER.log(Level.WARNING, "Missing OP_CODE field in {0}", clazz.getName());
+                    LOGGER.log(Level.FINEST, "Skipping abstract class: " + clazz.getName());
+                    return;
                 }
+
+                String opcode = (String) clazz.getDeclaredField("OP_CODE").get(null);
+
+                INSTRUCTION_MAP.put(opcode, clazz.asSubclass(Instruction.class));
+
+                SUCCESSFULLY_REGISTERED.add(clazz.getSimpleName() + " (opcode: " + opcode + ")");
+
+                LOGGER.log(Level.FINEST, "Successfully registered instruction: "
+                        + clazz.getSimpleName() + " for opcode: " + opcode);
+            } catch (NoSuchFieldException e) {
+                FAILED_REGISTRATION.add(clazz.getSimpleName() + " - Missing OP_CODE field");
+                LOGGER.log(Level.WARNING, "Missing OP_CODE field in " + clazz.getName());
             } catch (Exception e) {
+                FAILED_REGISTRATION.add(clazz.getSimpleName() + " - Registration error: " + e.getMessage());
                 LOGGER.log(Level.WARNING, "Error registering class: " + clazz.getName(), e);
             }
+        } else {
+            FAILED_REGISTRATION.add(clazz.getSimpleName() + " - Not an Instruction subclass");
         }
     }
 
