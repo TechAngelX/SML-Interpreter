@@ -23,7 +23,7 @@ public final class Machine {
 
     public void execute() {
         try {
-            System.out.println("Beginning program execution.");
+            System.out.println("== Beginning program execution ==\n");
 
             while (frame.isPresent()) {
                 Frame f = frame.get();
