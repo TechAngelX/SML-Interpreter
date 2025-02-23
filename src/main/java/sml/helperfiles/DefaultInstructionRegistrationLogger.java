@@ -42,7 +42,6 @@ public class DefaultInstructionRegistrationLogger implements InstructionRegistra
     public void trackFailedRegistration(String instructionName, String reason) {
         FAILED_REGISTRATION.add(instructionName + " - " + reason);
 
-        // Additional console output
         System.err.println("Instruction class not in /instructions folder: " + instructionName);
 
         LOGGER.log(Level.WARNING, "Failed to register instruction: " + instructionName + " - " + reason);

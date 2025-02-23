@@ -34,7 +34,7 @@ public final class Machine {
                 frame = instruction.execute(this);
             }
 
-            System.out.println("\n== Ending Program Execution ==");
+            System.out.println("\n== Ending Program Execution ==\n");
         } catch (MethodNotFoundException e) {
             System.err.println("Error: Method not found - " + e.getMessage());
         } catch (IllegalStateException e) {

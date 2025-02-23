@@ -104,6 +104,7 @@ public abstract sealed class Instruction permits AbstractVarInstruction, AddInst
                 Objects.equals(opcode, that.opcode);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(label, opcode);
