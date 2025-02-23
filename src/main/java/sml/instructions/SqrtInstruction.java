@@ -15,10 +15,10 @@ import sml.*;
  * @author Ricki Angel
  */
 
-public class SquareRootInstruction extends Instruction {
+public class SqrtInstruction extends Instruction {
     public static final String OP_CODE = "sqrt";
 
-    public SquareRootInstruction(Label label) {
+    public SqrtInstruction(Label label) {
         super(label, OP_CODE);
     }
 
