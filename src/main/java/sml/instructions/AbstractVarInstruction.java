@@ -1,6 +1,9 @@
 package sml.instructions;
 
-import sml.*;
+import sml.Instruction;
+import sml.Label;
+import sml.Variable;
+
 import java.util.Objects;
 import java.util.stream.Stream;
 /**

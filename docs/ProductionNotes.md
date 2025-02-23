@@ -21,7 +21,7 @@ Div         ✅  DivInstruction class completed.
 if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
 if_cmpeq    ✅  IfEqualGotoInstruction class completed.
 
-InstructionFactory ✅  InstructionFactory completed.
+InstructionFactory ✅  InstructionFactory completed with Chain of Responsibility pattern.
 ```
 
 ### PART II
@@ -126,6 +126,19 @@ Created a simple programe 'sqrtTest.sml' that:
 - print
 - push
 - return
-- sqrt
 - store
 - sub
+- sqrt   - bespoke
+- not_eq - bespoke
+
+
+```
+```
+Java's Loging levels from most to least verbose:
+FINEST
+FINER
+FINE
+CONFIG
+INFO
+WARNING
+SEVERE
