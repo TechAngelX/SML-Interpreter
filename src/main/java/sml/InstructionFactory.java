@@ -1,5 +1,6 @@
 package sml;
 
+import sml.helperfiles.InstructionRegistrationLogger;
 import sml.instructions.*;
 
 import java.lang.reflect.Constructor;
@@ -25,10 +26,14 @@ import java.util.logging.*;
  * @author Ricki Angel
  */
 public class InstructionFactory {
+    private final InstructionRegistrationLogger logger;
+
     private static final Logger LOGGER = Logger.getLogger(InstructionFactory.class.getName());
     private static final Map<String, Class<? extends Instruction>> INSTRUCTION_MAP = new HashMap<>();
-    private static final List<String> SUCCESSFULLY_REGISTERED = new ArrayList<>();
-    private static final List<String> FAILED_REGISTRATION = new ArrayList<>();
+
+    public InstructionFactory(InstructionRegistrationLogger logger) {
+        this.logger = logger;
+    }
 
     static {
         Logger rootLogger = Logger.getLogger("");
@@ -44,21 +49,22 @@ public class InstructionFactory {
         }
 
         discoverInstructionClasses();
-
-        printRegistrationSummary();
     }
 
-    private static void printRegistrationSummary() {
-        System.out.println("\n=== Instruction Registration Summary ===");
-        System.out.println("Successfully Registered Instructions:");
-        SUCCESSFULLY_REGISTERED.forEach(instruction -> System.out.println("  + " + instruction));
+    private static void discoverInstructionClasses() {
+        InstructionFactory factory = new InstructionFactory(new sml.helperfiles.DefaultInstructionRegistrationLogger());
+        factory.performDiscovery();
+        factory.logger.printRegistrationSummary();
+    }
 
-        System.out.println("\nFailed Registration Instructions:");
-        FAILED_REGISTRATION.forEach(instruction -> System.out.println("  - " + instruction));
-
-        System.out.println("\nTotal Registered: " + SUCCESSFULLY_REGISTERED.size());
-        System.out.println("Total Failed: " + FAILED_REGISTRATION.size());
-        System.out.println("=======================================\n");
+    private void performDiscovery() {
+        discoverByPackageScanning();
+        if (INSTRUCTION_MAP.isEmpty()) {
+            discoverByDirectClassLoading();
+        }
+        if (INSTRUCTION_MAP.isEmpty()) {
+            throw new RuntimeException("Failed to register any instruction classes");
+        }
     }
 
     public static Instruction createInstruction(String opcode, Label label) {
@@ -92,16 +98,6 @@ public class InstructionFactory {
         }
     }
 
-    private static void discoverInstructionClasses() {
-        discoverByPackageScanning();
-        if (INSTRUCTION_MAP.isEmpty()) {
-            discoverByDirectClassLoading();
-        }
-        if (INSTRUCTION_MAP.isEmpty()) {
-            throw new RuntimeException("Failed to register any instruction classes");
-        }
-    }
-
     /**
      * =====================================================================================
      * Package Scanning Discovery.
@@ -116,8 +112,7 @@ public class InstructionFactory {
      *
      * @author Ricki Angel
      */
-
-    private static void discoverByPackageScanning() {
+    private void discoverByPackageScanning() {
         try {
             String packageName = "sml.instructions";
             String packagePath = packageName.replace('.', '/');
@@ -154,7 +149,7 @@ public class InstructionFactory {
      * Attempts to discover and register instruction classes by directly loading them
      * using predefined opcodes and class name suffixes.
      */
-    private static void discoverByDirectClassLoading() {
+    private void discoverByDirectClassLoading() {
         try {
             String[] commonOpcodes = {"add", "sub", "mul", "div", "goto", "if_cmpgt", "if_cmpeq", "print", "load", "store", "push", "pop", "return", "invoke", "sqrt"};
             String packageName = Instruction.class.getPackage().getName();
@@ -174,8 +169,8 @@ public class InstructionFactory {
         }
     }
 
-    private static void registerInstructionClass(Class<?> clazz) {
-        LOGGER.log(Level.INFO, "Attempting to register class: " + clazz.getSimpleName());
+    private void registerInstructionClass(Class<?> clazz) {
+        logger.logRegistrationAttempt(clazz);
 
         if (Instruction.class.isAssignableFrom(clazz)) {
             try {
@@ -188,19 +183,14 @@ public class InstructionFactory {
 
                 INSTRUCTION_MAP.put(opcode, clazz.asSubclass(Instruction.class));
 
-                SUCCESSFULLY_REGISTERED.add(clazz.getSimpleName() + " (opcode: " + opcode + ")");
-
-                LOGGER.log(Level.FINEST, "Successfully registered instruction: "
-                        + clazz.getSimpleName() + " for opcode: " + opcode);
+                logger.trackSuccessfulRegistration(clazz.getSimpleName(), opcode);
             } catch (NoSuchFieldException e) {
-                FAILED_REGISTRATION.add(clazz.getSimpleName() + " - Missing OP_CODE field");
-                LOGGER.log(Level.WARNING, "Missing OP_CODE field in " + clazz.getName());
+                logger.trackFailedRegistration(clazz.getSimpleName(), "Missing OP_CODE field");
             } catch (Exception e) {
-                FAILED_REGISTRATION.add(clazz.getSimpleName() + " - Registration error: " + e.getMessage());
-                LOGGER.log(Level.WARNING, "Error registering class: " + clazz.getName(), e);
+                logger.trackFailedRegistration(clazz.getSimpleName(), "Registration error: " + e.getMessage());
             }
         } else {
-            FAILED_REGISTRATION.add(clazz.getSimpleName() + " - Not an Instruction subclass");
+            logger.trackFailedRegistration(clazz.getSimpleName(), "Not an Instruction subclass");
         }
     }
 
