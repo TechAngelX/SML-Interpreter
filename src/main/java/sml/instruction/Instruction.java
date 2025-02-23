@@ -1,7 +1,5 @@
 package sml.instruction;
 
-// TODO: write JavaDoc for the class
-
 import sml.Frame;
 import sml.Label;
 import sml.Machine;
@@ -10,26 +8,27 @@ import sml.Variable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-/**
- * ================================================================
- * Abstract base class for instructions in the Simple Machine Language.
- * ================================================================
- *
- * Defines the core structure and behavior for all language instructions,
- * including execution, labeling, and comparison mechanisms.
- *
- * @author Ricki Angel
- */
+
 public abstract class Instruction {
     protected final Label label;
     protected final String opcode;
 
     /**
-     * Constructor: an instruction with a label and an opcode
-     * (opcode must be an operation of the language)
+     * =====================================================================================================
+     * Abstract class representing an instruction in Simple Machine Language (SML).
+     * -----------------------------------------------------------------------------------------------------
+     * This class defines the general structure and behavior of SML instructions, providing a template for
+     * specific instruction types. It manages the execution flow and operand handling, while allowing
+     * subclass-specific execution logic through the template method pattern.
+     * <p>
+     * The class provides methods for: Label management, Opcode representation, Operand variable extraction
+     * and Execution flow control.
+     * <p>
+     * Subclasses should implement the execution-specific logic in doExecute()
+     * and provide the operands as a string in getOperandsString().
+     * ================================================================
      *
-     * @param label optional label (can be null)
-     * @param opcode operation name
+     * @author Ricki Angel
      */
     public Instruction(Label label, String opcode) {
         this.label = label;
@@ -50,19 +49,49 @@ public abstract class Instruction {
      *
      * @return the stream of variables
      */
-
     public Stream<Variable.Identifier> variables() {
         return Stream.of();
     }
 
     /**
-     * Executes the instruction in the given machine.
+     * Template method that defines execution sequence.
+     * This ensures consistent execution flow while allowing
+     * instruction-specific behavior.
      *
      * @param machine the machine the instruction runs on
      * @return the new frame with an update instruction index
      */
+    public Optional<Frame> execute(Machine machine) {
+        Frame frame = machine.frame();
+        doExecute(frame);
+        Frame nextFrame = determineNextFrame(frame);
 
-    public abstract Optional<Frame> execute(Machine machine);
+        if (nextFrame == null) {
+            // Handle this case, possibly by returning an empty Optional or logging the error:
+            return Optional.empty();
+        }
+
+        return Optional.of(nextFrame);
+    }
+    /**
+     * Hook method for instruction-specific execution logic.
+     * Each concrete instruction must implement this.
+     *
+     * @param frame current execution frame
+     */
+    protected abstract void doExecute(Frame frame);
+
+    /**
+     * Template method to determine next frame.
+     * Default behavior advances to next instruction.
+     * Override for special flow control (jumps, returns).
+     *
+     * @param frame current execution frame
+     * @return next frame to execute
+     */
+    protected Frame determineNextFrame(Frame frame) {
+        return frame.advance();
+    }
 
     /**
      * Returns a string representation of the operands.
@@ -70,16 +99,8 @@ public abstract class Instruction {
      *
      * @return a string representation of the operands
      */
-
     protected abstract String getOperandsString();
 
-    /**
-     * Compares this instruction with another object for equality, and/or null.
-     * Subclasses should override this method to include their specific fields.
-     *
-     * @param o the object to compare with
-     * @return true if the objects are equal, false otherwise
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,20 +110,10 @@ public abstract class Instruction {
                 Objects.equals(opcode, that.opcode);
     }
 
-    /**
-     * Generates a hash code incorprating just label and opcode for this instruction
-     * and its subclasses.
-     * Objects that are considered equal should have the same hashCode.
-     * Subclasses MAY override this method to include their specific fields.
-     *
-     * @return a hash code value for this instruction
-     */
     @Override
     public int hashCode() {
         return Objects.hash(label, opcode);
     }
-
-
 
     @Override
     public String toString() {
@@ -111,5 +122,4 @@ public abstract class Instruction {
                 opcode(),
                 getOperandsString());
     }
-
 }
