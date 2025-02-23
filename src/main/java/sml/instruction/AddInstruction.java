@@ -1,6 +1,6 @@
 package sml.instruction;
-import sml.Frame;
-import sml.Label;
+
+import sml.*;
 /**
  * ==============================================================================
  * Add instruction for Simple Machine Language (SML).
