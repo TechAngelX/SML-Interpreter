@@ -2,17 +2,16 @@ package sml.instruction;
 
 import sml.Frame;
 import sml.Label;
-import sml.Machine;
-
-import java.util.Optional;
 
 /**
- * ================================================================
+ * =====================================================================================
  * Multiplication instruction for Simple Machine Language (SML).
- * ================================================================
- *
+ * -------------------------------------------------------------------------------------
+ * <p>
  * Takes two numbers from stack, multiplies them together,
  * and pushes the result back onto the stack.
+ * <p>
+ * The {@code doExecute} method defines the instruction's core operational logic.
  *
  * @author Ricki Angel
  */
@@ -23,17 +22,11 @@ public class MultiplyInstruction extends Instruction {
         super(label, OP_CODE);
     }
 
-    public MultiplyInstruction(Label label, String opcode) {
-        super(label, opcode);
-    }
-
     @Override
-    public Optional<Frame> execute(Machine machine) {
-        Frame frame = machine.frame();
+    protected void doExecute(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         frame.push(value1 * value2);
-        return Optional.of(frame.advance());
     }
 
     @Override
@@ -41,3 +34,4 @@ public class MultiplyInstruction extends Instruction {
         return "";
     }
 }
+

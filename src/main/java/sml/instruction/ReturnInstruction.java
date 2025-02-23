@@ -2,21 +2,21 @@ package sml.instruction;
 
 import sml.*;
 
-import java.util.Optional;
 /**
- * ================================================================
+ * =====================================================================================
  * Return instruction for Simple Machine Language (SML).
- * ================================================================
- *
+ * -------------------------------------------------------------------------------------
+ * <p>
  * Handles method return mechanism by popping the top value
  * from the current frame and pushing it to the invoking frame.
- *
+ * <p>
  * Manages method call stack and value propagation between method contexts.
+ * <p>
+ * The {@code doExecute} method defines the instruction's core operational logic.
  *
  * @author Ricki Angel
  */
 public class ReturnInstruction extends Instruction {
-
     public static final String OP_CODE = "return";
 
     public ReturnInstruction(Label label) {
@@ -24,16 +24,16 @@ public class ReturnInstruction extends Instruction {
     }
 
     @Override
-    public Optional<Frame> execute(Machine machine) {
-        Frame frame = machine.frame();
+    protected void doExecute(Frame frame) {
         int value = frame.pop();
-        Optional<Frame> optionalInvoker = frame.invoker();
-        if (optionalInvoker.isPresent()) {
-            Frame invoker = optionalInvoker.get();
-            invoker.push(value);
-            return Optional.of(invoker.advance());
-        }
-        return optionalInvoker;
+        frame.invoker().ifPresent(invoker -> invoker.push(value));
+    }
+
+    @Override
+    protected Frame determineNextFrame(Frame frame) {
+        return frame.invoker()
+                .map(Frame::advance)
+                .orElse(null);
     }
 
     @Override
