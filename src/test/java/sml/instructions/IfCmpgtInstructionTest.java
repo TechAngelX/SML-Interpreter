@@ -24,6 +24,7 @@ class IfCmpgtInstructionTest {
     void setUp() {
         machine = new Machine();
     }
+
     /**
      * NoteL verifies that the {@link IfCmpgtInstruction} correctly advances to the next instruction
      * (at index 1) when the first value popped from the stack is larger than the second.
@@ -43,10 +44,9 @@ class IfCmpgtInstructionTest {
         // Create instruction objects. IfCmpgtInstruction will jump to jumpLabel.
         // if the first value popped from the stack is greater than the second value popped.
         Instruction ifGreaterGotoInstruction = new IfCmpgtInstruction(null, jumpLabel);
-        Instruction nextInstruction = new ReturnInstruction(returnLabel); // Next instruction after comparison
-        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel); // Instruction to jump to
+        Instruction nextInstruction = new ReturnInstruction(returnLabel);
+        Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
 
-        // Set up the program with instructions:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -54,13 +54,9 @@ class IfCmpgtInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        // Basically, when first number popped from the stack is largar than second number, the test checks
-        // that the program jumps to the jumptarget instruction - the third instruction, which is at index 2.
+        machine.frame().push(10);
+        machine.frame().push(5);
 
-        machine.frame().push(10);  // First operand.
-        machine.frame().push(5);   // Second operand.
-
-        // Execute instruction
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
@@ -87,10 +83,8 @@ class IfCmpgtInstructionTest {
         machine.frame().push(36);
         machine.frame().push(101);
 
-        // Execute:
         Optional<Frame> nextFrame = ifGreaterGotoInstruction.execute(machine);
 
-        // Verify did not jump:
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         int programCounter = nextFrame.get().programCounter();
         assertEquals(1, programCounter, "if first value smaller than second, should not jump, but continue to next instruction");

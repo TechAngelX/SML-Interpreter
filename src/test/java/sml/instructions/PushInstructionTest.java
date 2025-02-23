@@ -26,13 +26,11 @@ public class PushInstructionTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize a new Machine instance before each test:
         machine = new Machine();
     }
 
     @AfterEach
     void tearDown() {
-        // Clean up the Machine instance and reset System.out to its default:
         machine = null;
         System.setOut(System.out);
     }

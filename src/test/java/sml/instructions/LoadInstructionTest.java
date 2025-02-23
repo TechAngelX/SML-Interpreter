@@ -28,13 +28,11 @@ public class LoadInstructionTest {
 
     @BeforeEach
     void setUp() {
-        // Initialize a new Machine instance before each test:
         machine = new Machine();
     }
 
     @AfterEach
     void tearDown() {
-        // Clean up the Machine instance and reset System.out to its default:
         machine = null;
         System.setOut(System.out);
     }
@@ -50,11 +48,9 @@ public class LoadInstructionTest {
                 List.of(), List.of(loadInstruction, returnInstruction));
         machine.setProgram(List.of(mainMethod));
 
-        // Set the value of the variable before executing the instruction:
         Variable variable = machine.frame().variable(varId);
         variable.store(55);
 
-        // Redirect System.out to capture the output:
         System.setOut(new PrintStream(outContent));
         loadInstruction.execute(machine);
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sml.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ class IfCmpeqInstructionTest {
     void setUp() {
         machine = new Machine();
     }
+
     /**
      * Note: verifies {@link IfCmpeqInstruction} continues to the next instruction
      * when stack values are not equal. Pushes unequal values, executes, and confirms
@@ -32,30 +34,24 @@ class IfCmpeqInstructionTest {
     @Test
     @DisplayName("Should jump to target label when stack values are equal")
     void testShouldJumpToTargetIfValuesAreEqual() {
-        // Create labels to repreesnt locations in the programme:
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        // Create instructions:
         Instruction ifEqualGotoInstruction = new IfCmpeqInstruction(null, jumpLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
 
-        // Set up program with instructions. Indexing is based on the order put in the List.of() method.
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
                 List.of(ifEqualGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
-        // Setup program and push equal values onto stack:
         machine.setProgram(List.of(mainMethod));
-        machine.frame().push(42);  // First operand.
-        machine.frame().push(42);  // Second operand.
+        machine.frame().push(42);
+        machine.frame().push(42);
 
-        // Execute instruction:
         Optional<Frame> nextFrame = ifEqualGotoInstruction.execute(machine);
 
-        // Verify jump occurred - Should jump to instruction with jumpLabel (jumpTargetInstruction):
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         int programCounter = nextFrame.get().programCounter();
         assertEquals(2, programCounter, "Should jump to instruction at index 2");
@@ -77,13 +73,13 @@ class IfCmpeqInstructionTest {
                 List.of(ifEqualGotoInstruction, nextInstruction, jumpTargetInstruction)
         );
         machine.setProgram(List.of(mainMethod));
-        machine.frame().push(99);  // First operand.
-        machine.frame().push(2);  // Second operand.
+        machine.frame().push(99);
+        machine.frame().push(2);
 
         Optional<Frame> nextFrame = ifEqualGotoInstruction.execute(machine);
 
-        // Verify did not jump:
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         int programCounter = nextFrame.get().programCounter();
-        assertEquals(1, programCounter, "Should not jump to target, but continue to next instruction at index 1");    }
+        assertEquals(1, programCounter, "Should not jump to target, but continue to next instruction at index 1");
+    }
 }

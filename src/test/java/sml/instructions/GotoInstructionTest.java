@@ -50,7 +50,6 @@ class GotoInstructionTest {
       @Test
     @DisplayName("Should throw LabelNotFoundException for missing labels")
     void missingLabelGotoInstruction() {
-        // Create a Label instance representing the missing label "L2":
         Label missingLabel = new Label("L2");
 
         Instruction ins0 = new GotoInstruction(null, missingLabel);
@@ -60,15 +59,13 @@ class GotoInstructionTest {
         // and ins1 (Return):
         Method m = new Method(new Method.Identifier("@main"), List.of(), List.of(ins0, ins1));
 
-        // Set the program:
         machine.setProgram(List.of(m));
 
         // Execute the GotoInstruction (ins0), expecting it to throw a LabelNotFoundException
         // because the label "L2" is missing:
         LabelNotFoundException ex = assertThrows(LabelNotFoundException.class, () -> ins0.execute(machine));
 
-        // Verify the exception message to ensure it correctly indicates
-        // that "Label L2 not found in main":
+
         assertEquals("Label L2 not found in main", ex.getMessage());
 
         assertEquals(missingLabel, ex.getLabel(), "Exception should contain the missing label");

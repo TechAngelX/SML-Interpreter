@@ -35,11 +35,9 @@ class DivInstructionTest {
     @Test
     @DisplayName("Should correctly divide two numbers from the stack")
     void testExecuteDivInstruction() {
-        // Create instructions for division and program termination:
         Instruction divInstruction = new DivInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Set up the program with both instructions:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -47,18 +45,14 @@ class DivInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        // Push operands onto stack in LIFO order:
-        machine.frame().push(56);  // First operand.
-        machine.frame().push(8);   // Second operand (will be popped first).
+        machine.frame().push(56);
+        machine.frame().push(8);
 
-        // Execute division and get next frame:
         Optional<Frame> nextFrame = divInstruction.execute(machine);
 
-        // Verify correct division result:
         int result = machine.frame().pop();
         assertEquals(7, result, "56 / 8 should equal 7");
 
-        // Verify program advances correctly:
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
     }
@@ -66,7 +60,6 @@ class DivInstructionTest {
     @Test
     @DisplayName("Should handle division with negative numbers")
     void testDivisionWithNegativeNumbers() {
-        // Create division instruction and return instruction:
         Instruction divInstruction = new DivInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
 
@@ -77,16 +70,14 @@ class DivInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        // Push operands:
-        machine.frame().push(-56);  // First operand.
-        machine.frame().push(8);    // Second operand.
+        machine.frame().push(-56);
+        machine.frame().push(8);
 
         Optional<Frame> nextFrame = divInstruction.execute(machine);
 
         int result = machine.frame().pop();
         assertEquals(-7, result, "-56 / 8 should equal -7");
 
-        // Verify program advances correctly:
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
     }
@@ -103,10 +94,9 @@ class DivInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        machine.frame().push(50);  // First operand.
-        machine.frame().push(0);   // Second operand.
+        machine.frame().push(50);
+        machine.frame().push(0);
 
-        // Verify that division by zero throws an ArithmeticException:
         assertThrows(ArithmeticException.class,
                 () -> divInstruction.execute(machine),
                 "Division by zero should throw ArithmeticException"

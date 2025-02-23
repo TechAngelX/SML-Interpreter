@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Ricki Angel
  */
 public class PrintInstructionTest {
+    // An optional stream for capturing console output as a byte array, useful for test verification.
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     private Machine machine;

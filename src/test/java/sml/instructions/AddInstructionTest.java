@@ -31,11 +31,9 @@ class AddInstructionTest {
     @Test
     @DisplayName("Should correctly add two numbers from the stack")
     void testExecuteAddInstruction() {
-        // Create instructions for addition and program termination:
         Instruction addInstruction = new AddInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Set up the program with both instructions:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -43,18 +41,14 @@ class AddInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        // Push operands onto stack in LIFO order:
-        machine.frame().push(64);  // First operand.
-        machine.frame().push(36);  // Second operand (will be popped first).
+        machine.frame().push(64);
+        machine.frame().push(36);
 
-        // Execute addition and get next frame:
         Optional<Frame> nextFrame = addInstruction.execute(machine);
 
-        // Verify correct addition result:
         int result = machine.frame().pop();
         assertEquals(100, result, "64 + 36 should equal 100");
 
-        // Verify program advances correctly:
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
     }
