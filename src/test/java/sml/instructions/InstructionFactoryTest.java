@@ -17,10 +17,10 @@ class InstructionFactoryTest {
     @Test
     @DisplayName("Should create NotEqInstruction for not_eq opcode")
     void testCreateNotEqInstruction() {
-        Instruction instruction = InstructionFactory.createInstruction("not_eq", label);
+        Instruction instruction = InstructionFactory.createInstruction("not_eq", label);  // Change this opcode for to test a a new Instruction.
 
-        assertNotNull(instruction, "Should create an instruction for not_eq opcode");
-        assertTrue(instruction instanceof NotEqInstruction,
+        assertNotNull(instruction, "Instruction class not in /instructions folder");
+        assertTrue(instruction instanceof NotEqInstruction, // Change this classname for your test.
                 "Should create an NotEqInstruction for not_eq opcode");
     }
 

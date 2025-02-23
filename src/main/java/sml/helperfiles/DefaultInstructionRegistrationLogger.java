@@ -29,29 +29,37 @@ public class DefaultInstructionRegistrationLogger implements InstructionRegistra
 
     @Override
     public void logRegistrationAttempt(Class<?> clazz) {
-        LOGGER.log(Level.INFO, "Attempting to register class: " + clazz.getSimpleName());
+//        LOGGER.log(Level.INFO, "Attempting to register class: " + clazz.getSimpleName());
     }
 
     @Override
     public void trackSuccessfulRegistration(String instructionName, String opcode) {
         SUCCESSFULLY_REGISTERED.add(instructionName + " (opcode: " + opcode + ")");
-        LOGGER.log(Level.FINEST, "Successfully registered instruction: " + instructionName + " for opcode: " + opcode);
+//        LOGGER.log(Level.FINEST, "Successfully registered instruction: " + instructionName + " for opcode: " + opcode);
     }
 
     @Override
     public void trackFailedRegistration(String instructionName, String reason) {
         FAILED_REGISTRATION.add(instructionName + " - " + reason);
+
+        // Additional console output
+        System.err.println("Instruction class not in /instructions folder: " + instructionName);
+
         LOGGER.log(Level.WARNING, "Failed to register instruction: " + instructionName + " - " + reason);
     }
-
     @Override
     public void printRegistrationSummary() {
         System.out.println("\n=== Instruction Registration Summary ===");
-        System.out.println("Successfully Registered Instructions:");
-        SUCCESSFULLY_REGISTERED.forEach(instruction -> System.out.println("  + " + instruction));
 
-        System.out.println("\nFailed Registration Instructions:");
-        FAILED_REGISTRATION.forEach(instruction -> System.out.println("  - " + instruction));
+        for (int i = 0; i < SUCCESSFULLY_REGISTERED.size(); i++) {
+            System.out.println("  → Attempting: " + SUCCESSFULLY_REGISTERED.get(i).split(" \\(")[0]);
+            System.out.println("  ✓ Registered: " + SUCCESSFULLY_REGISTERED.get(i)+"\n");
+        }
+
+        if (!FAILED_REGISTRATION.isEmpty()) {
+            System.out.println("\nFailed Registration Attempts:");
+            FAILED_REGISTRATION.forEach(instruction -> System.out.println("  ✗ " + instruction));
+        }
 
         System.out.println("\nTotal Registered: " + SUCCESSFULLY_REGISTERED.size());
         System.out.println("Total Failed: " + FAILED_REGISTRATION.size());

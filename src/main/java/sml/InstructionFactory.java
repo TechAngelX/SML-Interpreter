@@ -144,16 +144,21 @@ public class InstructionFactory {
 
     /**
      * =====================================================================================
-     * Direct Class Discovery and Registration
+     * Direct Class Discovery and Registration (for Legacy code only).
      * -------------------------------------------------------------------------------------
      * Attempts to discover and register instruction classes by directly loading them
      * using predefined opcodes and class name suffixes.
+     * <p>
+     * Usage: Add opcode to the previousKnownOpcodes array below, and put your Instruction
+     * class in /instructions package.
+     *
      */
     private void discoverByDirectClassLoading() {
         try {
-            String[] commonOpcodes = {"add", "sub", "mul", "div", "goto", "if_cmpgt", "if_cmpeq", "print", "load", "store", "push", "pop", "return", "invoke", "sqrt"};
+            String[] previouslyKnownOpcodes = {"add", "sub", "mul", "div", "goto", "if_cmpgt", "if_cmpeq", "print",
+                    "load", "store", "push", "pop", "return", "invoke", "sqrt", "not_eq"};
             String packageName = Instruction.class.getPackage().getName();
-            for (String opcode : commonOpcodes) {
+            for (String opcode : previouslyKnownOpcodes) {
                 String className = Character.toUpperCase(opcode.charAt(0)) + opcode.substring(1) + "Instruction";
                 String fullClassName = packageName + "." + className;
                 try {
