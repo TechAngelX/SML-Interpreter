@@ -1,33 +1,35 @@
-package sml.instruction;
+package sml.instructions;
 
 import sml.*;
-
 /**
  * =====================================================================================
- * Represents the 'push' instruction in the Simple Machine Language (SML).
+ * Multiplication instruction for Simple Machine Language (SML).
  * -------------------------------------------------------------------------------------
- * Pushes a constant integer value directly onto the current frame's operand stack.
+ * <p>
+ * Takes two numbers from stack, multiplies them together,
+ * and pushes the result back onto the stack.
  * <p>
  * The {@code doExecute} method defines the instruction's core operational logic.
  *
  * @author Ricki Angel
  */
-public class PushInstruction extends Instruction {
-    public static final String OP_CODE = "push";
-    private final int value;
+public class MultiplyInstruction extends Instruction {
+    public static final String OP_CODE = "mul";
 
-    public PushInstruction(Label label, int value) {
+    public MultiplyInstruction(Label label) {
         super(label, OP_CODE);
-        this.value = value;
     }
 
     @Override
     protected void doExecute(Frame frame) {
-        frame.push(value);
+        int value2 = frame.pop();
+        int value1 = frame.pop();
+        frame.push(value1 * value2);
     }
 
     @Override
     protected String getOperandsString() {
-        return String.valueOf(value);
+        return "";
     }
 }
+

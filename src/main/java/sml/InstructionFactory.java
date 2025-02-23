@@ -1,6 +1,6 @@
 package sml;
 
-import sml.instruction.*;
+import sml.instructions.*;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
@@ -153,7 +153,6 @@ public class InstructionFactory {
             throw new RuntimeException("Failed to register any instruction classes");
         }
     }
-
     /**
      * =====================================================================================
      * Package Scanning Discovery.
@@ -169,8 +168,7 @@ public class InstructionFactory {
      */
     private static void discoverByPackageScanning() {
         try {
-            Package instructionPackage = Instruction.class.getPackage();
-            String packageName = instructionPackage.getName();
+            String packageName = "sml.instructions";
             String packagePath = packageName.replace('.', '/');
 
             String basePath = System.getProperty("user.dir");
@@ -188,7 +186,7 @@ public class InstructionFactory {
                         file -> file.isFile() && file.getName().endsWith(".class")
                 );
 
-                LOGGER.info("No: of class files found: " + (classFiles != null ? classFiles.length : "null"));
+                LOGGER.info("Number of class files found: " + (classFiles != null ? classFiles.length : "null"));
 
                 if (classFiles != null) {
                     for (java.io.File classFile : classFiles) {
@@ -212,16 +210,26 @@ public class InstructionFactory {
             LOGGER.log(Level.WARNING, "Package scanning failed", e);
         }
     }
+    //If using this discovery method, add new op_code here.
     /**
-     * =====================
-     * Direct Class Loading.
-     * ---------------------
+     * =====================================================================================
+     * Direct Class Discovery and Registration
+     * -------------------------------------------------------------------------------------
+     * Attempts to discover and register instruction classes by directly loading them
+     * using predefined opcodes and class name suffixes. This method is a fallback
+     * if package scanning fails.
+     * <p>
+     * Classes are loaded and registered using {@link #registerInstructionClass(Class)}.
+     * Opcodes are transformed to class names by removing hyphens, capitalizing to camel case,
+     * and appending 'Instruction'. Exceptions are logged, but do not halt the process.
+     * To use this discovery method, add new opcodes here and create concrete Instruction
+     * classes with corresponding opcode identifiers.
      */
     private static void discoverByDirectClassLoading() {
         try {
             String[] commonOpcodes = {
                     "add", "sub", "mul", "div", "goto",
-                    "if_cmpgt", "if_cmpeq", "print", "load", //Probably wouldn't load if_cmpgt and if_cmpeq. Need to change name.
+                    "if_cmpgt", "if_cmpeq", "print", "load",
                     "store", "push", "pop", "return", "invoke", "sqrt",
             };
             String[] suffixes = {"", "Instruction"};

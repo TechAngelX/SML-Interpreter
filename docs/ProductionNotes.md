@@ -78,15 +78,15 @@ this raises a design question:
 SOLUTION 3: Confirm Template Method Pattern
 ✅ Retained and reinforced the Template Method pattern because:
 1. The base Instruction class defines the algorithm skeleton
-2. Concrete instructions only need to implement execute() and getOperandsString()
+2. Concrete instruction only need to implement execute() and getOperandsString()
 3. Common behavior (toString, label handling, etc.) stays in base class
-4. Pattern ensures consistent structure across all instructions
+4. Pattern ensures consistent structure across all instruction
 ```
 ```
 PROBLEM 4: ServiceProvider - Overengineering
 Upon critically evaluating the code, it seems that the dynamic ServiceProvider solution might be overengineered. 
 Currently, the configuration already utilizes reflection to discover and load instruction classes. Additionally, 
-the design employs a factory pattern (InstructionFactory) to handle the creation of instructions. New instructions 
+the design employs a factory pattern (InstructionFactory) to handle the creation of instruction. New instruction 
 can already be added without modifying existing code, simply by introducing new instruction classes. However, the 
 current implementation introduces additional complexity by creating more areas that need modification 
 when adding a new instruction. The opcode-to-class mapping is already dynamic through the INSTRUCTION_MAP, which 

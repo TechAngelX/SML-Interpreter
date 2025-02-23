@@ -1,14 +1,9 @@
-package sml.instruction;
+package sml.instructions;
+import sml.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import sml.Instruction;
-import sml.InstructionFactory;
-import sml.Label;
-import sml.Variable;
-
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class InstructionFactoryTest {
@@ -20,13 +15,13 @@ class InstructionFactoryTest {
     }
 
     @Test
-    @DisplayName("Should create AndEqInstruction for and_eq opcode")
-    void testCreateAndEqInstruction() {
-        Instruction instruction = InstructionFactory.createInstruction("and_eq", label);
+    @DisplayName("Should create NotEqInstruction for not_eq opcode")
+    void testCreateNotEqInstruction() {
+        Instruction instruction = InstructionFactory.createInstruction("not_eq", label);
 
-        assertNotNull(instruction, "Should create an instruction for and_eq opcode");
-        assertTrue(instruction instanceof AndEqInstruction,
-                "Should create an AndEqInstruction for and_eq opcode");
+        assertNotNull(instruction, "Should create an instruction for not_eq opcode");
+        assertTrue(instruction instanceof NotEqInstruction,
+                "Should create an NotEqInstruction for not_eq opcode");
     }
 
     @Test

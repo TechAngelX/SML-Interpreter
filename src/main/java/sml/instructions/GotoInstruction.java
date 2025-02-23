@@ -1,4 +1,4 @@
-package sml.instruction;
+package sml.instructions;
 import sml.*;
 
 import java.util.Objects;

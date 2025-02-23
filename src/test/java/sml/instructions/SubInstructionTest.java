@@ -1,4 +1,4 @@
-package sml.instruction;
+package sml.instructions;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -70,7 +70,7 @@ class SubInstructionTest {
         Instruction subInstruction = new SubInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Set up the program with both instructions:
+        // Set up the program with both instruction:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
@@ -100,7 +100,7 @@ class SubInstructionTest {
         Instruction subInstruction = new SubInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Set up the program with both instructions:
+        // Set up the program with both instruction:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),

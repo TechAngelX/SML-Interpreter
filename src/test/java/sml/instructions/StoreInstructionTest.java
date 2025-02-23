@@ -1,7 +1,7 @@
-package sml.instruction;
+package sml.instructions;
+import sml.*;
 
 import org.junit.jupiter.api.*;
-import sml.*;
 
 import java.util.List;
 
@@ -18,8 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StoreInstructionTest {
     private Machine machine;
 
-    // Initialise frame BEFORE each test - otherwiase machine fram would be empty, causing NullPointerException.
-
     @BeforeEach
     void setUp() {
         machine = new Machine();
@@ -33,25 +31,20 @@ public class StoreInstructionTest {
     @Test
     @DisplayName("Should successfully store a value from stack to a variable")
     void testStoreValueFromStackToVariable() {
-        // Create test variable identifier:
         Variable.Identifier varId = new Variable.Identifier("testVar");
 
-        // Create store instruction and return instruction:
         Instruction storeInstruction = new StoreInstruction(null, varId);
         Instruction returnInstruction = new ReturnInstruction(null);
 
-        // Create method with the instructions:
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
                 List.of(storeInstruction, returnInstruction)
         );
-        // Set up the machine and push a test value onto the stack:
         machine.setProgram(List.of(mainMethod));
         machine.frame().push(42);
         storeInstruction.execute(machine);
 
-        // Verify the value was stored correctly:
         Variable var = machine.frame().variable(varId);
         assertEquals(42, var.load());
     }
@@ -64,7 +57,7 @@ public class StoreInstructionTest {
         Method mainMethod = new Method(
                 new Method.Identifier("@main"),
                 List.of(),
-                List.of(new ReturnInstruction(null))  // Just a return instruction.
+                List.of(new ReturnInstruction(null))
         );
         machine.setProgram(List.of(mainMethod));
         assertThrows(VariableNotFoundException.class,
