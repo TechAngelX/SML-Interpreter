@@ -115,13 +115,25 @@ public class Frame {
 
     @Override
     public String toString() {
-        return method.name() + ", label "
-                + programCounter
-                + Optional.ofNullable(invoker)
-                .map(pc -> " |" + pc + "|")
-                .orElse("");
-    }
+        StringBuilder sb = new StringBuilder();
+        sb.append(method.name())
+                .append(":").append(programCounter);
 
+        if (invoker != null) {
+            Frame current = invoker;
+            sb.append(" < ");
+            while (current != null) {
+                sb.append(current.method.name())
+                        .append(":").append(current.programCounter);
+                current = current.invoker;
+                if (current != null) {
+                    sb.append(" → ");
+                }
+            }
+        }
+
+        return sb.toString();
+    }
     public int stackSize() {
         return stack.size();
     }
