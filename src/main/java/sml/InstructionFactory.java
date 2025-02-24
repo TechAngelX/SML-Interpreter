@@ -1,5 +1,7 @@
 package sml;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import sml.helperfiles.InstructionRegistrationLogger;
 import sml.instructions.*;
 
@@ -12,7 +14,7 @@ import java.util.logging.*;
  * Factory for dynamically discovering and creating Simple Machine Language (SML) instructions.
  * -----------------------------------------------------------------------------------------------------------
  * Chain of Responsibility Pattern Implementation: Uses two primary discovery strategies to identify available
- * instruction types without manual configuration.
+ * instruction types without manual configuration. Utilises Spring Dependency Injection.
  * <p>
  * 1. Package Scanning Strategy:
  * - Searches the /sml/instruction package directory for .class files
@@ -25,11 +27,15 @@ import java.util.logging.*;
  *
  * @author Ricki Angel
  */
+
+@Component
 public class InstructionFactory {
     private final InstructionRegistrationLogger logger;
 
     private static final Logger LOGGER = Logger.getLogger(InstructionFactory.class.getName());
     private static final Map<String, Class<? extends Instruction>> INSTRUCTION_MAP = new HashMap<>();
+
+    @Autowired
 
     public InstructionFactory(InstructionRegistrationLogger logger) {
         this.logger = logger;

@@ -1,5 +1,6 @@
 package sml;
 
+import org.springframework.stereotype.Component;
 import sml.instructions.Instruction;
 
 import java.io.File;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
  *
  * @author Ricki Angel
  */
+
+@Component
 public final class Translator {
 
     private String line = "";

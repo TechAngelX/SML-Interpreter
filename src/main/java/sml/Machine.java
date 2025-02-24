@@ -1,5 +1,6 @@
 package sml;
 
+import org.springframework.stereotype.Component;
 import sml.instructions.Instruction;
 
 import java.util.*;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
  *
  * @author Ricki Angel
  */
+@Component
 public final class Machine {
     private SymbolTable<Method.Identifier, Method> program;
     private Optional<Frame> frame;

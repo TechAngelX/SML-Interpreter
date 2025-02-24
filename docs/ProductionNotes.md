@@ -26,7 +26,8 @@ InstructionFactory ✅  InstructionFactory completed with Chain of Responsibilit
 
 ### PART II
 Translator and Reflection API ✅  Completed. Test using: java sml.RunSml src/main/resources/test1.sml
-Dependency Injection (Manual) ❌  Consstructor-based DI. Working progress...
+Dependency Injection (Manual) ✅  Consstructor-based DI. Working progress...
+Dependency Injection (Manual) ❌  Let's look to utilise Spring to manage our Constructor-based DI. Working progress...
 
 ```
 
@@ -50,7 +51,7 @@ DivInstructionTest           ✅  DivInstruction class tests completed.
 IfGreaterGotoInstruction     ✅  IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction       ✅  IfEqualGotoInstruction class tests completed.
 
-### Identified Problems & Solutions
+### OBSERVATIONS: Identified Problems & Solutions
 ```
 PROBLEM 1: DRY Issue
 The `variables()` method seems to be prevalent across most instruction subclasses.  
@@ -96,13 +97,20 @@ SOLUTION 4:*
 ✅ Remove the ServiceProvider and revert to using the simpler InstructionFactory process.
 ```
 ```
-PROBLEM 5: Code Smell - Comment Hell !
+PROBLEM 5: Is InstructionFactory a God Class?
+I see a lot of methods, and the class is taking on a lot of work.
+SOLUTION 5:
+❌ Perhaps decouple/break down components, utilise interfaces.
+```
+```
+PROBLEM 6: Code Smell - Comment Hell !
 Upon critical evaluation of my code, it is possible I have too much comments in my classes.
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
-SOLUTION 5:
-Work toward cleaning up and removing 'guideline' comments.
+SOLUTION 6:
+❌ Work toward cleaning up and removing 'guideline' comments.
 ```
+
 
 
 ### Additional Functionality:
