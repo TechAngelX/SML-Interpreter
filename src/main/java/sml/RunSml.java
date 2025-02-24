@@ -1,6 +1,7 @@
 package sml;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.Collection;
@@ -44,6 +45,9 @@ import java.util.Collection;
 
 @Service
 public class RunSml {
+    try {
+        ApplicationContext contexr =
+
     private final Translator translator;
     private final Machine machine;
 

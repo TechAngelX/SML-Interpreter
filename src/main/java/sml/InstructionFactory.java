@@ -36,7 +36,6 @@ public class InstructionFactory {
     private static final Map<String, Class<? extends Instruction>> INSTRUCTION_MAP = new HashMap<>();
 
     @Autowired
-
     public InstructionFactory(InstructionRegistrationLogger logger) {
         this.logger = logger;
     }
