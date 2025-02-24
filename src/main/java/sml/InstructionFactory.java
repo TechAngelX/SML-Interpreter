@@ -1,6 +1,7 @@
 package sml;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import sml.helperfiles.InstructionRegistrationLogger;
 import sml.instructions.*;
@@ -28,7 +29,8 @@ import java.util.logging.*;
  * @author Ricki Angel
  */
 
-@Component
+@Component("InstructionFactory")
+@Qualifier
 public class InstructionFactory {
     private final InstructionRegistrationLogger logger;
 

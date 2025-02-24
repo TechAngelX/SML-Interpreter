@@ -1,7 +1,9 @@
 package sml;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import sml.instructions.Instruction;
+import sml.services.FileService;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,22 +13,29 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * ====================================================================================================================
  * The Translator class reads and parses Simple Machine Language (SML) programs.
- * --------------------------------------------------------------------------------------------------------------------
+ * <p>
  * Responsible for reading SML code from source files, parsing language constructs, and converting the program into
  * executable {@link Method} objects with their associated {@link Instruction} objects and arguments. The parser
  * supports method definitions with parameters, labeled instructions for control flow, and various instruction types.
  * This modular design separates parsing from execution concerns, facilitating extensibility with new instruction types.
- * ====================================================================================================================
  *
  * @author Ricki Angel
  */
-
 @Component
 public final class Translator {
-
+    private final FileService fileService;
     private String line = "";
+
+    @Autowired
+    public Translator(FileService fileService) {
+        this.fileService = fileService;
+    }
+
+    // No-args constructor for backward compatibility with manual DI
+    public Translator() {
+        this.fileService = null;
+    }
 
     // Holds the current method's name, its instructions, and its arguments while parsing:
     private static class State {
@@ -65,7 +74,11 @@ public final class Translator {
     public Collection<Method> readAndTranslate(String fileName) throws IOException {
         Collection<Method> methods = new ArrayList<>();
 
-        try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
+        // Use fileService if available, otherwise fall back to direct file access:
+        try (Scanner sc = fileService != null
+                ? fileService.createFileScanner(fileName)
+                : new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
+
             State state = null;
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
@@ -181,7 +194,6 @@ public final class Translator {
      *
      * @return label string without trailing colon, or null if absent
      */
-
     private String getLabel() {
         String word = scan();
         if (word.endsWith(":")) return word.substring(0, word.length() - 1);
@@ -199,6 +211,10 @@ public final class Translator {
     public String scan() {
         line = line.trim();
 
+        if (line.isEmpty()) {
+            return "";
+        }
+
         int whiteSpacePosition = 0;
         while (whiteSpacePosition < line.length()) {
             if (Character.isWhitespace(line.charAt(whiteSpacePosition))) break;
@@ -206,7 +222,7 @@ public final class Translator {
         }
 
         String word = line.substring(0, whiteSpacePosition);
-        line = line.substring(whiteSpacePosition);
+        line = line.substring(Math.min(whiteSpacePosition, line.length()));
         return word;
     }
 }

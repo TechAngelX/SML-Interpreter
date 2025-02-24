@@ -10,7 +10,7 @@ import sml.helperfiles.InstructionRegistrationLogger;
 @ComponentScan("sml")
 public class SmlConfig {
 
-    @Bean
+    @Bean("instructionRegistrationLogger")
     public InstructionRegistrationLogger instructionRegistrationLogger() {
         return new DefaultInstructionRegistrationLogger();
     }
