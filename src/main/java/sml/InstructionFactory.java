@@ -108,7 +108,6 @@ public class InstructionFactory {
      * Instruction (if it extends Instruction) and if it has a public static OP_CODE field.
      * If the checks pass, it registers the class in the INSTRUCTION_MAP using the opcode as the key.
      * <p>
-     * The {@code doExecute} method defines the instruction's core operational logic.
      *
      * @author Ricki Angel
      */
