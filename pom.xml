@@ -38,7 +38,6 @@
             <artifactId>spring-context</artifactId>
             <version>6.2.2</version>
         </dependency>
-
     </dependencies>
 
     <build>
