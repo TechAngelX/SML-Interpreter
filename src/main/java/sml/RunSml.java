@@ -2,8 +2,12 @@ package sml;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
+import sml.config.SmlConfig;
+
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 /**
  * The RunSml class serves as the main entry point for executing Simple Machine Language (SML) programs.
@@ -45,9 +49,6 @@ import java.util.Collection;
 
 @Service
 public class RunSml {
-    try {
-        ApplicationContext contexr =
-
     private final Translator translator;
     private final Machine machine;
 
@@ -57,9 +58,60 @@ public class RunSml {
         this.machine = machine;
     }
 
+    /**
+     * Factory method for creating a RunSml instance using manual dependency injection.
+     * This supports the CLI path when Spring context is not available.
+     *
+     * @return a new RunSml instance with manually injected dependencies
+     */
+    public static RunSml create() {
+        return new RunSml(new Translator(), new Machine());
+    }
+
+    /**
+     * Executes an SML program from the specified file.
+     *
+     * @param filename The path to the SML program file
+     * @throws IOException If an error occurs during file reading
+     */
     public void run(String filename) throws IOException {
         Collection<Method> instructions = translator.readAndTranslate(filename);
         machine.setProgram(instructions);
         machine.execute();
+    }
+
+    /**
+     * Main entry point for command-line execution.
+     * Attempts to use Spring DI first, falls back to reflection-based DI if Spring fails.
+     *
+     * @param args Command-line arguments (expects the SML file path as the first argument)
+     */
+    public static void main(String... args) {
+        if (args.length < 1) {
+            System.err.println("Usage: java sml.RunSml src/main/resources/test1.sml");
+            return;
+        }
+        try {
+            try {
+                ApplicationContext context = new AnnotationConfigApplicationContext(SmlConfig.class);
+                RunSml runner = context.getBean(RunSml.class);
+                runner.run(args[0]);
+                return;
+            } catch (Exception e) {
+                System.out.println("Spring initialisation has failed. Falling back to manual DI");
+            }
+            try {
+                Constructor<RunSml> constructor = RunSml.class.getConstructor(Translator.class, Machine.class);
+                Translator translator = new Translator();
+                Machine machine = new Machine();
+                RunSml runner = constructor.newInstance(translator, machine);
+                runner.run(args[0]);
+            } catch (Exception e) {
+                RunSml.create().run(args[0]);
+            }
+        } catch (Exception e) {
+            System.err.println("Error running program: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

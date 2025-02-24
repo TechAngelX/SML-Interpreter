@@ -1,5 +1,7 @@
 package sml.helperfiles;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,6 +24,7 @@ import java.util.logging.Logger;
  * <p>
  * @author Ricki Angel
  */
+@Component
 public class DefaultInstructionRegistrationLogger implements InstructionRegistrationLogger {
     private static final List<String> SUCCESSFULLY_REGISTERED = new ArrayList<>();
     private static final List<String> FAILED_REGISTRATION = new ArrayList<>();

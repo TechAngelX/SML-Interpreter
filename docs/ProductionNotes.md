@@ -28,7 +28,7 @@ InstructionFactory ✅  InstructionFactory completed with Chain of Responsibilit
 Translator and Reflection API ✅  Completed. Test using: java sml.RunSml src/main/resources/test1.sml
 Dependency Injection (Manual) ✅  Consstructor-based DI. Working progress...
 Dependency Injection (Manual) ❌  Let's look to utilise Spring to manage our Constructor-based DI. Working progress...
-
+Problem being, how to incorporate both Spring and CLI base DI
 ```
 
 ### Testing Strategy: Points to Note:
