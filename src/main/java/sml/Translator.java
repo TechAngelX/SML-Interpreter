@@ -74,7 +74,7 @@ public final class Translator {
     public Collection<Method> readAndTranslate(String fileName) throws IOException {
         Collection<Method> methods = new ArrayList<>();
 
-        // Use fileService if available, otherwise fall back to direct file access:
+        // Use fileService or fall back to direct file access
         try (Scanner sc = fileService != null
                 ? fileService.createFileScanner(fileName)
                 : new Scanner(new File(fileName), StandardCharsets.UTF_8)) {

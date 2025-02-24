@@ -29,16 +29,19 @@ import java.util.Collection;
  *   runner.run("path/to/program.sml");
  * </pre>
  *
- * <h2>Command Line Usage:</h2>
+ * <h2>Command Line Usage: There are two ways of running the machine via command line:</h2>
+ * <h3>Method 1: Using Maven Exec Plugin</h3>
  * <pre>
- *   # Set classpath
- *   export CLASSPATH="/path/to/project/target/classes/"
+ *   mvn exec:java -Dexec.mainClass="sml.RunSml" -Dexec.args="src/main/resources/test1.sml"
+ * </pre>
  *
- *   # Compile (from project root)
- *   javac -d target/classes src/main/java/sml/*.java src/main/java/sml/instructions/*.java
+ * <h3>Method 2: Manual Classpath Configuration</h3>
+ * <pre>
+ *   # First, prepare the project and dependencies
+ *   mvn clean package dependency:copy-dependencies
  *
- *   # Run
- *   java sml.RunSml src/main/resources/test1.sml
+ *   # Then run the application
+ *   java -cp "target/classes:target/dependency/*" sml.RunSml src/main/resources/test1.sml
  * </pre>
  *
  * @author Ricki Angel
