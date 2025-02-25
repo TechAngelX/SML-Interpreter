@@ -101,21 +101,22 @@ public class SmlIntegrationTest {
         assertTrue(output.contains("25"), "Output of the division result should be 25 (100/4)");
     }
 
-
     @Test
+    @DisplayName("Verifies variable store and load operations with arithmetic computation")
     void testVariableOperations() throws IOException {
         String program = """
-                @main
-                push 42
-                store testVar
-                push 8
-                store otherVar
-                load testVar
-                load otherVar
-                add
-                print
-                return
-                """;
+        @main:
+        push 42
+        store testVar
+        push 8
+        store otherVar
+        load testVar
+        load otherVar
+        add
+        print
+        push 0  // Dummy push to prevent empty stack on return
+        return
+        """;
 
         String filePath = createTempSmlFile("variables.sml", program);
 
