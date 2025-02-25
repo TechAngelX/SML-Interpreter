@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 /**
- * The RunSml class serves as the main entry point for executing Simple Machine Language (SML) programs.
+ * Serves as the main entry point for executing SML programs.
  * <p>
  * This service component is responsible for orchestrating the SML execution pipeline by:
  * <ol>

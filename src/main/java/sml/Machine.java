@@ -5,15 +5,12 @@ import sml.instructions.Instruction;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 /**
- * ================================================================
- * Represents the virtual machine for Simple Machine Language execution.
- * ================================================================
+ * Represents the virtual machine for SML execution.
  *
- * The Machine class maintains and controls program execution state,
+ * <p>The Machine class maintains and controls program execution state,
  * including methods, execution frames, and program flow control.
- * It serves as the runtime environment for SML programs.
+ * It serves as the runtime environment for SML programs.</p>
  *
  * @author Ricki Angel
  */
@@ -22,7 +19,12 @@ public final class Machine {
     private SymbolTable<Method.Identifier, Method> program;
     private Optional<Frame> frame;
 
-
+    /**
+     * Executes the loaded SML program.
+     *
+     * <p>Manages program execution by iterating through instructions,
+     * handling frame transitions and potential execution errors.</p>
+     */
     public void execute() {
         try {
             System.out.println("== Beginning program execution ==\n");
@@ -46,6 +48,15 @@ public final class Machine {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Initialises the program by loading methods into the symbol table.
+     *
+     * <p>Prepares the machine for execution by converting methods
+     * to a symbol table and creating an initial frame for the main method.</p>
+     *
+     * @param methods Collection of methods to be loaded into the program
+     */
     public void setProgram(Collection<Method> methods) {
         program = SymbolTable.of(methods.stream()
                 .collect(Collectors.toMap(Method::name, m -> m)));
@@ -53,10 +64,27 @@ public final class Machine {
         frame = newFrameForMethodInvocation(new Method.Identifier("@main"));
     }
 
+    /**
+     * Retrieves the current execution frame.
+     *
+     * <p>Returns the active execution frame.</p>
+     *
+     * @return The active execution frame
+     */
     public Frame frame() {
         return frame.get();
     }
 
+    /**
+     * Creates a new frame for method invocation.
+     *
+     * <p>Manages method call stack and argument passing by locating
+     * the method, creating a new execution frame, and handling
+     * argument transfer from the current frame.</p>
+     *
+     * @param methodName Identifier of the method to invoke
+     * @return Optional containing the new execution frame
+     */
     public Optional<Frame> newFrameForMethodInvocation(Method.Identifier methodName) {
         Method method = program.get(methodName)
                 .orElseThrow(() -> new MethodNotFoundException(methodName));

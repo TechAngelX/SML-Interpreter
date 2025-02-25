@@ -11,20 +11,23 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- * ===========================================================================================================
- * Factory for dynamically discovering and creating Simple Machine Language (SML) instructions.
- * -----------------------------------------------------------------------------------------------------------
- * Chain of Responsibility Pattern Implementation: Uses two primary discovery strategies to identify available
- * instruction types without manual configuration. Utilises Spring Dependency Injection.
- * <p>
- * 1. Package Scanning Strategy:
- * - Searches the /sml/instruction package directory for .class files
- * - Dynamically loads all classes in the package, filtering classes that implement the Instruction interface.
- * <p>
- * 2. Direct Class Loading Strategy:
- * - Uses predefined list of expected instruction class names
- * - Generates potential class names based on opcodes
- * - Capitalizes first letter and appends 'Instruction' suffix
+ * A dynamic factory for creating SML instructions.
+ *
+ * <p>Manages the discovery and instantiation of instruction classes through two primary strategies:</p>
+ * <ul>
+ *   <li>Package Scanning: Dynamically discovers instruction classes in the {@code sml.instructions} package</li>
+ *   <li>Direct Class Loading: Loads predefined instruction classes using known opcodes</li>
+ * </ul>
+ *
+ * <p>Key features:</p>
+ * <ul>
+ *   <li>Automatic instruction class registration</li>
+ *   <li>Flexible instruction creation based on opcodes</li>
+ *   <li>Fallback mechanisms for instruction discovery</li>
+ *   <li>Integrated logging for registration processes</li>
+ * </ul>
+ *
+ * <p>Uses Spring's dependency injection and supports runtime instruction class discovery.</p>
  *
  * @author Ricki Angel
  */
@@ -36,6 +39,16 @@ public class InstructionFactory {
 
     private static final Logger LOGGER = Logger.getLogger(InstructionFactory.class.getName());
     private static final Map<String, Class<? extends Instruction>> INSTRUCTION_MAP = new HashMap<>();
+
+    /**
+     * Constructs an InstructionFactory with a custom instruction registration logger.
+     *
+     * <p>Initializes the factory with a logger that tracks the discovery and registration
+     * of instruction classes during runtime.</p>
+     *
+     * @param logger The logger used to track instruction registration processes
+     * @throws NullPointerException if the provided logger is null
+     */
 
     @Autowired
     public InstructionFactory(InstructionRegistrationLogger logger) {
@@ -73,7 +86,13 @@ public class InstructionFactory {
             throw new RuntimeException("Failed to register any instruction classes");
         }
     }
-
+    /**
+     * Creates an instruction based on the given opcode and label.
+     *
+     * @param opcode The operation code identifying the instruction type
+     * @param label The label associated with the instruction
+     * @return A new Instruction instance, or null if creation fails
+     */
     public static Instruction createInstruction(String opcode, Label label) {
         Class<? extends Instruction> instructionClass = INSTRUCTION_MAP.get(opcode);
         if (instructionClass == null) {
@@ -88,6 +107,18 @@ public class InstructionFactory {
         }
     }
 
+    /**
+     * Creates a specific instruction with additional parameters.
+     *
+     * <p>Provides a flexible mechanism for creating instructions with various
+     * constructor signatures. Falls back to a default implementation if
+     * specific class loading fails.</p>
+     *
+     * @param opcode The operation code for the instruction
+     * @param defaultClass The default instruction class to use if specific class fails
+     * @param params Constructor parameters for the instruction
+     * @return A new Instruction instance, or null if creation fails
+     */
     private static <T> Instruction createSpecificInstruction(String opcode, Class<T> defaultClass, Object... params) {
         try {
             Class<? extends Instruction> cls = INSTRUCTION_MAP.get(opcode);
@@ -106,17 +137,14 @@ public class InstructionFactory {
     }
 
     /**
-     * =====================================================================================
-     * Package Scanning Discovery.
-     * -------------------------------------------------------------------------------------
-     * The discoverByPackageScanning() method iterates through all .class files found in the
-     * sml/instruction package directory. For each file, it attempts to load the corresponding
-     * class using Class.forName(). It then checks if the loaded class is a subclass of
-     * Instruction (if it extends Instruction) and if it has a public static OP_CODE field.
-     * If the checks pass, it registers the class in the INSTRUCTION_MAP using the opcode as the key.
-     * <p>
+     * Discovers instruction classes by scanning the predefined package.
      *
-     * @author Ricki Angel
+     * <p>Searches for .class files in the {@code sml.instructions} package,
+     * attempting to load and register classes that implement the Instruction interface.</p>
+     *
+     * <p>Logs registration attempts and successes/failures.</p>
+     *
+     * @see #registerInstructionClass(Class)
      */
     private void discoverByPackageScanning() {
         try {
@@ -149,15 +177,13 @@ public class InstructionFactory {
     }
 
     /**
-     * =====================================================================================
-     * Direct Class Discovery and Registration (for Legacy code only).
-     * -------------------------------------------------------------------------------------
-     * Attempts to discover and register instruction classes by directly loading them
-     * using predefined opcodes and class name suffixes.
-     * <p>
-     * Usage: Add opcode to the previousKnownOpcodes array below, and put your Instruction
-     * class in /instructions package.
+     * Discovers instruction classes using a fallback direct class loading strategy.
      *
+     * <p>Uses a predefined list of known opcodes to attempt class loading for
+     * legacy or standard instruction types.</p>
+     *
+     * <p>Attempts to load classes with naming convention:
+     * First letter capitalized + "Instruction" suffix</p>
      */
     private void discoverByDirectClassLoading() {
         try {
@@ -179,7 +205,18 @@ public class InstructionFactory {
             LOGGER.log(Level.WARNING, "Direct class loading discovery failed", e);
         }
     }
-
+    /**
+     * Registers a discovered instruction class in the internal instruction map.
+     *
+     * <p>Validates the class by checking:</p>
+     * <ul>
+     *   <li>Is a subclass of Instruction</li>
+     *   <li>Is not an abstract class</li>
+     *   <li>Contains a static OP_CODE field</li>
+     * </ul>
+     *
+     * @param clazz The class to be registered
+     */
     private void registerInstructionClass(Class<?> clazz) {
         logger.logRegistrationAttempt(clazz);
 

@@ -1,29 +1,44 @@
 package sml.instructions;
 
 import sml.*;
+
 /**
- * ==============================================================================
- * Add instruction for Simple Machine Language (SML).
- * ------------------------------------------------------------------------------
+ * Represents an addition instruction in the SML runtime environment.
+ *  *
  * <p>
- * Pops two operands from the stack, performs addition, and pushes the
- * computed sum back onto the stack. Essentially, a classic stack-based addition.
+ * This instruction pops two operands from the stack, performs addition, and pushes the
+ * computed sum back onto the stack, implementing a stack-based addition.
+ * </p>
  * <p>
- * If the stack contains fewer than two elements, this operation
- * will trigger an error, halting execution. Ensure sufficient operands are
- * present before executing this instruction.
+ * If the stack contains fewer than two elements, an error will occur, halting execution.
+ * Ensure sufficient operands are present before executing this instruction.
+ * </p>
  * <p>
- * The {@code doExecute} method defines the instruction's core operational logic,
+ * The {@code doExecute} method defines the instruction's core operational logic.
+ * </p>
  *
  * @author Ricki Angel
  */
 public non-sealed class AddInstruction extends Instruction {
     public static final String OP_CODE = "add";
 
+    /**
+     * Constructs an {@code AddInstruction} with the given label.
+     *
+     * @param label the label associated with this instruction
+     */
     public AddInstruction(Label label) {
         super(label, OP_CODE);
     }
 
+    /**
+     * Executes the addition operation.
+     * <p>
+     * Pops the top two values from the stack, adds them, and pushes the result back onto the stack.
+     * </p>
+     *
+     * @param frame the current execution frame
+     */
     @Override
     protected void doExecute(Frame frame) {
         int value2 = frame.pop();
@@ -31,6 +46,11 @@ public non-sealed class AddInstruction extends Instruction {
         frame.push(value1 + value2);
     }
 
+    /**
+     * Returns a string representation of the operands.
+     *
+     * @return an empty string since this instruction does not take explicit operands
+     */
     @Override
     protected String getOperandsString() {
         return "";

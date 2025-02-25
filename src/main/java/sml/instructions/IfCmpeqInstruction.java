@@ -5,7 +5,7 @@ import sml.*;
 import java.util.Objects;
 
 /**
- * A conditional equality comparison instruction in the SML runtime environment.
+ * A conditional equality comparison instruction.
  * <p>The IfCmpeqInstruction class implements a conditional branch operation that:</p>
  * <ul>
  *   <li>Pops two values from the operand stack</li>
