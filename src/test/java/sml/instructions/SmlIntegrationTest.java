@@ -2,6 +2,7 @@ package sml;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -13,6 +14,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 
 public class SmlIntegrationTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -35,6 +37,9 @@ public class SmlIntegrationTest {
         System.setOut(originalOut);
     }
 
+    /**
+     * Creates a temporary SML file with the given content.
+     */
     private String createTempSmlFile(String filename, String content) throws IOException {
         Path filePath = tempDir.resolve(filename);
         Files.writeString(filePath, content);
@@ -42,8 +47,8 @@ public class SmlIntegrationTest {
     }
 
     @Test
-    void testFactorialProgram() throws IOException {
-        // A sample factorial program in SML
+    @DisplayName("Should correctly calculate factorial(5) using recursion")
+    void testRecursiveFactorialCalculation() throws IOException {
         String program = """
                 @main
                 push 5
@@ -70,7 +75,9 @@ public class SmlIntegrationTest {
 
         Collection<Method> methods = translator.readAndTranslate(filePath);
         machine.setProgram(methods);
-        machine.execute(methods);
+        machine.execute();
 
+        // Check that the factorial of 5 (which is 120) was printed:
         assertTrue(outContent.toString().contains("120"));
     }
+}
