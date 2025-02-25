@@ -63,30 +63,30 @@ public class SmlIntegrationTest {
     @DisplayName("Test arithmetic operations (addition, subtraction, multiplication, division) and correct output")
     void testArithmeticOperations() throws IOException {
         String program = """
-                @main:
-                push 200
-                push 50
-                add     // 200 + 50 = 250
-                print
-                
-                push 37
-                push 6
-                sub     // 37 - 6 = 31
-                print
-                
-                push 6
-                push 8
-                mul     // 6 * 8 = 48
-                print
-                
-                push 100
-                push 4
-                div     // 100 / 4 = 25
-                print
-                
-                push 0  // Dummy value for return instruction to pop
-                return
-                """;
+            @main:
+            push 200
+            push 50
+            add     // 200 + 50 = 250
+            print
+            
+            push 37
+            push 6
+            sub     // 37 - 6 = 31
+            print
+            
+            push 6
+            push 8
+            mul     // 6 * 8 = 48
+            print
+            
+            push 100
+            push 4
+            div     // 100 / 4 = 25
+            print
+            
+            push 0  // Dummy value for return instruction to pop
+            return
+            """;
 
         String filePath = createTempSmlFile("arithmetic.sml", program);
 
@@ -95,8 +95,8 @@ public class SmlIntegrationTest {
         machine.execute();
 
         String output = outContent.toString();
-        assertTrue(output.contains("250"), "Output of the addition result should be 250 (020+50)");
-        assertTrue(output.contains("37"), "Output of the subtraction result should be 31 (37-6)");
+        assertTrue(output.contains("250"), "Output of the addition result should be 250 (200+50)");
+        assertTrue(output.contains("31"), "Output of the subtraction result should be 31 (37-6)");
         assertTrue(output.contains("48"), "Output of the multiplication result should be 48 (6*8)");
         assertTrue(output.contains("25"), "Output of the division result should be 25 (100/4)");
     }
