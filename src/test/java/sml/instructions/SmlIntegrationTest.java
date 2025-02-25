@@ -101,7 +101,35 @@ public class SmlIntegrationTest {
         assertTrue(output.contains("25"), "Output of the division result should be 25 (100/4)");
     }
 
-@Test
+
+    @Test
+    void testVariableOperations() throws IOException {
+        String program = """
+                @main
+                push 42
+                store testVar
+                push 8
+                store otherVar
+                load testVar
+                load otherVar
+                add
+                print
+                return
+                """;
+
+        String filePath = createTempSmlFile("variables.sml", program);
+
+        Collection<Method> methods = translator.readAndTranslate(filePath);
+        machine.setProgram(methods);
+        machine.execute();
+
+        String output = outContent.toString();
+        assertTrue(output.contains("42"));
+        assertTrue(output.contains("8"));
+        assertTrue(output.contains("50"));
+    }
+
+    @Test
     @DisplayName("Should correctly calculate the 8th Fibonacci number")
     void testFibonacciProgram() throws IOException {
         // A Fibonacci program in SML, similar to the test1.sml:
