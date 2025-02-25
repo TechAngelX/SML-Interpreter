@@ -131,6 +131,16 @@ public class SmlIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test various jump instructions in SML, verifying correct conditional and unconditional jumps")
+    void testJumpInstructions() throws IOException {
+        String program = """
+                @main
+                push 10
+                push 20
+                if_cmpeq 
+    
+   }
+    @Test
     @DisplayName("Should correctly calculate the 8th Fibonacci number")
     void testFibonacciProgram() throws IOException {
         // A Fibonacci program in SML, similar to the test1.sml:
