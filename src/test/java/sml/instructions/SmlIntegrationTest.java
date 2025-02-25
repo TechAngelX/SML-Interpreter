@@ -50,26 +50,27 @@ public class SmlIntegrationTest {
     @DisplayName("Should correctly calculate factorial(5) using recursion")
     void testRecursiveFactorialCalculation() throws IOException {
         String program = """
-                @main
-                push 5
-                invoke @factorial
-                print
-                return
-                
-                @factorial n
-                load n
-                push 1
-                if_cmpeq baseCase
-                load n
-                load n
-                push 1
-                sub
-                invoke @factorial
-                mul
-                return
-                baseCase: push 1
-                return
-                """;
+            @main:
+            push 5
+            invoke @factorial
+            print
+            push 0      // Add a dummy value for return to pop
+            return
+            
+            @factorial: n
+            load n
+            push 1
+            if_cmpeq baseCase
+            load n
+            load n
+            push 1
+            sub
+            invoke @factorial
+            mul
+            return
+            baseCase: push 1
+            return
+            """;
 
         String filePath = createTempSmlFile("factorial.sml", program);
 
@@ -78,7 +79,8 @@ public class SmlIntegrationTest {
         machine.execute();
 
         // Check that the factorial of 5 (which is 120) was printed:
-        assertTrue(outContent.toString().contains("120"));
+        assertTrue(outContent.toString().contains("120"),  "Expected output to contain factorial(5)=120, but didn't find it");
+
     }
 
     @Test
