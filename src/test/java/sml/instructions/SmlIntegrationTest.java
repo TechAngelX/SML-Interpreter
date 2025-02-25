@@ -80,4 +80,43 @@ public class SmlIntegrationTest {
         // Check that the factorial of 5 (which is 120) was printed:
         assertTrue(outContent.toString().contains("120"));
     }
+
+    @Test
+    void testFibonacciProgram() throws IOException {
+        // A Fibonacci program in SML, similar to the test1.sml:
+        String program = """
+                @main
+                push 8      
+                invoke @fib
+                print
+                return
+                
+                @fib n
+                load n
+                push 2
+                if_cmpgt recursive  // if n > 2, go to recursive case
+                push 1            // a base case: fib(1) = fib(2) = 1
+                return
+                
+                recursive: load n
+                push 1
+                sub              
+                invoke @fib       
+                load n
+                push 2
+                sub               
+                invoke @fib      
+                add               // so it's now should be fib(n-1) + fib(n-2)
+                return
+                """;
+
+        String filePath = createTempSmlFile("fibonacci.sml", program);
+
+        Collection<Method> methods = translator.readAndTranslate(filePath);
+        machine.setProgram(methods);
+        machine.execute();
+
+        // Check that the 8th Fibonacci number (which is 21) was printed
+        assertTrue(outContent.toString().contains("521"));
+    }
 }
