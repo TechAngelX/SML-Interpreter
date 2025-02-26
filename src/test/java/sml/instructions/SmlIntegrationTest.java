@@ -68,22 +68,22 @@ public class SmlIntegrationTest {
             push 50
             add     // 200 + 50 = 250
             print
-            
+
             push 37
             push 6
             sub     // 37 - 6 = 31
             print
-            
+
             push 6
             push 8
             mul     // 6 * 8 = 48
             print
-            
+
             push 100
             push 4
             div     // 100 / 4 = 25
             print
-            
+
             push 0  // Dummy value for return instruction to pop
             return
             """;
@@ -140,20 +140,20 @@ public class SmlIntegrationTest {
                 if_cmpeq notTakenJump     // 10 != 20, so this jump shoul NOT happen
                 push 30
                 goto unconditionalJump    // This jump SHOULD taken
-                
+
                 notTakenJump: push 999
                 print
-                
+
                 unconditionalJump: push 40
                 push 40
                 if_cmpeq equalJump
                 push 999
-                
+
                 equalJump: push 50
                 push 25
                 if_cmpgt greaterJump      // 50 > 25, so this jump should be taken
                 push 999                  // This should never be executed
-                
+
                 greaterJump: push 60
                 print                     // Should print 60
                 return
@@ -181,14 +181,14 @@ public class SmlIntegrationTest {
         print
         push 0      // Push a dummy value for the return instruction
         return
-        
+
         @fib: n
         load n
         push 2
         if_cmpgt recursive  // if n > 2, go to recursive case
         push 1            // base case: fib(1) = fib(2) = 1
         return
-        
+
         recursive: load n
         push 1
         sub
@@ -226,7 +226,7 @@ public class SmlIntegrationTest {
             print
             push 0      // Add a dummy value for return to pop
             return
-            
+
             @factorial: n
             load n
             push 1
@@ -250,36 +250,52 @@ public class SmlIntegrationTest {
 
         assertTrue(outContent.toString().contains("120"),  "Expected output to contain factorial(5)=120, but didn't find it");
     }
-
-
     /**
-     * A test to validate nested method call functionality in SML interpreter.
+     * Validates nested method call functionality in SML interpreter.
      *
-     * @throws IOException
+     * <p>Verifies method invocation, stack-based argument passing,
+     * and arithmetic operations within nested method calls. Specifically tests
+     * that the @main method can successfully call the @inner method and process
+     * its returned result.</p>
+     *
+     * @throws IOException if file creation fails
      * @author Ricki Angel
      */
     @Test
-    void testNestedMethodCalls() throws IOException {
+    @DisplayName("Verifies nested method calls with argument passing")
+    void testNestedMethodInvocation() throws IOException {
         String program = """
-            @main
-            push 5
-            push 10
-            invoke @inner
-            print
-            push 0        // Dummy push to prevent empty stack on return
-            return
-            
-            @inner:
-            add
-            print
-            push 0        // Another Dummy push to prevent empty stack on return
-            return
-            """;
+    @main:
+    push 10
+    push 5
+    invoke @inner // Call inner method with two arguments from stack
+    print         // Should print result (15)
+    push 0        // Dummy push to prevent empty stack on return
+    return
 
+    @inner: a, b  // Declare parameters that will receive values from stack
+    load a        // (10)
+    load b        // (5)
+    add
+    return
+    """;
         String filePath = createTempSmlFile("nested.sml", program);
 
         Collection<Method> methods = translator.readAndTranslate(filePath);
 
-        // TODO ...figure out/design for loop to parse methods...
+        machine.setProgram(methods);
 
+        try {
+            machine.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Unexpected exception during method execution: " + e.getMessage());
+        }
+
+        String output = outContent.toString();
+        System.out.println("Output: [" + output + "]");
+        System.out.println("Output length: " + output.length());
+
+        assertTrue(output.contains("15"), "Output should contain the result of 10 + 5");
+    }
     }
