@@ -47,7 +47,7 @@ class GotoInstructionTest {
         assertEquals(2, frame.get().programCounter());
     }
 
-      @Test
+    @Test
     @DisplayName("Should throw LabelNotFoundException for missing labels")
     void missingLabelGotoInstruction() {
         Label missingLabel = new Label("L2");

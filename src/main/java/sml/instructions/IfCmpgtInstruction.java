@@ -38,7 +38,7 @@ public non-sealed class IfCmpgtInstruction extends Instruction {
      *   <li>A required target label for conditional branching</li>
      * </ul>
      *
-     * @param label The label identifying this instruction (can be null)
+     * @param label     The label identifying this instruction (can be null)
      * @param jumpLabel The target label to jump to if condition is met
      */
     public IfCmpgtInstruction(Label label, Label jumpLabel) {

@@ -4,7 +4,7 @@ import sml.*;
 
 /**
  * Represents an addition instruction in the SML runtime environment.
- *  *
+ * *
  * <p>
  * This instruction pops two operands from the stack, performs addition, and pushes the
  * computed sum back onto the stack, implementing a stack-based addition.

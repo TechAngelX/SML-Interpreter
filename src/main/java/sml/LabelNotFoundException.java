@@ -33,7 +33,7 @@ public class LabelNotFoundException extends RuntimeException {
     /**
      * Constructs a new LabelNotFoundException with the specified label and method.
      *
-     * @param label The label that was not found
+     * @param label  The label that was not found
      * @param method The method in which the label lookup failed
      */
     public LabelNotFoundException(Label label, Method method) {

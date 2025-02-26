@@ -66,6 +66,7 @@ public final class Translator {
             instructions = new ArrayList<>();
             arguments = new ArrayList<>();
         }
+
         /**
          * Creates a Method object from the current state.
          * <p>
@@ -77,6 +78,7 @@ public final class Translator {
         Method createMethod() {
             return new Method(methodName, arguments, instructions);
         }
+
         /**
          * Adds an argument to the method's argument list.
          *
@@ -87,6 +89,7 @@ public final class Translator {
             arguments.add(id);
         }
     }
+
     private static final String ITEM_SEPARATOR = ",";
     private static final String METHOD_LABEL = "@";
 
@@ -135,6 +138,7 @@ public final class Translator {
         }
         return methods;
     }
+
     /**
      * Processes the arguments of a method from the current line and adds them to the state.
      *
@@ -151,6 +155,7 @@ public final class Translator {
             if (!s.endsWith(ITEM_SEPARATOR)) break;
         }
     }
+
     /**
      * Gets an Instruction based on the current label in the SML code.
      *
@@ -200,7 +205,7 @@ public final class Translator {
      * Creates an Instruction instance based on the instruction class and label.
      *
      * @param instructionClass the class representing the instruction
-     * @param label the label associated with the instruction
+     * @param label            the label associated with the instruction
      * @return the created Instruction object
      * @throws Exception if an error occurs during instantiation
      */

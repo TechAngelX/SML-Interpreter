@@ -17,7 +17,7 @@ public class Variable {
     /**
      * Represents the identifier for a variable.
      *
-     * <p>This record encapsulates the variable's name and ensures that the name is non-null. The name
+     * <p>This nested record encapsulates the variable's name and ensures that the name is non-null. The name
      * provides a unique identifier for the variable.</p>
      *
      * @param name The unique name of the variable

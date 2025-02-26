@@ -86,11 +86,12 @@ public class InstructionFactory {
             throw new RuntimeException("Failed to register any instruction classes");
         }
     }
+
     /**
      * Creates an instruction based on the given opcode and label.
      *
      * @param opcode The operation code identifying the instruction type
-     * @param label The label associated with the instruction
+     * @param label  The label associated with the instruction
      * @return A new Instruction instance, or null if creation fails
      */
     public static Instruction createInstruction(String opcode, Label label) {
@@ -114,9 +115,9 @@ public class InstructionFactory {
      * constructor signatures. Falls back to a default implementation if
      * specific class loading fails.</p>
      *
-     * @param opcode The operation code for the instruction
+     * @param opcode       The operation code for the instruction
      * @param defaultClass The default instruction class to use if specific class fails
-     * @param params Constructor parameters for the instruction
+     * @param params       Constructor parameters for the instruction
      * @return A new Instruction instance, or null if creation fails
      */
     private static <T> Instruction createSpecificInstruction(String opcode, Class<T> defaultClass, Object... params) {
@@ -205,6 +206,7 @@ public class InstructionFactory {
             LOGGER.log(Level.WARNING, "Direct class loading discovery failed", e);
         }
     }
+
     /**
      * Registers a discovered instruction class in the internal instruction map.
      *

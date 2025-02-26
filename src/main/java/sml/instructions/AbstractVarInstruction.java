@@ -23,7 +23,9 @@ import java.util.stream.Stream;
 public abstract sealed class AbstractVarInstruction extends Instruction
         permits LoadInstruction, StoreInstruction {
 
-    /** The identifier for the variable being manipulated. */
+    /**
+     * The identifier for the variable being manipulated.
+     */
     protected final Variable.Identifier varName;
 
     /**

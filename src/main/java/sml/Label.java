@@ -21,7 +21,7 @@ import java.util.Objects;
 //
 // - Immutability & Type Safety: Prevents accidental modification and distinguishes labels from plain Strings.
 // - Built-in Methods: Auto-generates `equals`, `hashCode`, and `toString`, reducing boilerplate.
-// - Null-Safety**: Ensures labels are never null via `Objects.requireNonNull(label)`.
+// - Null-Safety**: Ensures labels are never null via this `Objects.requireNonNull(label)` method.
 //
 //   Comparison with `String`:
 // - Using `String`: No enforced meaning, allows null values, and risks misuse.

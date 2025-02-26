@@ -1,9 +1,11 @@
 package sml.instructions;
+
 import sml.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InstructionFactoryTest {
@@ -67,4 +69,4 @@ class InstructionFactoryTest {
         assertNull(instruction, "Instruction should be null for unknown opcode");
     }
 
-    }
+}

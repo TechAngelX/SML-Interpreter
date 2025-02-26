@@ -86,6 +86,7 @@ public non-sealed class GotoInstruction extends Instruction {
     protected String getOperandsString() {
         return branchLabel.toString();
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

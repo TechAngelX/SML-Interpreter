@@ -43,7 +43,7 @@ public abstract sealed class Instruction permits AbstractVarInstruction, AddInst
      *   <li>A required operation code defining instruction type</li>
      * </ul>
      *
-     * @param label Optional label identifying this instruction location
+     * @param label  Optional label identifying this instruction location
      * @param opcode Required operation code indicating instruction type
      * @throws NullPointerException if opcode is null
      */

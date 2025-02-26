@@ -33,7 +33,7 @@ public non-sealed class LoadInstruction extends AbstractVarInstruction {
      *   <li>A required variable identifier to load from</li>
      * </ul>
      *
-     * @param label The label identifying this instruction (can be null)
+     * @param label   The label identifying this instruction (can be null)
      * @param varName The identifier of the variable to load
      */
     public LoadInstruction(Label label, Variable.Identifier varName) {

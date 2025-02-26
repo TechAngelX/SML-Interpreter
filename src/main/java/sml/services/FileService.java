@@ -1,6 +1,7 @@
 package sml.services;
 
 import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +34,6 @@ public class FileService {
      * @throws IOException If an I/O error occurs while attempting to open the file,
      *                     such as the file not existing, being inaccessible, or other
      *                     filesystem-related issues.
-     *
      * @see java.util.Scanner
      * @see java.nio.charset.StandardCharsets
      * @see java.io.File

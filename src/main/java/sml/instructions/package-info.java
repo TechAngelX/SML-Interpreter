@@ -22,6 +22,7 @@
  *     <li>{@link sml.instructions.NotEqInstruction} - Comparison instruction.</li>
  *     <li>{@link sml.instructions.SqrtInstruction} - Square root calculation instruction.</li>
  * </ul>
+ *
  * @author Ricki Angel
  */
 package sml.instructions;

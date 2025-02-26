@@ -24,8 +24,8 @@ package sml.helperfiles;
  *
  * @author Ricki Angel
  * @version 1.0
- * @since 1.0
  * @see DefaultInstructionRegistrationLogger
+ * @since 1.0
  */
 public interface InstructionRegistrationLogger {
     /**
@@ -47,7 +47,7 @@ public interface InstructionRegistrationLogger {
      * </p>
      *
      * @param instructionName The name of the successfully registered instruction
-     * @param opcode The unique operation code associated with the instruction
+     * @param opcode          The unique operation code associated with the instruction
      */
     void trackSuccessfulRegistration(String instructionName, String opcode);
 
@@ -59,7 +59,7 @@ public interface InstructionRegistrationLogger {
      * </p>
      *
      * @param instructionName The name of the instruction that failed to register
-     * @param reason Explanation for why the registration attempt failed
+     * @param reason          Explanation for why the registration attempt failed
      */
     void trackFailedRegistration(String instructionName, String reason);
 

@@ -4,7 +4,7 @@ import sml.*;
 
 /**
  * Represents a Division instruction in the SML runtime environment.
- *  *
+ * *
  * <p>
  * This instruction performs integer division using values from the stack. It pops the
  * top two values, divides the second-to-top value by the top value, and pushes the quotient

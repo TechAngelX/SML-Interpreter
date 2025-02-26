@@ -50,7 +50,6 @@ public class SmlIntegrationTest {
      * @param content  The SML program content to write to the file
      * @return The absolute path to the created file
      * @throws IOException If an error occurs while creating or writing to the file
-     *
      * @author Ricki Angel
      */
     private String createTempSmlFile(String filename, String content) throws IOException {
@@ -63,30 +62,30 @@ public class SmlIntegrationTest {
     @DisplayName("Test arithmetic operations (addition, subtraction, multiplication, division) and correct output")
     void testArithmeticOperations() throws IOException {
         String program = """
-            @main:
-            push 200
-            push 50
-            add     // 200 + 50 = 250
-            print
-
-            push 37
-            push 6
-            sub     // 37 - 6 = 31
-            print
-
-            push 6
-            push 8
-            mul     // 6 * 8 = 48
-            print
-
-            push 100
-            push 4
-            div     // 100 / 4 = 25
-            print
-
-            push 0  // Dummy value for return instruction to pop
-            return
-            """;
+                @main:
+                push 200
+                push 50
+                add     // 200 + 50 = 250
+                print
+                
+                push 37
+                push 6
+                sub     // 37 - 6 = 31
+                print
+                
+                push 6
+                push 8
+                mul     // 6 * 8 = 48
+                print
+                
+                push 100
+                push 4
+                div     // 100 / 4 = 25
+                print
+                
+                push 0  // Dummy value for return instruction to pop
+                return
+                """;
 
         String filePath = createTempSmlFile("arithmetic.sml", program);
 
@@ -105,18 +104,18 @@ public class SmlIntegrationTest {
     @DisplayName("Verifies variable store and load operations with arithmetic computation")
     void testVariableOperations() throws IOException {
         String program = """
-        @main:
-        push 42
-        store testVar
-        push 8
-        store otherVar
-        load testVar
-        load otherVar
-        add
-        print
-        push 0  // Dummy push to prevent empty stack on return
-        return
-        """;
+                @main:
+                push 42
+                store testVar
+                push 8
+                store otherVar
+                load testVar
+                load otherVar
+                add
+                print
+                push 0  // Dummy push to prevent empty stack on return
+                return
+                """;
 
         String filePath = createTempSmlFile("variables.sml", program);
 
@@ -140,20 +139,20 @@ public class SmlIntegrationTest {
                 if_cmpeq notTakenJump     // 10 != 20, so this jump shoul NOT happen
                 push 30
                 goto unconditionalJump    // This jump SHOULD taken
-
+                
                 notTakenJump: push 999
                 print
-
+                
                 unconditionalJump: push 40
                 push 40
                 if_cmpeq equalJump
                 push 999
-
+                
                 equalJump: push 50
                 push 25
                 if_cmpgt greaterJump      // 50 > 25, so this jump should be taken
                 push 999                  // This should never be executed
-
+                
                 greaterJump: push 60
                 print                     // Should print 60
                 return
@@ -175,31 +174,31 @@ public class SmlIntegrationTest {
     void testFibonacciProgram() throws IOException {
         // A Fibonacci program in SML, similar to the test1.sml:
         String program = """
-        @main:
-        push 8
-        invoke @fib
-        print
-        push 0      // Push a dummy value for the return instruction
-        return
-
-        @fib: n
-        load n
-        push 2
-        if_cmpgt recursive  // if n > 2, go to recursive case
-        push 1            // base case: fib(1) = fib(2) = 1
-        return
-
-        recursive: load n
-        push 1
-        sub
-        invoke @fib
-        load n
-        push 2
-        sub
-        invoke @fib
-        add              // so it's now should be fib(n-1) + fib(n-2)
-        return
-        """;
+                @main:
+                push 8
+                invoke @fib
+                print
+                push 0      // Push a dummy value for the return instruction
+                return
+                
+                @fib: n
+                load n
+                push 2
+                if_cmpgt recursive  // if n > 2, go to recursive case
+                push 1            // base case: fib(1) = fib(2) = 1
+                return
+                
+                recursive: load n
+                push 1
+                sub
+                invoke @fib
+                load n
+                push 2
+                sub
+                invoke @fib
+                add              // so it's now should be fib(n-1) + fib(n-2)
+                return
+                """;
 
         String filePath = createTempSmlFile("fibonacci.sml", program);
 
@@ -220,27 +219,27 @@ public class SmlIntegrationTest {
     @DisplayName("Should correctly calculate factorial(5) using recursion")
     void testRecursiveFactorialCalculation() throws IOException {
         String program = """
-            @main:
-            push 5
-            invoke @factorial
-            print
-            push 0      // Add a dummy value for return to pop
-            return
-
-            @factorial: n
-            load n
-            push 1
-            if_cmpeq baseCase
-            load n
-            load n
-            push 1
-            sub
-            invoke @factorial
-            mul
-            return
-            baseCase: push 1
-            return
-            """;
+                @main:
+                push 5
+                invoke @factorial
+                print
+                push 0      // Add a dummy value for return to pop
+                return
+                
+                @factorial: n
+                load n
+                push 1
+                if_cmpeq baseCase
+                load n
+                load n
+                push 1
+                sub
+                invoke @factorial
+                mul
+                return
+                baseCase: push 1
+                return
+                """;
 
         String filePath = createTempSmlFile("factorial.sml", program);
 
@@ -248,8 +247,9 @@ public class SmlIntegrationTest {
         machine.setProgram(methods);
         machine.execute();
 
-        assertTrue(outContent.toString().contains("120"),  "Expected output to contain factorial(5)=120, but didn't find it");
+        assertTrue(outContent.toString().contains("120"), "Expected output to contain factorial(5)=120, but didn't find it");
     }
+
     /**
      * Validates nested method call functionality in SML interpreter.
      *
@@ -299,4 +299,4 @@ public class SmlIntegrationTest {
                 .orElse("");
         assertEquals("15", lastLine, "The result of 10 + 5 should be 15");
     }
-    }
+}

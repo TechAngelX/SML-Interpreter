@@ -54,8 +54,8 @@ public class Method {
      * has at least one instruction. It also computes the local variables and labels associated
      * with the method based on the provided instructions.</p>
      *
-     * @param name the unique identifier for the method
-     * @param arguments the list of method arguments
+     * @param name         the unique identifier for the method
+     * @param arguments    the list of method arguments
      * @param instructions the sequence of instructions for the method
      * @throws IllegalArgumentException if arguments are duplicated or no instructions are provided
      */
@@ -167,7 +167,7 @@ public class Method {
      *
      * @param obj the object to compare this method with
      * @return {@code true} if the object is a {@code Method} and has the same {@code name},
-     *         {@code arguments}, and {@code instructions} as this method, otherwise {@code false}
+     * {@code arguments}, and {@code instructions} as this method, otherwise {@code false}
      */
     @Override
     public boolean equals(Object obj) {

@@ -24,6 +24,7 @@ import sml.*;
  */
 public non-sealed class NotEqInstruction extends Instruction {
     public static final String OP_CODE = "not_eq";
+
     /**
      * Constructs a new NotEqInstruction with the specified label.
      *
@@ -38,6 +39,7 @@ public non-sealed class NotEqInstruction extends Instruction {
     public NotEqInstruction(Label label) {
         super(label, OP_CODE);
     }
+
     /**
      * Executes the instruction's primary operation.
      *
@@ -47,11 +49,12 @@ public non-sealed class NotEqInstruction extends Instruction {
      * @param frame The current execution frame
      */
 
-        @Override
+    @Override
     protected void doExecute(Frame frame) {
         // No-op for testing. Logic does not matter here.
         // We're testing if the Factory discovers this new Instruction.
     }
+
     /**
      * Returns a string representation of the instruction's operands.
      *

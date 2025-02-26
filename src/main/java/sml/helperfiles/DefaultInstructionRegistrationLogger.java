@@ -40,8 +40,8 @@ import java.util.logging.Logger;
  *
  * @author Ricki Angel
  * @version 1.0
- * @since 1.0
  * @see InstructionRegistrationLogger
+ * @since 1.0
  */
 @Component
 public class DefaultInstructionRegistrationLogger implements InstructionRegistrationLogger {
@@ -84,7 +84,7 @@ public class DefaultInstructionRegistrationLogger implements InstructionRegistra
      * </p>
      *
      * @param instructionName Name of the successfully registered instruction
-     * @param opcode Opcode associated with the instruction
+     * @param opcode          Opcode associated with the instruction
      */
     @Override
     public void trackSuccessfulRegistration(String instructionName, String opcode) {
@@ -101,7 +101,7 @@ public class DefaultInstructionRegistrationLogger implements InstructionRegistra
      * </p>
      *
      * @param instructionName Name of the instruction that failed to register
-     * @param reason Explanation for the registration failure
+     * @param reason          Explanation for the registration failure
      */
     @Override
     public void trackFailedRegistration(String instructionName, String reason) {
@@ -129,7 +129,7 @@ public class DefaultInstructionRegistrationLogger implements InstructionRegistra
 
         for (int i = 0; i < SUCCESSFULLY_REGISTERED.size(); i++) {
             System.out.println("  → Attempting: " + SUCCESSFULLY_REGISTERED.get(i).split(" \\(")[0]);
-            System.out.println("  ✓ Registered: " + SUCCESSFULLY_REGISTERED.get(i)+"\n");
+            System.out.println("  ✓ Registered: " + SUCCESSFULLY_REGISTERED.get(i) + "\n");
         }
 
         if (!FAILED_REGISTRATION.isEmpty()) {

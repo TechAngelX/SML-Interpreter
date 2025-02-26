@@ -37,7 +37,7 @@ public non-sealed class IfCmpeqInstruction extends Instruction {
      *   <li>A required target label for conditional branching</li>
      * </ul>
      *
-     * @param label The label identifying this instruction (can be null)
+     * @param label     The label identifying this instruction (can be null)
      * @param jumpLabel The target label to jump to if condition is met
      */
     public IfCmpeqInstruction(Label label, Label jumpLabel) {
@@ -92,6 +92,7 @@ public non-sealed class IfCmpeqInstruction extends Instruction {
     protected String getOperandsString() {
         return jumpLabel.toString();
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

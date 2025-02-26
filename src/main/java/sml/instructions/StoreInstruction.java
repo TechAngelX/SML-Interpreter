@@ -33,7 +33,7 @@ public non-sealed class StoreInstruction extends AbstractVarInstruction {
      *   <li>A required variable identifier to store to</li>
      * </ul>
      *
-     * @param label The label identifying this instruction (can be null)
+     * @param label   The label identifying this instruction (can be null)
      * @param varName The identifier of the variable to store into
      */
     public StoreInstruction(Label label, Variable.Identifier varName) {

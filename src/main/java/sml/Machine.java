@@ -5,6 +5,7 @@ import sml.instructions.Instruction;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
 /**
  * Represents the virtual machine for SML execution.
  *
@@ -110,6 +111,7 @@ public final class Machine {
         }
         return Optional.of(newFrame);
     }
+
     /**
      * String representation of the program under execution.
      *
