@@ -166,13 +166,13 @@ public class InstructionFactory {
                         try {
                             Class<?> clazz = Class.forName(fullClassName);
                             registerInstructionClass(clazz);
-                        } catch (Exception e) {
+                        } catch (ClassNotFoundException e) {
                             LOGGER.log(Level.WARNING, "Error loading class " + fullClassName, e);
                         }
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.log(Level.WARNING, "Package scanning failed", e);
         }
     }
@@ -202,7 +202,7 @@ public class InstructionFactory {
                     LOGGER.log(Level.FINE, "Error loading class: " + fullClassName, e);
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.log(Level.WARNING, "Direct class loading discovery failed", e);
         }
     }
