@@ -265,20 +265,20 @@ public class SmlIntegrationTest {
     @DisplayName("Verifies nested method calls with argument passing")
     void testNestedMethodInvocation() throws IOException {
         String program = """
-    @main:
-    push 10
-    push 5
-    invoke @inner // Call inner method with two arguments from stack
-    print         // Should print result (15)
-    push 0        // Dummy push to prevent empty stack on return
-    return
-
-    @inner: a, b  // Declare parameters that will receive values from stack
-    load a        // (10)
-    load b        // (5)
-    add
-    return
-    """;
+                @main:
+                push 10
+                push 5
+                invoke @inner // Call inner method with two arguments from stack
+                print         // Should print result (15)
+                push 0        // Dummy push to prevent empty stack on return
+                return
+                
+                @inner: a, b  // Declare parameters that will receive values from stack
+                load a        // (10)
+                load b        // (5)
+                add
+                return
+                """;
         String filePath = createTempSmlFile("nested.sml", program);
 
         Collection<Method> methods = translator.readAndTranslate(filePath);
@@ -293,10 +293,10 @@ public class SmlIntegrationTest {
         }
 
         String output = outContent.toString();
-
-        System.out.println("Output: [" + output + "]");
-        System.out.println("Output length: " + output.length());
-
-        assertTrue(output.contains("5"), "Output should contain the result of 10 + 5");
+        String lastLine = output.lines()
+                .filter(line -> line.matches("\\d+"))
+                .reduce((first, second) -> second)
+                .orElse("");
+        assertEquals("15", lastLine, "The result of 10 + 5 should be 15");
     }
     }
