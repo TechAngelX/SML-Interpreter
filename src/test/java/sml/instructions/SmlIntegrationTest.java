@@ -134,12 +134,42 @@ public class SmlIntegrationTest {
     @DisplayName("Test various jump instructions in SML, verifying correct conditional and unconditional jumps")
     void testJumpInstructions() throws IOException {
         String program = """
-                @main
+                @main:
                 push 10
                 push 20
-                if_cmpeq 
-    
-   }
+                if_cmpeq notTakenJump     // 10 != 20, so this jump shoul NOT happen
+                push 30
+                goto unconditionalJump    // This jump SHOULD taken
+                
+                notTakenJump: push 999
+                print
+                
+                unconditionalJump: push 40
+                push 40
+                if_cmpeq equalJump
+                push 999
+                
+                equalJump: push 50
+                push 25
+                if_cmpgt greaterJump      // 50 > 25, so this jump should be taken
+                push 999                  // This should never be executed
+                
+                greaterJump: push 60
+                print                     // Should print 60
+                return
+                """;
+
+        String filePath = createTempSmlFile("jumps.sml", program);
+        Collection<Method> methods = translator.readAndTranslate(filePath);
+        machine.setProgram(methods);
+        machine.execute();
+
+        // If all jumps work correctly, only 60 should be printed:
+        String output = outContent.toString();
+        assertFalse(output.contains("999"));
+        assertTrue(output.contains("60"));
+    }
+
     @Test
     @DisplayName("Should correctly calculate the 8th Fibonacci number")
     void testFibonacciProgram() throws IOException {
