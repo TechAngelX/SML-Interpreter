@@ -213,7 +213,6 @@ public class SmlIntegrationTest {
                 .filter(line -> line.matches("\\d+"))
                 .reduce((first, second) -> second)
                 .orElse("");
-        // Check that the 8th Fibonacci number (which is 21) was printed
         assertEquals("21", lastLine, "The 8th Fibonacci number should be 21, but got: " + lastLine);
     }
 
@@ -249,9 +248,38 @@ public class SmlIntegrationTest {
         machine.setProgram(methods);
         machine.execute();
 
-        // Check that the factorial of 5 (which is 120) was printed:
         assertTrue(outContent.toString().contains("120"),  "Expected output to contain factorial(5)=120, but didn't find it");
-
     }
+
+
+    /**
+     * A test to validate nested method call functionality in SML interpreter.
+     *
+     * @throws IOException
+     * @author Ricki Angel
+     */
+    @Test
+    void testNestedMethodCalls() throws IOException {
+        String program = """
+            @main
+            push 5
+            push 10
+            invoke @inner
+            print
+            push 0        // Dummy push to prevent empty stack on return
+            return
+            
+            @inner:
+            add
+            print
+            push 0        // Another Dummy push to prevent empty stack on return
+            return
+            """;
+
+        String filePath = createTempSmlFile("nested.sml", program);
+
+        Collection<Method> methods = translator.readAndTranslate(filePath);
+
+        // TODO ...figure out/design for loop to parse methods...
 
     }
