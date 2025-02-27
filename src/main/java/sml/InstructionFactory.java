@@ -158,6 +158,8 @@ public class InstructionFactory {
             if (packageDir.exists()) {
                 java.io.File[] classFiles = packageDir.listFiles(
                         file -> file.isFile() && file.getName().endsWith(".class")
+                        && !file.getName().equals("-package-info")
+
                 );
                 if (classFiles != null) {
                     for (java.io.File classFile : classFiles) {
