@@ -8,7 +8,6 @@ import sml.helperfiles.DefaultInstructionRegistrationLogger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +19,6 @@ class ModInstructionTest {
 
     private Machine machine;
     private Translator translator;
-    
-
-
 
     @BeforeEach
     void setUp() {
@@ -37,13 +33,12 @@ class ModInstructionTest {
         machine.setProgram(List.of(mainMethod));
     }
 
-    
     @Test
     @DisplayName("Should dynamically create ModInstruction through InstructionFactory based on Opcode")
     public void testModInstructionIsRegistered() {
         Instruction instruction = InstructionFactory.createInstruction("mod", new Label("test"));
         assertNotNull(instruction);
-        assertTrue(instruction instanceof ModInstruction);
+        assertInstanceOf(ModInstruction.class, instruction);
     }
 
     @Test
@@ -58,14 +53,15 @@ class ModInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        machine.frame().push(50);  
-        machine.frame().push(0);   
+        machine.frame().push(50);
+        machine.frame().push(0);
 
         assertThrows(ArithmeticException.class,
                 () -> modInstruction.execute(machine),
                 "Modulo by zero should throw ArithmeticException"
         );
     }
+
     @Test
     @DisplayName("Should correctly calculate modulo of two numbers from the stack")
     void testExecuteModInstruction() {
@@ -79,8 +75,8 @@ class ModInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        machine.frame().push(17); 
-        machine.frame().push(5); 
+        machine.frame().push(17);
+        machine.frame().push(5);
 
         Optional<Frame> nextFrame = modInstruction.execute(machine);
 
@@ -104,8 +100,8 @@ class ModInstructionTest {
         );
         machine.setProgram(List.of(mainMethod));
 
-        machine.frame().push(-17);  
-        machine.frame().push(5);    
+        machine.frame().push(-17);
+        machine.frame().push(5);
 
         Optional<Frame> nextFrame = modInstruction.execute(machine);
 
@@ -120,25 +116,25 @@ class ModInstructionTest {
     @DisplayName("Test modulo operation with mod opcode")
     void testModuloOperationWithModOpcode() throws IOException {
         String program = """
-            @main:
-            push 55
-            push 9
-            mod     // 55 % 9 = 1
-            print
-
-            push 144
-            push 12
-            mod     // 144 % 12 = 0
-            print
-
-            push 27
-            push 4
-            mod     // 27 % 4 = 3
-            print
-            
-            push 0  
-            return
-            """;
+                @main:
+                push 55
+                push 9
+                mod     // 55 % 9 = 1
+                print
+                
+                push 144
+                push 12
+                mod     // 144 % 12 = 0
+                print
+                
+                push 27
+                push 4
+                mod     // 27 % 4 = 3
+                print
+                
+                push 0
+                return
+                """;
 
         String filePath = createTempSmlFile("modulo_test_mod_opcode.sml", program);
 
@@ -147,13 +143,12 @@ class ModInstructionTest {
         machine.execute();
 
         String output = outContent.toString();
-        assertTrue(output.contains("1"), "Output of the modulo result should be 1 (55 % 9)");
-        assertTrue(output.contains("0"), "Output of the modulo result should be 0 (144 % 12)");
-        assertTrue(output.contains("3"), "Output of the modulo result should be 3 (27 % 4)");
+        assertTrue(output.contains("1"), "Result should be 1 (55 % 9)");
+        assertTrue(output.contains("0"), "Result should be 0 (144 % 12)");
+        assertTrue(output.contains("3"), "Result should be 3 (27 % 4)");
     }
-    
 
-
-
-
+    private String createTempSmlFile(String filename, String content) throws IOException {
+        return null;
+    }
 }
