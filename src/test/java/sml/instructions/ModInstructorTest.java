@@ -1,6 +1,7 @@
 package sml.instructions;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sml.*;
 import sml.helperfiles.DefaultInstructionRegistrationLogger;
@@ -27,6 +28,7 @@ class ModInstructionTest {
     }
 
     @Test
+    @DisplayName("Should dynamically create ModInstruction through InstructionFactory based on Opcode")
     public void testModInstructionIsRegistered() {
         Instruction instruction = InstructionFactory.createInstruction("mod", new Label("test"));
         assertNotNull(instruction);
@@ -34,6 +36,27 @@ class ModInstructionTest {
     }
 
     @Test
+    @DisplayName("Should throw ArithmeticException when dividing by zero")
+    void testModuloByZero() {
+        Instruction modInstruction = new ModInstruction(null);
+
+        Method mainMethod = new Method(
+                new Method.Identifier("@main"),
+                List.of(),
+                List.of(modInstruction)
+        );
+        machine.setProgram(List.of(mainMethod));
+
+        machine.frame().push(50);  
+        machine.frame().push(0);   
+
+        assertThrows(ArithmeticException.class,
+                () -> modInstruction.execute(machine),
+                "Modulo by zero should throw ArithmeticException"
+        );
+    }
+    @Test
+    @DisplayName("Should correctly calculate modulo of two numbers from the stack")
     void testExecuteModInstruction() {
         Instruction modInstruction = new ModInstruction(null);
         Instruction returnInstruction = new ReturnInstruction(null);
@@ -46,7 +69,7 @@ class ModInstructionTest {
         machine.setProgram(List.of(mainMethod));
 
         machine.frame().push(17); 
-        machine.frame().push(5);  
+        machine.frame().push(5); 
 
         Optional<Frame> nextFrame = modInstruction.execute(machine);
 
@@ -56,6 +79,8 @@ class ModInstructionTest {
         assertTrue(nextFrame.isPresent(), "Next frame should exist");
         assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
     }
+    
+    
 
     
 }
