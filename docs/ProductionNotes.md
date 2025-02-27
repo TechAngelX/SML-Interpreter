@@ -92,7 +92,6 @@ SOLUTION 3: Confirm Template Method Pattern
 3. Common behavior (toString, label handling, etc.) stays in base class
 4. Pattern ensures consistent structure across all instruction
 ```
-
 ```
 PROBLEM 4: ServiceProvider - Overengineering
 Upon critically evaluating the code, it seems that the dynamic ServiceProvider solution might be overengineered. 
@@ -103,14 +102,24 @@ current implementation introduces additional complexity by creating more areas t
 when adding a new instruction. The opcode-to-class mapping is already dynamic through the INSTRUCTION_MAP, which 
 provides sufficient flexibility.
 
-SOLUTION 4:*
+SOLUTION 4:
 ✅ Remove the ServiceProvider and revert to using the simpler InstructionFactory process.
-```
 
 ```
-PROBLEM 5: Is InstructionFactory a God Class?
-I see a lot of methods, and the class is taking on a lot of work.
+```
+PROBLEM 5: Sealed Yes, Truly OCP, No.
+The use of a sealed class for the Instruction class presents some considerations with regard to the Open/Closed Principle (OCP). 
+While a sealed class provides control over which classes can inherit from it, it introduces a form of coupling between the base 
+class (Instruction.java) and any future subclasses i or anyone might add. To introduce a new type of instruction, the base class 
+must be modified to include the new subclass in the permits list. So this arguably breaks the OCP rule.
+
 SOLUTION 5:
+✅ Remove Sealed/Non-sealed from base and subclasses.
+```
+```
+PROBLEM 6: Is InstructionFactory a God Class?
+I see a lot of methods, and the class is taking on a lot of work.
+SOLUTION 6:
 ❌ Perhaps decouple/break down components, utilise interfaces.
 ```
 
@@ -152,6 +161,7 @@ Created a simple programe 'sqrtTest.sml' that:
 - sub
 - sqrt - bespoke
 - not_eq - bespoke
+- mod - bespoke
 
 ```
 ```
