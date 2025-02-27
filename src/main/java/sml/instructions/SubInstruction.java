@@ -21,7 +21,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class SubInstruction extends Instruction {
+public class SubInstruction extends Instruction {
     public static final String OP_CODE = "sub";
 
     /**

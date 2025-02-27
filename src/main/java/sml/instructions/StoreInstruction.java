@@ -21,7 +21,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class StoreInstruction extends AbstractVarInstruction {
+public class StoreInstruction extends AbstractVarInstruction {
     public static final String OP_CODE = "store";
 
     /**

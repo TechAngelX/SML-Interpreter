@@ -21,7 +21,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class PrintInstruction extends Instruction {
+public class PrintInstruction extends Instruction {
     public static final String OP_CODE = "print";
 
     /**

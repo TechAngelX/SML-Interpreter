@@ -20,8 +20,8 @@ import java.util.stream.Stream;
  *
  * @author Ricki Angel
  */
-public abstract sealed class AbstractVarInstruction extends Instruction
-        permits LoadInstruction, StoreInstruction {
+public abstract  class AbstractVarInstruction extends Instruction
+       {
 
     /**
      * The identifier for the variable being manipulated.

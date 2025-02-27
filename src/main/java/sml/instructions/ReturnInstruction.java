@@ -21,7 +21,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class ReturnInstruction extends Instruction {
+public class ReturnInstruction extends Instruction {
     public static final String OP_CODE = "return";
 
     /**

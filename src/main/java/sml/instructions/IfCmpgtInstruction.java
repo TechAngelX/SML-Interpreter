@@ -24,7 +24,7 @@ import java.util.Objects;
  *
  * @author Ricki Angel
  */
-public non-sealed class IfCmpgtInstruction extends Instruction {
+public class IfCmpgtInstruction extends Instruction {
     public static final String OP_CODE = "if_cmpgt";
     private final Label jumpLabel;
     private boolean shouldJump;

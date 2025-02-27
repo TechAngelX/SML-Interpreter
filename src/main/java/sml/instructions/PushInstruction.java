@@ -23,7 +23,7 @@ import java.util.Objects;
  *
  * @author Ricki Angel
  */
-public non-sealed class PushInstruction extends Instruction {
+public class PushInstruction extends Instruction {
     public static final String OP_CODE = "push";
     private final int value;
 

@@ -24,7 +24,7 @@ import java.util.Optional;
  *
  * @author Ricki Angel
  */
-public non-sealed class InvokeInstruction extends Instruction {
+public class InvokeInstruction extends Instruction {
     public static final String OP_CODE = "invoke";
     private final Method.Identifier methodName;
     private Optional<Frame> newFrame;

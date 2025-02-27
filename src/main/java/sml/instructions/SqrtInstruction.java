@@ -21,7 +21,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class SqrtInstruction extends Instruction {
+public class SqrtInstruction extends Instruction {
     public static final String OP_CODE = "sqrt";
 
     /**

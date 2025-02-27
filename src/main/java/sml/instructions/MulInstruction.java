@@ -21,7 +21,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class MulInstruction extends Instruction {
+public class MulInstruction extends Instruction {
     public static final String OP_CODE = "mul";
 
     /**

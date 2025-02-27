@@ -19,7 +19,7 @@ import sml.*;
  *
  * @author Ricki Angel
  */
-public non-sealed class AddInstruction extends Instruction {
+public class AddInstruction extends Instruction {
     public static final String OP_CODE = "add";
 
     /**

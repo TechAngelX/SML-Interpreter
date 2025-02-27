@@ -30,7 +30,7 @@ import java.util.stream.Stream;
  *
  * @author Ricki Angel
  */
-public abstract sealed class Instruction permits AbstractVarInstruction, AddInstruction, DivInstruction, GotoInstruction, IfCmpeqInstruction, IfCmpgtInstruction, InvokeInstruction, MulInstruction, NotEqInstruction, PrintInstruction, PushInstruction, ReturnInstruction, SqrtInstruction, SubInstruction {
+public abstract  class Instruction  {
     protected final Label label;
     protected final String opcode;
 
