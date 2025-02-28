@@ -24,17 +24,60 @@ import java.util.logging.Logger;
  */
 public class ConfigDiscovery implements Discoverable {
     private static final Logger LOGGER = Logger.getLogger(ConfigDiscovery.class.getName());
-    private static final String CONFIG_FILE = "config/instruction/opcode.properties";
+    private static final String CONFIG_FILE = "config/opcode.properties";
 
     private final InstructionRegistrationLogger logger;
 
- 
+    /**
+     * Constructs a new ConfigDiscovery discovery method.
+     *
+     * @param logger The logger to use for tracking registration events.
+     */
     public ConfigDiscovery(InstructionRegistrationLogger logger) {
         this.logger = logger;
     }
-
+   
     @Override
     public int discoverInstructions(InstructionRegistry registry) {
-        // ...
+        
+        LOGGER.log(Level.INFO, "Discovering instructions from configuration file: " + CONFIG_FILE);
+        int initialSize = registry.size();
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE)) {
+            if (input == null) {
+                LOGGER.log(Level.WARNING, "Configuration file not found: " + CONFIG_FILE);
+                return 0;
+            }
+
+            Properties opProperties = new Properties();
+            opProperties.load(input);
+
+            if (opProperties.isEmpty()) {
+                LOGGER.log(Level.WARNING, "Configuration file is empty: " + CONFIG_FILE);
+                return 0;
+            }
+
+            int registered = 0;
+            for (String opcode : opProperties.stringPropertyNames()) {
+                String className = opProperties.getProperty(opcode);
+                try {
+                    Class<?> clazz = Class.forName(className);
+                    if (registry, clazz, opcode)) {
+                        registered++;
+                    }
+                } catch (ClassNotFoundException e) {
+                    logger.trackFailedRegistration(className, "Class not found");
+                    LOGGER.log(Level.WARNING, "Class not found: " + className);
+                }
+            }
+
+            LOGGER.log(Level.INFO, "Registered " + registered + " instructions from configuration file");
+            return registered;
+
+        } catch (IOException e) {
+            LOGGER.log(Level.WARNING, "Error loading configuration file: " + e.getMessage(), e);
+            return 0;
         }
+    }
+
 }
