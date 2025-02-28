@@ -42,7 +42,9 @@ Now incorporates both Spring DI and CLI base DI with two ways to run the machine
 - Tests should confirm that invalid inputs trigger the appropriate runtime exceptions.
 - Learn about Parameterized tests and holistic testing of a  new InstructionRegisterManager class.
 - Implement integration tests ✅
-- Add JUnit 5 Parameterized Tests dependency to pom or not ..?
+- Add JUnit 5 Parameterized Tess ✅
+- Research, learn and add/implement mockito to mock and produce config discovery tests. ✅
+- In POM, Scope mockito to test, not final build.
 ```
 
 ### Instruction Test Status:
