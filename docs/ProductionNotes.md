@@ -40,7 +40,9 @@ Now incorporates both Spring DI and CLI base DI with two ways to run the machine
 - Ensure the code fails appropriately, throwing the expected exceptions.
 - Once errors are identified, correct them and re-run the tests.
 - Tests should confirm that invalid inputs trigger the appropriate runtime exceptions.
-
+- Learn about Parameterized tests and holistic testing of a  new InstructionRegisterManager class.
+- Implement integration tests ✅
+- Add JUnit 5 Parameterized Tests dependency to pom or not ..?
 ```
 
 ### Instruction Test Status:
