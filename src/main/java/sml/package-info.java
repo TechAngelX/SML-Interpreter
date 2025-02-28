@@ -5,7 +5,7 @@
  * Key components include:
  * <ul>
  *     <li>{@link sml.Machine} - \The main execution environment.</li>
- *     <li>{@link sml.InstructionFactory} - Dynamically creates instruction instances.</li>
+ *     <li>{@link sml.InstructionRegistrationManager} - Dynamically creates instruction instances.</li>
  *     <li>{@link sml.Translator} - Converts source files into executable instructions.</li>
  *     <li>{@link sml.Variable} - Represents a storage unit for integer values.</li>
  *     <li>{@link sml.Label} - Manages jump destinations.</li>

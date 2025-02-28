@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import sml.discovery.ConfigDiscovery;
-import sml.discovery.Discoverable;
-import sml.discovery.PackageScan;
+import sml.discovery.InstructionDiscoveryStrategy;
+import sml.discovery.PackageScanDiscovery;
 import sml.helperfiles.InstructionRegistrationLogger;
 import sml.instructions.Instruction;
 import sml.registry.InstructionRegistry;
@@ -20,7 +20,7 @@ import java.util.logging.*;
  * A dynamic Factory for creating SML instructions.
  *
  * <h2>Discovery Strategies</h2>
- * <p>The InstructionFactory supports two primary strategies for discovering instructions:</p>
+ * <p>The InstructionRegistrationManager supports two primary strategies for discovering instructions:</p>
  * <ol>
  *   <li><strong>Configuration File Discovery</strong>: 
  *       Reads instruction mappings from a properties file, allowing dynamic registration 
@@ -43,19 +43,19 @@ import java.util.logging.*;
  * <p>This factory delegates core functionality to specialised components:</p>
  * <ul>
  *   <li>Storage and creation of instructions is handled by {@link InstructionRegistry}</li>
- *   <li>Discovery of instructions is performed by {@link Discoverable} implementations</li>
+ *   <li>Discovery of instructions is performed by {@link InstructionDiscoveryStrategy} implementations</li>
  * </ul>
  *
  * @author Ricki Angel
  */
 @Component("InstructionFactory")
 @Qualifier
-public class InstructionFactory {
-    private static final Logger LOGGER = Logger.getLogger(InstructionFactory.class.getName());
+public class InstructionRegistrationManager {
+    private static final Logger LOGGER = Logger.getLogger(InstructionRegistrationManager.class.getName());
     private static final InstructionRegistry REGISTRY = new InstructionRegistry();
 
     private final InstructionRegistrationLogger logger;
-    private final List<Discoverable> discoveryMethods = new ArrayList<>();
+    private final List<InstructionDiscoveryStrategy> discoveryMethods = new ArrayList<>();
 
     static {
         configureLoggerFormat();
@@ -89,22 +89,22 @@ public class InstructionFactory {
     private static void initialiseFactory() {
         InstructionRegistrationLogger staticLogger =
                 new sml.helperfiles.DefaultInstructionRegistrationLogger();
-        InstructionFactory factory = new InstructionFactory(staticLogger);
+        InstructionRegistrationManager factory = new InstructionRegistrationManager(staticLogger);
         factory.discoverInstructions();
         staticLogger.printRegistrationSummary();
     }
 
     /**
-     * Constructs a new InstructionFactory.
+     * Constructs a new InstructionRegistrationManager.
      *
      * @param logger The logger for tracking instruction registration
      */
     @Autowired
-    public InstructionFactory(InstructionRegistrationLogger logger) {
+    public InstructionRegistrationManager(InstructionRegistrationLogger logger) {
         this.logger = Objects.requireNonNull(logger, "Logger cannot be null");
 
         discoveryMethods.add(new ConfigDiscovery(logger));
-        discoveryMethods.add(new PackageScan(logger));
+        discoveryMethods.add(new PackageScanDiscovery(logger));
     }
 
     /**
@@ -117,7 +117,7 @@ public class InstructionFactory {
         LOGGER.log(Level.INFO, "Starting instruction discovery process");
 
         boolean success = false;
-        for (Discoverable method : discoveryMethods) {
+        for (InstructionDiscoveryStrategy method : discoveryMethods) {
             int discovered = method.discoverInstructions(REGISTRY);
             if (discovered > 0) {
                 LOGGER.log(Level.INFO, "Successfully discovered " + discovered +

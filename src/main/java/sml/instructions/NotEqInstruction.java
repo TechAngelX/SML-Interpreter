@@ -11,7 +11,7 @@ import sml.*;
  *
  * <p>This mock instruction's purpose is to:</p>
  * <ul>
- *   <li>Validate package scanning capabilities of the InstructionFactory</li>
+ *   <li>Validate package scanning capabilities of the InstructionRegistrationManager</li>
  *   <li>Demonstrate instruction discovery without factory code modifications</li>
  *   <li>Test runtime extension of available instructions</li>
  * </ul>
