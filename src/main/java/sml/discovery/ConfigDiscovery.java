@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author Ricki Angel
  */
-public class ConfigDiscovery implements Discoverable {
+public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     private static final Logger LOGGER = Logger.getLogger(ConfigDiscovery.class.getName());
     private static final String CONFIG_FILE = "config/opcode.properties";
 
