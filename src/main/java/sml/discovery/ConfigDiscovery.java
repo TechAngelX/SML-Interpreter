@@ -36,7 +36,16 @@ public class ConfigDiscovery implements Discoverable {
     public ConfigDiscovery(InstructionRegistrationLogger logger) {
         this.logger = logger;
     }
-   
+    /**
+     * Discovers and registers instructions from the configuration file.
+     *
+     * <p>Attempts to load instruction mappings from a properties file, 
+     * validating and registering each instruction class found.</p>
+     *
+     * @param registry The instruction registry to populate with discovered instructions
+     * @return Number of successfully registered instructions
+     * @throws RuntimeException if there are issues reading the configuration file
+     */
     @Override
     public int discoverInstructions(InstructionRegistry registry) {
         
@@ -62,7 +71,7 @@ public class ConfigDiscovery implements Discoverable {
                 String className = opProperties.getProperty(opcode);
                 try {
                     Class<?> clazz = Class.forName(className);
-                    if (registry, clazz, opcode)) {
+                    if (registerClass(registry, clazz, opcode)) {
                         registered++;
                     }
                 } catch (ClassNotFoundException e) {
@@ -79,5 +88,43 @@ public class ConfigDiscovery implements Discoverable {
             return 0;
         }
     }
+    /**
+     * Validates and registers a single instruction class into the instruction registry.
+     *
+     * <p>Performs checks to ensure the class is a valid instruction before registration.</p>
+     *
+     * @param registry The instruction registry to register the class in
+     * @param clazz The instruction class to be registered
+     * @param configOpcode The opcode associated with the instruction
+     * @return True if registration was successful, false if validation failed
+     */
+    private boolean registerClass(InstructionRegistry registry, Class<?> clazz, String configOpcode) {
+        logger.logRegistrationAttempt(clazz);
 
+        if (!Instruction.class.isAssignableFrom(clazz)) {
+            logger.trackFailedRegistration(clazz.getSimpleName(), "Not an Instruction subclass");
+            return false;
+        }
+
+        if (java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
+            logger.trackFailedRegistration(clazz.getSimpleName(), "Abstract class");
+            return false;
+        }
+
+        try {
+            @SuppressWarnings("unchecked")
+            Class<? extends Instruction> instructionClass = (Class<? extends Instruction>) clazz;
+            registry.register(configOpcode, instructionClass);
+            logger.trackSuccessfulRegistration(clazz.getSimpleName(), configOpcode);
+            return true;
+        } catch (Exception e) {
+            logger.trackFailedRegistration(clazz.getSimpleName(), "Registration error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    @Override
+    public String getName() {
+        return "Configuration File";
+    }
 }
