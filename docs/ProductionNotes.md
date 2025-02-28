@@ -123,8 +123,13 @@ The InstructionFactory class exhibits classic God Class symptoms: excessive size
 and low cohesion. This violates the Single Responsibility Principle and makes the code difficult to maintain and test.
 
 SOLUTION 6:
-❌ Refactor to show a  separation of concerns?
--
+✅ Refactored using a proper separation of concerns:
+- Split functionality into specialized classes (InstructionRegistry, InstructionDiscoveryStrategy interface)
+- Implemented Strategy Pattern for discovery methods (ConfigFileDiscoveryStrategy, PackageScanDiscoveryStrategy)
+- Created a clear hierarchy of discovery approaches with graceful fallback
+- Removed legacy reflection-based discovery methods in favor of configuration-driven approach
+- Eliminated redundant convenience methods for each instruction type
+- Designed clean interfaces between components to reduce coupling.
 ```
 ```
 
