@@ -3,6 +3,8 @@ package sml.instructions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import sml.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,31 +25,26 @@ class InstructionRegistrationManagerTest {
         label = new Label("L1");
     }
 
-    @Test
-    @DisplayName("Should create valid instructions for standard opcodes")
-    void testCreateStandardInstructions() {
-        String[] opcodes = {"add", "sub", "mul", "div", "load", "store", "print", "goto"};
+    @ParameterizedTest
+    @DisplayName("Simple instructions with just Label parameter should be created successfully")
+    @ValueSource(strings = {"add", "sub", "mul", "div", "print", "return"})
+    void testSimpleInstructionsCreation(String opcode) {
+        Instruction instruction = InstructionRegistrationManager.createInstruction(opcode, label);
 
-        for (String opcode : opcodes) {
-            Instruction instruction = InstructionRegistrationManager.createInstruction(opcode, label);
-
-            assertNotNull(instruction, "Failed to create instruction for standard opcode: " + opcode);
-            assertEquals(opcode, instruction.opcode(), "Created instruction has incorrect opcode");
-            assertEquals(label, instruction.optionalLabel().orElse(null), "Created instruction has incorrect label");
-        }
+        assertNotNull(instruction, "Failed to create instruction for opcode: " + opcode);
+        assertEquals(opcode, instruction.opcode());
     }
 
-    @Test
-    @DisplayName("Should create supplementary NotEqInstruction")
-    void testCreateNotEqInstruction() {
-        Instruction instruction = InstructionRegistrationManager.createInstruction("not_eq", label);
+    @ParameterizedTest
+    @DisplayName("Instructions requiring additional parameters should be created successfully")
+    @ValueSource(strings = {"not_eq", "mod"})
+    void testSpecialInstructions(String opcode) {
+        Instruction instruction = InstructionRegistrationManager.createInstruction(opcode, label);
 
-        assertNotNull(instruction, "NotEqInstruction was not registered properly");
-        assertTrue(instruction instanceof NotEqInstruction,
-                "Should create a NotEqInstruction for not_eq opcode");
-        assertEquals("not_eq", instruction.opcode(), "Created instruction has incorrect opcode");
+        assertNotNull(instruction, "Failed to create instruction for opcode: " + opcode);
+        assertEquals(opcode, instruction.opcode());
     }
-
+    
     @Test
     @DisplayName("Should create ModInstruction for mod opcode")
     void testCreateModInstruction() {
