@@ -117,18 +117,22 @@ SOLUTION 5:
 ✅ Remove Sealed/Non-sealed from base and subclasses.
 ```
 ```
-PROBLEM 6: Is InstructionFactory a God Class?
-I see a lot of methods, and the class is taking on a lot of work.
+PROBLEM 6: Is InstructionFactory a God Class?  300 + lines with  conditional logic and reflection operations !!!
+The InstructionFactory class exhibits classic God Class symptoms: excessive size, too many responsibilities 
+(configuration loading, package scanning, reflection, instruction instantiation, logging), high complexity, 
+and low cohesion. This violates the Single Responsibility Principle and makes the code difficult to maintain and test.
+
 SOLUTION 6:
-❌ Perhaps decouple/break down components, utilise interfaces.
+❌ Refactor to show a  separation of concerns?
+-
+```
 ```
 
-```
-PROBLEM 6: Code Smell - Comment Hell !
+PROBLEM 7: Code Smell - Comment Hell !
 Upon critical evaluation of my code, it is possible I have too much comments in my classes.
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
-SOLUTION 6:
+SOLUTION 7:
 ❌ Work toward cleaning up and removing 'guideline' comments.
 ```
 
