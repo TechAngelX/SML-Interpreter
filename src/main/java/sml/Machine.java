@@ -111,14 +111,16 @@ public final class Machine {
         return Optional.of(newFrame);
     }
 
-    /**
-     * String representation of the program under execution.
-     *
-     * @return pretty formatted version of the code.
-     */
     @Override
     public String toString() {
-        // TODO: implement
-        return "";
+        if (program == null) return "No program loaded";
+
+        int methodCount = program.values().size();
+        int totalInstructions = program.values().stream()
+                .mapToInt(method -> method.instructions().size())
+                .sum();
+
+        return String.format("Program: %d methods, %d total instructions",
+                methodCount, totalInstructions);
     }
 }
