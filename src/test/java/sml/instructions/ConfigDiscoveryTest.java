@@ -16,7 +16,13 @@ import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Unit tests for {@link ConfigDiscovery}.
+ * Verifies the functionality of instruction discovery from configuration files,
+ * handling various scenarios of configuration file loading and instruction registration.
+ *
+ * <p>Author: Ricki Angel</p>
+ */
 public class ConfigDiscoveryTest {
     private InstructionRegistry registry;
     private InstructionRegistrationLogger logger;
@@ -27,7 +33,13 @@ public class ConfigDiscoveryTest {
         registry = new InstructionRegistry();
     }
 
-   
+    /**
+     * Verifies that the ConfigDiscovery can successfully discover and register instructions
+     * from a test properties file created in memory. The test creates a mock configuration
+     * with three instructions (add, sub, mul) and checks that they are correctly registered
+     * in the instruction registry.
+     */
+
     @Test
     @DisplayName("Should discover instructions from a configuration file")
     void testDiscoverInstructions() {
@@ -55,6 +67,12 @@ public class ConfigDiscoveryTest {
         assertTrue(registry.isRegistered("sub"), "sub instruction should be registered");
     }
 
+    /**
+     * Tests the behavior of ConfigDiscovery when no configuration file is available.
+     * Simulates a missing configuration file scenario and ensures that the discovery
+     * method gracefully handles this situation by returning zero discovered instructions.
+     */
+
     @Test
     @DisplayName("Should handle missing configuration file gracefully")
     void testMissingConfigurationFile() {
@@ -64,10 +82,14 @@ public class ConfigDiscoveryTest {
                 return null;
             }
         };
-
         int discoveredCount = configDiscovery.discoverInstructions(registry);
         assertEquals(0, discoveredCount, "Should return a 0 when config file is missing");
     }
+    /**
+     * Examines the ConfigDiscovery's response to an empty configuration file.
+     * Ensures that when a configuration file exists but contains no instruction mappings,
+     * the discovery method returns zero and does not attempt to register any instructions.
+     */
 
     @Test
     @DisplayName("Should handle empty configuration file")
@@ -85,12 +107,7 @@ public class ConfigDiscoveryTest {
                 }
             }
         };
-
         int discoveredCount = configDiscovery.discoverInstructions(registry);
-
         assertEquals(0, discoveredCount, "Should return 0 when config file is empty");
     }
-
-
 }
-

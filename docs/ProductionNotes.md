@@ -27,15 +27,32 @@ InstructionFactory ✅  InstructionFactory completed with Chain of Responsibilit
 ```
 
 ### PART II
-
+```
 Translator and Reflection API ✅ Completed. Test using: java sml.RunSml src/main/resources/test1.sml
 Dependency Injection (Manual) ✅ Consstructor-based DI.Complete.
 Dependency Injection (Spring) ✅ Complete. ased DI. Complete.
 Now incorporates both Spring DI and CLI base DI with two ways to run the machine via command line.
-
 ```
 
+### Instruction Test Status:
+Create the test classes AFTER finishing their respective concrete classes, and run each unit:
+```
+✅ LoadInstructionTest class tests completed.  
+✅ StoreInstruction class tests completed.  
+✅ PushInstruction class tests completed.  
+✅ AddInstruction class tests completed.  
+✅ SubInstruction class tests completed.  
+✅ MultiplySubInstruction class tests completed.  
+✅ DivInstruction class tests completed.  
+✅ IfGreaterGotoInstruction class tests completed.
+✅ IfEqualGotoInstruction class tests completed.
+✅ SmlIntegrationTest class tests completed.
+✅ InstructionRegistrationManagerTest class tests completed.
+✅ ConfigDiscoveryTest class tests completed.
+
+```
 ### Testing Strategy: Points to Note:
+```
 - Write tests that supply incorrect input values.
 - Ensure the code fails appropriately, throwing the expected exceptions.
 - Once errors are identified, correct them and re-run the tests.
@@ -47,27 +64,8 @@ Now incorporates both Spring DI and CLI base DI with two ways to run the machine
 - In POM, Scope mockito to test, not final build.
 ```
 
-### Instruction Test Status:
-
-Create the test classes AFTER finishing their respective concrete classes, and run each unit:
-
-LoadInstructionTest ✅ LoadInstruction class tests completed.  
-StoreInstructionTest ✅ StoreInstruction class tests completed.  
-PushInstructionTest ✅ PushInstruction class tests completed.  
-AddInstructionTest ✅ AddInstruction class tests completed.  
-SubInstructionTest ✅ SubInstruction class tests completed.  
-MultiplySubInstructionTest ✅ MultiplySubInstruction class tests completed.  
-DivInstructionTest ✅ DivInstruction class tests completed.  
-IfGreaterGotoInstruction ✅ IfGreaterGotoInstruction class tests completed.
-IfEqualGotoInstruction ✅ IfEqualGotoInstruction class tests completed.
-ConfigDiscoveryTest: ❌
-After experiencing lots of test failures with new ConfigDiscovery class. Researching
-adding a protected method to ConfigDiscovery  to create a "seam" - a place where tests
-can inject different behavior without messing with the core logic. 
-
-
 ### OBSERVATIONS: Identified Problems & Solutions
-
+```
 ```
 PROBLEM 1: DRY Issue
 The `variables()` method seems to be prevalent across most instruction subclasses.  
@@ -76,7 +74,6 @@ or remain as an abstract method in a base abstract class for better implementati
 
 SOLUTION 1:
 ✅ Created an `AbstractVarInstruction` class to be used by `Store`, `Load`, `Push`, etc.
-
 ```
 
 ```
