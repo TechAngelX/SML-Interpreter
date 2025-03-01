@@ -31,6 +31,8 @@ class ConfigDiscoveryTest {
     void testDiscoverInstructions() {
         Properties testProperties = new Properties();
         testProperties.setProperty("print", "sml.instructions.PrintInstruction");
+        testProperties.setProperty("add", "sml.instructions.AddInstruction");
+        testProperties.setProperty("sub", "sml.instructions.SubInstruction");
 
         ConfigDiscovery configDiscovery = new ConfigDiscovery(logger) {
             @Override
@@ -47,6 +49,8 @@ class ConfigDiscoveryTest {
 
         int discoveredCount = configDiscovery.discoverInstructions(registry);
         assertTrue(registry.isRegistered("print"), "Print instruction should be registered");
+        assertTrue(registry.isRegistered("add"), "add instruction should be registered");
+        assertTrue(registry.isRegistered("sub"), "sub instruction should be registered");
 
     }
 }
