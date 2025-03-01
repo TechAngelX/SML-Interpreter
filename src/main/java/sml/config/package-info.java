@@ -1,24 +1,27 @@
 /**
- * Provides configuration classes for the Simple Machine Language program.
+ * Provides Spring configuration for the Simple Machine Language application.
  * <p>
- * This package contains Spring configuration components that define
- * application-wide settings, bean definitions, and infrastructure setup.
+ * This package contains configuration classes that set up the Spring application context:
+ * <ul>
+ *   <li>{@link sml.config.SmlConfig} - Primary configuration with component scanning and bean definitions</li>
+ * </ul>
  * </p>
- *
- * <h2>Key Components</h2>
- * <ul>
- *     <li>{@link sml.config.SmlConfig} - Primary configuration class for the SML application</li>
- * </ul>
- *
  * <p>
- * Configuration classes in this package are responsible for:
+ * The configuration enables:
  * <ul>
- *     <li>Enabling component scanning</li>
- *     <li>Defining primary beans</li>
- *     <li>Setting up application-wide configurations</li>
+ *   <li>Component scanning across the entire SML application</li>
+ *   <li>Dependency injection for core components</li>
+ *   <li>Service registration with appropriate scopes</li>
+ *   <li>Logger configuration with primary bean definitions</li>
  * </ul>
+ * </p>
+ * <p>
+ * This package supports both Spring-managed and manual dependency injection modes,
+ * allowing the SML application to run with or without a Spring context.
  * </p>
  *
  * @author Ricki Angel
+ * @see sml.helperfiles.InstructionRegistrationLogger
+ * @see sml.helperfiles.DefaultInstructionRegistrationLogger
  */
 package sml.config;

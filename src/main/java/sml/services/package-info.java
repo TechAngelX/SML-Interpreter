@@ -1,20 +1,23 @@
 /**
- * Provides service-layer utilities for the Simple Machine Language program.
+ * Provides service components for file processing and resource management.
  * <p>
- * This package currently contains file-related service components that support
- * core application functionality, with a focus on file reading and processing.
- * </p>
- * <p>
- * Key components:
+ * This package contains service classes that handle file operations for the SML system:
  * <ul>
- *     <li>{@link sml.services.FileService} - Provides utilities for file scanning and reading</li>
+ *   <li>{@link sml.services.FileService} - Manages file access with UTF-8 encoding support</li>
  * </ul>
  * </p>
  * <p>
- * The services in this package are designed to be lightweight, focused, and easily
- * integrable with the Spring Framework's dependency injection model.
+ * The services in this package follow the Spring Framework's service pattern,
+ * enabling dependency injection and separation of concerns. The file service
+ * abstracts file system interactions, providing a clean interface for reading
+ * program source files with consistent character encoding handling.
+ * </p>
+ * <p>
+ * These services can be extended to support additional resource operations
+ * like network access, database connections, or other external system integrations.
  * </p>
  *
  * @author Ricki Angel
+ * @see sml.Translator
  */
 package sml.services;
