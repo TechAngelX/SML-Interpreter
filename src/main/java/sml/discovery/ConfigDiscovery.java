@@ -24,8 +24,7 @@ import java.util.logging.Logger;
  */
 public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     private static final Logger LOGGER = Logger.getLogger(ConfigDiscovery.class.getName());
-    private static final String CONFIG_FILE = "config/opcode.properties";
-
+    private static final String CONFIG_FILE = "sml/config/opcode.properties";
     private final InstructionRegistrationLogger logger;
 
     /**
@@ -36,6 +35,17 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     public ConfigDiscovery(InstructionRegistrationLogger logger) {
         this.logger = logger;
     }
+
+    /**
+     * Gets the configuration resource as an input stream.
+     *
+     * @param configFile The path to the configuration file
+     * @return An input stream for the resource, or null if not found
+     */
+    protected InputStream getConfigResource(String configFile) {
+        return getClass().getClassLoader().getResourceAsStream(configFile);
+    }
+
     /**
      * Discovers and registers instructions from the configuration file.
      *
@@ -48,11 +58,11 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
      */
     @Override
     public int discoverInstructions(InstructionRegistry registry) {
-        
+
         LOGGER.log(Level.INFO, "Discovering instructions from configuration file: " + CONFIG_FILE);
         int initialSize = registry.size();
 
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE)) {
+        try (InputStream input = getConfigResource(CONFIG_FILE)) {
             if (input == null) {
                 LOGGER.log(Level.WARNING, "Configuration file not found: " + CONFIG_FILE);
                 return 0;
@@ -88,6 +98,7 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
             return 0;
         }
     }
+
     /**
      * Validates and registers a single instruction class into the instruction registry.
      *

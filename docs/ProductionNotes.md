@@ -60,6 +60,11 @@ MultiplySubInstructionTest ✅ MultiplySubInstruction class tests completed.
 DivInstructionTest ✅ DivInstruction class tests completed.  
 IfGreaterGotoInstruction ✅ IfGreaterGotoInstruction class tests completed.
 IfEqualGotoInstruction ✅ IfEqualGotoInstruction class tests completed.
+ConfigDiscoveryTest: ❌
+After experiencing lots of test failures with new ConfigDiscovery class. Researching
+adding a protected method to ConfigDiscovery  to create a "seam" - a place where tests
+can inject different behavior without messing with the core logic. 
+
 
 ### OBSERVATIONS: Identified Problems & Solutions
 
