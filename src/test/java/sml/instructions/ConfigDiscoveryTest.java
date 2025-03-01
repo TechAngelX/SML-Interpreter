@@ -1,30 +1,53 @@
-package sml.discovery;
+package sml.instructions;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import sml.discovery.ConfigDiscovery;
 import sml.helperfiles.DefaultInstructionRegistrationLogger;
 import sml.helperfiles.InstructionRegistrationLogger;
 import sml.registry.InstructionRegistry;
 
-import static org.mockito.Mockito.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class ConfigDiscoveryTest {
     private InstructionRegistry registry;
     private InstructionRegistrationLogger logger;
-    private ConfigDiscovery configDiscovery;
 
     @BeforeEach
     void setUp() {
         logger = new DefaultInstructionRegistrationLogger();
-        configDiscovery = new ConfigDiscovery(logger);
         registry = new InstructionRegistry();
     }
 
     @Test
-    @DisplayName("Should discover instructions from configuration file")
+    @DisplayName("Should discover instructions from a configuration file")
     void testDiscoverInstructions() {
-        int discoveredCount = configDiscovery.discoverInstructions(registry);
+        Properties testProperties = new Properties();
+        testProperties.setProperty("print", "sml.instructions.PrintInstruction");
 
-        // TODO...
+        ConfigDiscovery configDiscovery = new ConfigDiscovery(logger) {
+            @Override
+            protected InputStream getConfigResource(String configFile) {
+                try {
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    testProperties.store(out, "Test Properties");
+                    return new ByteArrayInputStream(out.toByteArray());
+                } catch (IOException e) {
+                    return null;
+                }
+            }
+        };
+
+        int discoveredCount = configDiscovery.discoverInstructions(registry);
+        assertTrue(registry.isRegistered("print"), "Print instruction should be registered");
+
+    }
 }
+
