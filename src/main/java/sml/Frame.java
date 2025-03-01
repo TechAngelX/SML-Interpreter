@@ -85,9 +85,10 @@ public class Frame {
     }
 
     /**
-     * Advances the program counter to the next instruction.
+     * Advances the program counter to the next instruction in the method.
      *
-     * @return Next frame if available, null if no more instructions
+     * @return The next frame if another instruction exists, or null if no more instructions are available
+     * @throws IndexOutOfBoundsException if the program counter exceeds the method's instruction list
      */
     public Frame advance() {
         if (programCounter + 1 >= method.instructions().size()) {
@@ -97,11 +98,11 @@ public class Frame {
     }
 
     /**
-     * Jumps to a specific labeled instruction within the method.
+     * Jumps to a specific labeled instruction within the current method.
      *
-     * @param label Target instruction label
-     * @return Frame at the labeled instruction
-     * @throws LabelNotFoundException if label is not found in method
+     * @param label The target instruction label to jump to
+     * @return The frame positioned at the labeled instruction
+     * @throws LabelNotFoundException if the specified label cannot be found in the method
      */
 
     public Frame jumpTo(Label label) {
@@ -111,6 +112,18 @@ public class Frame {
 
         return setProgramCounter(pc.get());
     }
+
+    /**
+     * Sets the program counter to a specific instruction index within the method.
+     *
+     * <p>Updates the current execution point and validates the new index
+     * against the method's total number of instructions.</p>
+     *
+     * @param programCounter The new index to set as the current program counter
+     * @return The current frame with updated program counter
+     * @throws IndexOutOfBoundsException if the program counter is outside
+     *                                   the valid range of method instructions
+     */
 
     private Frame setProgramCounter(int programCounter) {
         this.programCounter = programCounter;
@@ -135,11 +148,11 @@ public class Frame {
     }
 
     /**
-     * Retrieves a variable from local or argument scopes.
+     * Retrieves a variable from local or argument scopes based on its identifier.
      *
-     * @param identifier Variable identifier to locate
-     * @return The variable associated with the identifier
-     * @throws VariableNotFoundException if variable is not found
+     * @param identifier The unique identifier of the variable to retrieve
+     * @return The variable associated with the given identifier
+     * @throws VariableNotFoundException if no variable matches the identifier
      */
 
     public Variable variable(Variable.Identifier identifier) {
@@ -156,6 +169,12 @@ public class Frame {
         return localVariables;
     }
 
+    /**
+     * Removes and returns the top value from the operand stack.
+     *
+     * @return The integer value at the top of the stack
+     * @throws NoSuchElementException if the stack is empty
+     */
     public int pop() {
         if (stack.isEmpty()) {
             throw new NoSuchElementException("Cannot pop from an empty stack in method " + method.name());
@@ -163,6 +182,11 @@ public class Frame {
         return stack.pop();
     }
 
+    /**
+     * Pushes a new integer value onto the top of the operand stack.
+     *
+     * @param value The integer value to push onto the stack
+     */
     public void push(int value) {
         stack.push(value);
     }
@@ -188,7 +212,7 @@ public class Frame {
 
         return sb.toString();
     }
-
+    
     public int stackSize() {
         return stack.size();
     }

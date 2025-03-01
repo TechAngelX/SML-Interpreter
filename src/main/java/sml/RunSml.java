@@ -83,39 +83,41 @@ public class RunSml {
         machine.setProgram(instructions);
         machine.execute();
     }
-
     /**
      * Main entry point for command-line execution.
      * Attempts to use Spring DI first, falls back to reflection-based DI if Spring fails.
      *
      * @param args Command-line arguments (expects the SML file path as the first argument)
+     * @throws IOException If an error occurs while reading or running the SML program file
+     * @throws ReflectiveOperationException If there are issues with manual dependency injection or class instantiation
      */
     public static void main(String... args) {
         if (args.length < 1) {
             System.err.println("Usage: java sml.RunSml src/main/resources/test1.sml");
             return;
         }
+
         try {
-            try {
-                ApplicationContext context = new AnnotationConfigApplicationContext(SmlConfig.class);
-                RunSml runner = context.getBean(RunSml.class);
-                runner.run(args[0]);
-                return;
-            } catch (Exception e) {
-                System.out.println("Spring initialisation has failed. Falling back to manual DI");
-            }
+            ApplicationContext context = new AnnotationConfigApplicationContext(SmlConfig.class);
+            RunSml runner = context.getBean(RunSml.class);
+            runner.run(args[0]);
+        } catch (Exception springInitException) {
+            System.out.println("Spring initialisation has failed. Falling back to manual DI");
+
             try {
                 Constructor<RunSml> constructor = RunSml.class.getConstructor(Translator.class, Machine.class);
                 Translator translator = new Translator();
                 Machine machine = new Machine();
                 RunSml runner = constructor.newInstance(translator, machine);
                 runner.run(args[0]);
-            } catch (Exception e) {
-                RunSml.create().run(args[0]);
+            } catch (Exception manualDiException) {
+                try {
+                    RunSml.create().run(args[0]);
+                } catch (IOException ioException) {
+                    System.err.println("Error running program: " + ioException.getMessage());
+                    ioException.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            System.err.println("Error running program: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }

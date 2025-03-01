@@ -170,9 +170,11 @@ public final class Translator {
             String className = getInstructionClassName(opcode);
             Class<?> instructionClass = Class.forName(className);
             return createInstructionInstance(instructionClass, label);
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
+            System.err.println("Instruction class not found for opcode: " + opcode);
+            return null;
+        } catch (ReflectiveOperationException e) {
             System.err.println("Error creating instruction for opcode: " + opcode);
-            e.printStackTrace();
             return null;
         }
     }
@@ -204,12 +206,16 @@ public final class Translator {
     /**
      * Creates an Instruction instance based on the instruction class and label.
      *
-     * @param instructionClass the class representing the instruction
-     * @param label            the label associated with the instruction
-     * @return the created Instruction object
-     * @throws Exception if an error occurs during instantiation
+     * <p>Instantiates a new instruction by finding an appropriate constructor 
+     * and creating an instance with the given label and additional arguments.</p>
+     *
+     * @param instructionClass the class representing the instruction to be created
+     * @param label the label associated with the instruction (can be null)
+     * @return a new Instruction object
+     * @throws ClassNotFoundException if the instruction class cannot be found
+     * @throws ReflectiveOperationException if there are issues creating the instruction instance
      */
-    private Instruction createInstructionInstance(Class<?> instructionClass, Label label) throws Exception {
+    private Instruction createInstructionInstance(Class<?> instructionClass, Label label) throws ClassNotFoundException, ReflectiveOperationException {
         var constructor = findLabelConstructor(instructionClass);
         Object[] args = buildConstructorArgs(constructor, label);
         return (Instruction) constructor.newInstance(args);

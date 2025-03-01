@@ -44,9 +44,6 @@ public final class Machine {
             System.err.println("Error: Method not found - " + e.getMessage());
         } catch (IllegalStateException e) {
             System.err.println("Error: Illegal state - " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Unexpected error during execution: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -85,6 +82,8 @@ public final class Machine {
      *
      * @param methodName Identifier of the method to invoke
      * @return Optional containing the new execution frame
+     * @throws MethodNotFoundException if the specified method cannot be found in the program
+     * @throws IllegalStateException if insufficient arguments are available on the stack for method invocation
      */
     public Optional<Frame> newFrameForMethodInvocation(Method.Identifier methodName) {
         Method method = program.get(methodName)
