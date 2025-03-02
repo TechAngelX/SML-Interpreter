@@ -3,8 +3,13 @@ package sml.instructions;
 import sml.*;
 
 /**
- * Modulo instruction in the SML runtime environment (Supplementary)
+ * A+ Modulo instruction in the SML runtime environment (Supplementary).
  *
+ * <p>This class is an additional test mock-up instruction designed as a test case
+ * for the dynamic instruction discovery system (both config and package scan). This 
+ * is supplementary to the SDP coursework assignment, designed purely to enhance my 
+ * familiarity with opcode and instruction discovery.</p>
+ *  
  * <p>The ModInstruction class implements arithmetic operations that:</p>
  * <ul>
  *   <li>Pop two integer values from the operand stack</li>
@@ -15,7 +20,7 @@ import sml.*;
  * <p>Key responsibilities:</p>
  * <ul>
  *   <li>Performs integer modulo operations</li>
- *   <>li>Serves as a test case for the instruction factory system< to test true extensibility./li>
+ *   <li>Serves as a test case for the instruction factory system to test true extensibility</li>
  *   <li>Supports modular arithmetic in SML programs</li>
  *   <li>Handles error conditions like division by zero</li>
  * </ul>
@@ -39,7 +44,7 @@ public class ModInstruction extends Instruction {
      *
      * @param label the label associated with this instruction (can be null)
      */
-    public ModInstruction(Label label) { // doesn't need to override equuals() or hashcode.
+    public ModInstruction(Label label) {
         super(label, OP_CODE);
     }
 
@@ -47,7 +52,7 @@ public class ModInstruction extends Instruction {
      * Executes the modulo operation.
      * <p>
      * Pops the top two values from the stack, calculates the remainder when
-     * the second value is divided by the first, and pushes the result back onto the stack.
+     * the first value is divided by the second, and pushes the result back onto the stack.
      * </p>
      * <p>
      * Throws an {@link ArithmeticException} if division by zero is attempted.
@@ -58,7 +63,7 @@ public class ModInstruction extends Instruction {
      */
     @Override
     protected void doExecute(Frame frame) {
-        int value2 = frame.pop(); 
+        int value2 = frame.pop();
         int value1 = frame.pop();
         if (value2 == 0) {
             throw new ArithmeticException("Modulo by zero");

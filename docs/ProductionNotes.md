@@ -139,11 +139,27 @@ SOLUTION 6:
 ```
 ```
 
-PROBLEM 7: Code Smell - Comment Hell !
+PROBLEM 7: Testing certain complext instructions in InstructionRegistrationManager!
+The challenge we face with InstructionRegistrationManagerTest is that It's trying to
+test the factory (InstructionRegistrationManager.createInstruction) which only accepts
+two parameters: an opcode and a label. Some instructions require more parameters than
+just a label, but the factory doesn't have a way to provide these extra parameters.
+
+That's why we're having issues testing these complex instructions through the factory
+the factory itself doesn't support creating them with their required parameters.
+
+SOLUTION 7:
+✅  Test simple instructions through complete instantiation. For complex instructions,
+simply verify they're registered and recognized by the factory Document which
+instructions are only partially testable via the factory.
+
+```
+```
+PROBLEM 8: Code Smell - Comment Hell !
 Upon critical evaluation of my code, it is possible I have too much comments in my classes.
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
-SOLUTION 7:
+SOLUTION 8:
 ❌ Work toward cleaning up and removing 'guideline' comments.
 ```
 
@@ -174,9 +190,9 @@ Created a simple programe 'sqrtTest.sml' that:
 - return
 - store
 - sub
-- sqrt - bespoke
-- not_eq - bespoke
-- mod - bespoke
+- sqrt - (supplementary)
+- not_eq - (supplementary)
+- mod - (supplementary)
 
 ```
 ```

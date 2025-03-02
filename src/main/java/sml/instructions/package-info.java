@@ -17,10 +17,11 @@
  * <p>
  * This package forms the executable core of an SML program.
  * <p>
- *   Also includes two supplementary test classes, additional to the coursework assignment:
+ *   Also includes three supplementary test instruction classes, additional to the coursework assignment:
  * <ul>
  *     <li>{@link sml.instructions.NotEqInstruction} - Comparison instruction.</li>
  *     <li>{@link sml.instructions.SqrtInstruction} - Square root calculation instruction.</li>
+ *     <li>{@link sml.instructions.ModInstruction} -  Modulo calculation instruction.</li>
  * </ul>
  *
  * @author Ricki Angel

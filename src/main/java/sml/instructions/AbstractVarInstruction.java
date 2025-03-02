@@ -7,16 +7,21 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * Abstract base class for instructions that manipulate variables.
- * <p>
- * This class provides common functionality for instructions that interact with variables,
- * such as load and store operations. It is extended by specific instructions that involve
- * variable manipulation.
- * </p>
- * <p>
- * The class defines a common representation for variable-based instructions, ensuring that
- * variable names are managed consistently.
- * </p>
+ * Abstract base class for SML instructions that interact with variables.
+ *
+ * <p>Provides a common implementation for instructions that manipulate variables, 
+ * such as load and store operations. Ensures consistent variable name management 
+ * across different variable-based instruction types.</p>
+ *
+ * <h2>Key Responsibilities<:/h2>
+ * <ul>
+ *   <li>Define a standard interface for variable-based instructions</li>
+ *   <li>Manage variable identifiers consistently</li>
+ *   <li>Provide default implementations for equality and hash code generation</li>
+ *   <li>Support stream-based variable retrieval</li>
+ * </ul>
+ *
+ * <p>Subclasses must extend this class to inherit standard variable instruction behaviors.</p>
  *
  * @author Ricki Angel
  */

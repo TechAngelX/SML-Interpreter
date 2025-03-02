@@ -27,7 +27,6 @@ import java.util.Optional;
 public class InvokeInstruction extends Instruction {
     public static final String OP_CODE = "invoke";
     private final Method.Identifier methodName;
-    private Optional<Frame> newFrame;
 
     /**
      * Constructs a new InvokeInstruction with specified label and method name.
@@ -57,7 +56,7 @@ public class InvokeInstruction extends Instruction {
      */
     @Override
     protected void doExecute(Frame frame) {
-        // No-op: This subclass does not require execution logic.
+        // No operations performed here - method invocation handled in execute()
     }
 
     /**

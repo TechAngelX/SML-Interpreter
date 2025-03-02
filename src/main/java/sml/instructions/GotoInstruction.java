@@ -55,7 +55,7 @@ public class GotoInstruction extends Instruction {
      */
     @Override
     protected void doExecute(Frame frame) {
-        // No-op: This subclass does not require execution logic.
+        // No operation needed - goto only changes control flow in determineNextFrame()
     }
 
     /**

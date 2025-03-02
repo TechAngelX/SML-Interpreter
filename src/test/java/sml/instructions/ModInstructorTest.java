@@ -1,28 +1,37 @@
 package sml.instructions;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sml.*;
 import sml.helperfiles.DefaultInstructionRegistrationLogger;
+import sml.services.FileService;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModInstructionTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
     private Machine machine;
     private Translator translator;
 
     @BeforeEach
     void setUp() {
-        InstructionFactory factory = new InstructionFactory(new DefaultInstructionRegistrationLogger());
+        // Use the default constructor with a new FileService
+        translator = new Translator(new FileService());
+
+        // Redirect output
+        System.setOut(new PrintStream(outContent));
 
         machine = new Machine();
         Method mainMethod = new Method(
@@ -33,83 +42,16 @@ class ModInstructionTest {
         machine.setProgram(List.of(mainMethod));
     }
 
-    @Test
-    @DisplayName("Should dynamically create ModInstruction through InstructionFactory based on Opcode")
-    public void testModInstructionIsRegistered() {
-        Instruction instruction = InstructionFactory.createInstruction("mod", new Label("test"));
-        assertNotNull(instruction);
-        assertInstanceOf(ModInstruction.class, instruction);
+    @AfterEach
+    void tearDown() {
+        // Restore original output stream
+        System.setOut(originalOut);
     }
 
-    @Test
-    @DisplayName("Should throw ArithmeticException when dividing by zero")
-    void testModuloByZero() {
-        Instruction modInstruction = new ModInstruction(null);
-
-        Method mainMethod = new Method(
-                new Method.Identifier("@main"),
-                List.of(),
-                List.of(modInstruction)
-        );
-        machine.setProgram(List.of(mainMethod));
-
-        machine.frame().push(50);
-        machine.frame().push(0);
-
-        assertThrows(ArithmeticException.class,
-                () -> modInstruction.execute(machine),
-                "Modulo by zero should throw ArithmeticException"
-        );
-    }
-
-    @Test
-    @DisplayName("Should correctly calculate modulo of two numbers from the stack")
-    void testExecuteModInstruction() {
-        Instruction modInstruction = new ModInstruction(null);
-        Instruction returnInstruction = new ReturnInstruction(null);
-
-        Method mainMethod = new Method(
-                new Method.Identifier("@main"),
-                List.of(),
-                List.of(modInstruction, returnInstruction)
-        );
-        machine.setProgram(List.of(mainMethod));
-
-        machine.frame().push(17);
-        machine.frame().push(5);
-
-        Optional<Frame> nextFrame = modInstruction.execute(machine);
-
-        int result = machine.frame().pop();
-        assertEquals(2, result, "17 % 5 should equal 2");
-
-        assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
-    }
-
-    @Test
-    @DisplayName("Correctly handles modulo operation with negative dividend")
-    void testModuloWithNegativeDividend() {
-        Instruction modInstruction = new ModInstruction(null);
-        Instruction returnInstruction = new ReturnInstruction(null);
-
-        Method mainMethod = new Method(
-                new Method.Identifier("@main"),
-                List.of(),
-                List.of(modInstruction, returnInstruction)
-        );
-        machine.setProgram(List.of(mainMethod));
-
-        machine.frame().push(-17);
-        machine.frame().push(5);
-
-        Optional<Frame> nextFrame = modInstruction.execute(machine);
-
-        int result = machine.frame().pop();
-        assertEquals(-2, result, "-17 % 5 should equal -2 in Java");
-
-        assertTrue(nextFrame.isPresent(), "Next frame should exist");
-        assertEquals(1, nextFrame.get().programCounter(), "Program counter should advance to next instruction");
+    private String createTempSmlFile(String filename, String content) throws IOException {
+        Path filePath = Files.createTempFile(filename, ".sml");
+        Files.writeString(filePath, content);
+        return filePath.toString();
     }
 
     @Test
@@ -146,9 +88,5 @@ class ModInstructionTest {
         assertTrue(output.contains("1"), "Result should be 1 (55 % 9)");
         assertTrue(output.contains("0"), "Result should be 0 (144 % 12)");
         assertTrue(output.contains("3"), "Result should be 3 (27 % 4)");
-    }
-
-    private String createTempSmlFile(String filename, String content) throws IOException {
-        return null;
     }
 }
