@@ -5,7 +5,7 @@ import sml.*;
 import java.util.Objects;
 
 /**
- * Not Equal instruction for the SML instruction set.
+ * Not Equal instruction for the SML instruction set. (supplementary - custom instruction set).
  *
  * <p>This class is an additional test mock-up instruction designed as a test case
  * for the dynamic instruction discovery system (both config and package scan). This 
@@ -78,13 +78,10 @@ public class NotEqInstruction extends Instruction {
     @Override
     protected void doExecute(Frame frame) {
         if (jumpLabel == null) {
-            // In test mode, we just perform a comparison but don't set jump flag
             int value2 = frame.pop();
             int value1 = frame.pop();
-            // Push the result of comparison (1 for true, 0 for false)
             frame.push(value1 != value2 ? 1 : 0);
         } else {
-            // Full operation mode with jump
             int value2 = frame.pop();
             int value1 = frame.pop();
             shouldJump = (value1 != value2);

@@ -3,7 +3,7 @@ package sml.instructions;
 import sml.*;
 
 /**
- * A Square Root instruction (supplementary).
+ * A Square Root instruction (supplementary - custom instruction set).
  *
  * <p>This class is an additional test mock-up instruction designed as a test case
  * for the dynamic instruction discovery system (both config and package scan). This 
