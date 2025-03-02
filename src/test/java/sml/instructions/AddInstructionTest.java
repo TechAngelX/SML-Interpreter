@@ -12,13 +12,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests the functionality of AddInstruction in the Simple Machine Language.
- * ========================================================================
- * Verifies correct addition of numbers from the stack and instruction progression.
+ * Test suite for the AddInstruction in the Simple Machine Language.
+ *
+ * <p>Validates the functionality of addition instructions within the SML runtime.</p>
+ *
+ * <p>Test scenarios cover:</p>
+ * <ul>
+ *   <li>Correct addition of values from the operand stack</li>
+ *   <li>Verifying stack manipulation during addition</li>
+ *   <li>Ensuring correct program counter progression</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
-class AddInstructionTest {
+public class AddInstructionTest {
     private Machine machine;
 
     @BeforeEach

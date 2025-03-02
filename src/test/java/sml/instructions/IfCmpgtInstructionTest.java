@@ -11,13 +11,21 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the functionality of IfCmpgtInstruction in the Simple Machine Language.
- * ===================================================================================
- * Verifies correct comparison and conditional jumping based on stack value comparison.
+ * Test class for the IfCmpgtInstruction in the Simple Machine Language.
+ *
+ * <p>Validates the functionality of conditional greater-than comparison instructions.</p>
+ *
+ * <p>Test scenarios cover various comparison conditions:</p>
+ * <ul>
+ *   <li>Jumping when first value is greater than the second</li>
+ *   <li>Continuing sequentially when first value is not greater</li>
+ *   <li>Handling equal value comparisons</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
-class IfCmpgtInstructionTest {
+
+public class IfCmpgtInstructionTest {
     private Machine machine;
 
     @BeforeEach
@@ -26,7 +34,7 @@ class IfCmpgtInstructionTest {
     }
 
     /**
-     * NoteL verifies that the {@link IfCmpgtInstruction} correctly advances to the next instruction
+     * Verifies that the {@link IfCmpgtInstruction} correctly advances to the next instruction
      * (at index 1) when the first value popped from the stack is larger than the second.
      * <p>
      * This test confirms that the instruction proceeds sequentially when the comparison condition
@@ -41,8 +49,6 @@ class IfCmpgtInstructionTest {
         Label jumpLabel = new Label("jump");
         Label returnLabel = new Label("return");
 
-        // Create instruction objects. IfCmpgtInstruction will jump to jumpLabel.
-        // if the first value popped from the stack is greater than the second value popped.
         Instruction ifGreaterGotoInstruction = new IfCmpgtInstruction(null, jumpLabel);
         Instruction nextInstruction = new ReturnInstruction(returnLabel);
         Instruction jumpTargetInstruction = new ReturnInstruction(jumpLabel);

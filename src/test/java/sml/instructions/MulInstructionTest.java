@@ -12,13 +12,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Tests the functionality of MulInstruction in the Simple Machine Language.
- * =============================================================================
- * Verifies correct multiplication of numbers from the stack, and instruction progression.
+ * Test suite for verifying the MulInstruction's behavior in the Simple Machine Language.
+ *
+ * <p>Comprehensive testing of multiplication instruction functionality:</p>
+ * <ul>
+ *   <li>Accurate multiplication of stack-based operands</li>
+ *   <li>Handling of positive and negative integer multiplication</li>
+ *   <li>Correct stack manipulation during multiplication</li>
+ *   <li>Ensuring proper program counter progression</li>
+ * </ul>
+ *
+ * <p>Validates the multiplication instruction's correctness across various
+ * computational scenarios and edge cases.</p>
  *
  * @author Ricki Angel
  */
-class MulInstructionTest {
+public class MulInstructionTest {
     private Machine machine;
 
     @BeforeEach

@@ -9,13 +9,20 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the functionality of StoreInstruction in the Simple Machine Language.
- * ==========================================================================
- * Verifies storing values to variables, handling variable access, and instruction
- * object behavior.
+ * Test suite for the StoreInstruction in the Simple Machine Language.
+ *
+ * <p>Validates the behavior of variable storage instructions within the SML runtime.</p>
+ *
+ * <p>Key test objectives:</p>
+ * <ul>
+ *   <li>Storing values from the stack to variables</li>
+ *   <li>Handling non-existent variable scenarios</li>
+ *   <li>Verifying variable storage method implementation</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
+
 public class StoreInstructionTest {
     private Machine machine;
 

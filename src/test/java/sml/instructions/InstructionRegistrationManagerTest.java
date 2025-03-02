@@ -14,21 +14,28 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests for the InstructionRegistrationManager class.
+ * Test suite for the InstructionRegistrationManager.
  *
- * These tests verify the discovery and creation capabilities of the instruction 
- * registration system, ensuring that the full suite (16) instructions are properly registered and instantiated.
+ * <p>Validates the dynamic instruction discovery and registration capabilities 
+ * of the Simple Machine Language instruction system.</p>
+ *
+ * <p>Key test objectives:</p>
+ * <ul>
+ *   <li>Verifying instruction creation for standard and coursework supplementary instructions</li>
+ *   <li>Handling instructions with different parameter requirements</li>
+ *   <li>Testing instruction creation with various label configurations</li>
+ *   <li>Ensuring robust handling of unknown or invalid opcodes</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
-class InstructionRegistrationManagerTest {
+public class InstructionRegistrationManagerTest {
     private Label label;
 
     @BeforeEach
     void setUp() {
         label = new Label("L1");
     }
-
     /**
      * Provides a stream of arguments for testing simple instructions that only require a Label.
      *
@@ -36,7 +43,7 @@ class InstructionRegistrationManagerTest {
      */
     static Stream<Arguments> provideSimpleInstructionsData() {
         return Stream.of(
-                // Instructions that only need a Label parameter
+                // Instructions that only need a Label parameter:
                 Arguments.of("add", AddInstruction.class),
                 Arguments.of("sub", SubInstruction.class),
                 Arguments.of("mul", MulInstruction.class),
@@ -61,15 +68,32 @@ class InstructionRegistrationManagerTest {
                 "Instruction for opcode '" + opcode + "' should be instance of " + expectedClass.getSimpleName());
     }
 
+    /**
+     * Acknowledges complex instructions that require additional parameters beyond a simple label.
+     *
+     * <p>This method serves as a documentation point for instructions with more complex 
+     * instantiation requirements. It highlights instructions that need differing params such as:</p>
+     * <ul>
+     *   <li>Variable identifiers</li>
+     *   <li>Target labels</li>
+     *   <li>Method identifiers</li>
+     * </ul>
+     *
+     * <p>Key points:</p>
+     * <ul>
+     *   <li>Not intended for direct instruction creation testing</li>
+     *   <li>Documents the existence of complex instructions in the factory</li>
+     *   <li>Indirect validation through dedicated integration and unit tests</li>
+     * </ul>
+     *
+     * @param opcode The operation code for complex instructions requiring special handling
+     */
+
     @ParameterizedTest
     @DisplayName("Instructions that need additional parameters should not be testable with just a label")
     @ValueSource(strings = {"load", "store", "push", "goto", "if_cmpeq", "if_cmpgt", "invoke"})
     void testComplexInstructions(String opcode) {
-        // These instructions require additional parameters (varID, targetLabel, methodID etc.) So we won't
-        //test their actual creation, just acknowledge they exist in the factory. We test this indirectly 
-        // through the integration tests and unit tests for each instruction in this package. The purpose of 
-        // this test is to document these instructions need special handling. No assertions here - just 
-        // documenting these instructions exist...
+    
     }
 
     @Test
@@ -101,19 +125,18 @@ class InstructionRegistrationManagerTest {
     @Test
     @DisplayName("Supplementary instructions should be created correctly")
     void testSupplementaryInstructions() {
-        // Test ModInstruction
         Instruction modInstruction = InstructionRegistrationManager.createInstruction("mod", label);
         assertNotNull(modInstruction, "ModInstruction was not registered properly");
         assertTrue(modInstruction instanceof ModInstruction, "Should create a ModInstruction for mod opcode");
 
-        // Test NotEqInstruction
         Instruction notEqInstruction = InstructionRegistrationManager.createInstruction("not_eq", label);
         assertNotNull(notEqInstruction, "NotEqInstruction was not registered properly");
         assertTrue(notEqInstruction instanceof NotEqInstruction, "Should create a NotEqInstruction for not_eq opcode");
 
-        // Test SqrtInstruction
         Instruction sqrtInstruction = InstructionRegistrationManager.createInstruction("sqrt", label);
         assertNotNull(sqrtInstruction, "SqrtInstruction was not registered properly");
         assertTrue(sqrtInstruction instanceof SqrtInstruction, "Should create a SqrtInstruction for sqrt opcode");
+        
+        // ... I can add more supplementary test instructions here if ness.
     }
 }

@@ -11,14 +11,21 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the functionality of DivInstruction in the Simple Machine Language.
- * ========================================================================
- * Verifies correct division of numbers from the stack, including edge cases
- * like negative numbers and division by zero.
+ * Test suite for the DivInstruction in the Simple Machine Language.
+ *
+ * <p>Validates the functionality of division instructions within the SML runtime.</p>
+ *
+ * <p>Test scenarios cover:</p>
+ * <ul>
+ *   <li>Correct integer division of values from the operand stack</li>
+ *   <li>Handling division with negative numbers</li>
+ *   <li>Detecting and handling division by zero</li>
+ *   <li>Verifying program counter progression</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
-class DivInstructionTest {
+public class DivInstructionTest {
     private Machine machine;
 
     @BeforeEach

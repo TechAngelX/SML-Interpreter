@@ -14,14 +14,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Tests the functionality of GotoInstruction in the Simple Machine Language.
- * =========================================================================
- * Verifies correct label jumping and error handling for goto instructions.
+ * Test suite for the GotoInstruction in the Simple Machine Language.
+ *
+ * <p>Validates the functionality of unconditional jump instructions within the SML runtime.</p>
+ *
+ * <p>Key test objectives:</p>
+ * <ul>
+ *   <li>Verifying successful label jumping</li>
+ *   <li>Handling error scenarios for missing labels</li>
+ *   <li>Ensuring correct program counter manipulation</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
 
-class GotoInstructionTest {
+public class GotoInstructionTest {
     private Machine machine;
 
     @BeforeEach
@@ -55,8 +62,6 @@ class GotoInstructionTest {
         Instruction ins0 = new GotoInstruction(null, missingLabel);
         Instruction ins1 = new ReturnInstruction(null);
 
-        // Create a Method instance named "@main" that contains the instructions ins0 (Goto)
-        // and ins1 (Return):
         Method m = new Method(new Method.Identifier("@main"), List.of(), List.of(ins0, ins1));
 
         machine.setProgram(List.of(m));

@@ -15,6 +15,23 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Comprehensive integration test suite for the Simple Machine Language runtime.
+ *
+ * <p>End-to-end validation of SML system functionality:</p>
+ * <ul>
+ *    <li>Creates actual SML temporary programs dynamically for testing various scenarios</li>
+ *   <li>Verifying complete instruction set interactions</li>
+ *   <li>Testing complex computational workflows</li>
+ *   <li>Validating program translation and execution</li>
+ *   <li>Ensuring robust runtime behavior across scenarios</li>
+ * </ul>
+ *
+ * <p>Provides holistic testing of the SML interpreter's capabilities,
+ * covering arithmetic, control flow, and method invocation scenarios.</p>
+ *
+ * @author Ricki Angel
+ */
 
 public class SmlIntegrationTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -268,7 +285,7 @@ public class SmlIntegrationTest {
                 @main:
                 push 10
                 push 5
-                invoke @inner // Call inner method with two arguments from stack
+                invoke @inner // Call inner method with the previous two arguments from stack
                 print         // Should print result (15)
                 push 0        // Dummy push to prevent empty stack on return
                 return

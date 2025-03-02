@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sml.*;
-import sml.helperfiles.DefaultInstructionRegistrationLogger;
 import sml.services.FileService;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +17,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ModInstructionTest {
+/**
+ * Test class for the ModInstruction in the Simple Machine Language.
+ *
+ * <p>Verifies the correct implementation of modulo operations within the SML runtime.</p>
+ *
+ * <p>Key test scenarios:</p>
+ * <ul>
+ *   <li>Calculating remainder with different integer values</li>
+ *   <li>Ensuring correct stack manipulation during modulo operations</li>
+ *   <li>Validating program counter progression</li>
+ * </ul>
+ *
+ * @author Ricki Angel
+ */
+
+public class ModInstructionTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
 
@@ -27,10 +41,8 @@ class ModInstructionTest {
 
     @BeforeEach
     void setUp() {
-        // Use the default constructor with a new FileService
         translator = new Translator(new FileService());
 
-        // Redirect output
         System.setOut(new PrintStream(outContent));
 
         machine = new Machine();
@@ -44,7 +56,6 @@ class ModInstructionTest {
 
     @AfterEach
     void tearDown() {
-        // Restore original output stream
         System.setOut(originalOut);
     }
 

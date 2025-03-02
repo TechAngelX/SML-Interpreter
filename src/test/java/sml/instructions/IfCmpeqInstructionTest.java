@@ -9,15 +9,22 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Tests the functionality of IfCmpeqInstruction in the Simple Machine Language.
- * ================================================================================
- * Verifies correct comparison and conditional jumping based on stack value equality.
+ * Test class for the IfCmpgtInstruction in the Simple Machine Language.
+ *
+ * <p>Validates the functionality of conditional greater-than comparison instructions.</p>
+ *
+ * <p>Test scenarios cover various comparison conditions:</p>
+ * <ul>
+ *   <li>Jumping when first value is greater than the second</li>
+ *   <li>Continuing sequentially when first value is not greater</li>
+ *   <li>Handling equal value comparisons</li>
+ * </ul>
  *
  * @author Ricki Angel
  */
-class IfCmpeqInstructionTest {
+
+public class IfCmpeqInstructionTest {
     private Machine machine;
 
     @BeforeEach
@@ -26,7 +33,7 @@ class IfCmpeqInstructionTest {
     }
 
     /**
-     * Note: verifies {@link IfCmpeqInstruction} continues to the next instruction
+     * Verifies {@link IfCmpeqInstruction} continues to the next instruction
      * when stack values are not equal. Pushes unequal values, executes, and confirms
      * the program counter does not jump to next label/instruction.
      */

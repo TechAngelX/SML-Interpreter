@@ -13,14 +13,21 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests the functionality of PrintInstruction in the Simple Machine Language.
- * ===========================================================================
- * Simply verifies printing values from the stack.
+ * Test suite for evaluating the PrintInstruction's functionality in the Simple Machine Language.
+ *
+ * <p>Verifies the core capabilities of the print instruction:</p>
+ * <ul>
+ *   <li>Extracting values from the operand stack</li>
+ *   <li>Correctly outputting values to the console</li>
+ *   <li>Maintaining stack integrity during print operations</li>
+ * </ul>
+ *
+ * <p>Ensures reliable console output and stack management for 
+ * debugging and program state visualization.</p>
  *
  * @author Ricki Angel
  */
 public class PrintInstructionTest {
-    // An optional stream for capturing console output as a byte array, useful for test verification.
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     private Machine machine;

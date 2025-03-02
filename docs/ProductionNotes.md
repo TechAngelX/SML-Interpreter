@@ -160,7 +160,7 @@ Upon critical evaluation of my code, it is possible I have too much comments in 
 The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
 
 SOLUTION 8:
-❌ Work toward cleaning up and removing 'guideline' comments.
+✅ Clean up code, with profeessional java-docs and remove 'guideline' comments.
 ```
 
 ### Additional Functionality:

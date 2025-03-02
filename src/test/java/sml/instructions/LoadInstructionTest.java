@@ -14,15 +14,21 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
- * Tests the functionality of LoadInstruction in the Simple Machine Language.
- * =========================================================================
- * Verifies loading and printing values from variables, and variables method behavior.
+ * Test suite for validating the LoadInstruction's functionality in the Simple Machine Language.
+ *
+ * <p>Focuses on verifying critical behaviors of variable loading operations:</p>
+ * <ul>
+ *   <li>Correctly loading values from variables</li>
+ *   <li>Pushing loaded values onto the operand stack</li>
+ *   <li>Ensuring proper interaction with the machine's execution frame</li>
+ * </ul>
+ *
+ * <p>Test scenarios cover essential load instruction behaviors to guarantee
+ * reliable variable value retrieval and stack manipulation.</p>
  *
  * @author Ricki Angel
  */
-
 public class LoadInstructionTest {
-    // An optional stream for capturing console output as a byte array, useful for test verification.
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private Machine machine;
 

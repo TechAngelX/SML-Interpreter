@@ -15,13 +15,21 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 /**
- * Unit tests for {@link ConfigDiscovery}.
- * Verifies the functionality of instruction discovery from configuration files,
- * handling various scenarios of configuration file loading and instruction registration.
+ * Test suite for validating the ConfigDiscovery instruction registration mechanism.
  *
- * <p>Author: Ricki Angel</p>
+ * <p>Comprehensive testing of configuration-based instruction discovery:</p>
+ * <ul>
+ *   <li>Verifying successful instruction registration from configuration</li>
+ *   <li>Handling various configuration file scenarios</li>
+ *   <li>Testing robustness against missing or empty configuration files</li>
+ *   <li>Ensuring proper instruction class validation</li>
+ * </ul>
+ *
+ * <p>Validates the dynamic instruction discovery process, ensuring
+ * reliable and flexible instruction registration mechanisms.</p>
+ *
+ * @author Ricki Angel
  */
 public class ConfigDiscoveryTest {
     private InstructionRegistry registry;

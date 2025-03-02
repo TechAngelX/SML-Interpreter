@@ -11,14 +11,23 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Tests the functionality of SubInstruction in the Simple Machine Language.
- * ========================================================================
- * Verifies correct subtraction of numbers from the stack and instruction progression.
+ * Test suite for verifying the SubInstruction's behavior in the Simple Machine Language.
+ *
+ * <p>Comprehensive testing of subtraction instruction functionality:</p>
+ * <ul>
+ *   <li>Accurate subtraction of stack-based operands</li>
+ *   <li>Handling of positive and negative integer subtraction</li>
+ *   <li>Correct stack manipulation during subtraction</li>
+ *   <li>Ensuring proper program counter progression</li>
+ * </ul>
+ *
+ * <p>Validates the subtraction instruction's correctness across various
+ * computational scenarios and edge cases.</p>
  *
  * @author Ricki Angel
  */
 
-class SubInstructionTest {
+public class SubInstructionTest {
     private Machine machine;
 
     @BeforeEach
