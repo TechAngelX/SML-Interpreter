@@ -23,7 +23,7 @@ Div         ✅  DivInstruction class completed.
 if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
 if_cmpeq    ✅  IfEqualGotoInstruction class completed.
 
-InstructionFactory ✅  InstructionFactory completed with Chain of Responsibility pattern.
+InstructionRegistrationManager ✅  renamed from InstructionFactory and refactored from Chain of Responsibility to Strategy pattern.
 ```
 
 ### PART II
@@ -197,6 +197,33 @@ Created a simple programe 'sqrtTest.sml' that:
 ```
 ```
 
+Notes to remember when creating my own SML programs:
+The "Cannot pop from empty stack" error means that the program is trying to remove (pop) a 
+value from a stack that has no values in it. This is like trying to take the top item off 
+an empty shelf. As an example: Imagine there's a have a stack of plates, and we're trying 
+to remove a plate when there are no plates left - that's essentially what's happening in the code.
+
+The solutions to prevent "cannot pop from empty stack" errors include:
+
+Ensure values are pushed before they are popped
+```
+push 10   # Always push before you pop
+pop
+```
+Add dummy push values before return
+```
+push 0   # Dummy push to prevent empty stack
+return
+```
+Check stack size before popping
+```
+if (frame.stackSize() > 0) {
+frame.pop();
+}
+```
+
+LOGGING: If we want to limit amount of output data:
+```
 Java's Loging levels from most to least verbose:
 FINEST
 FINER
@@ -205,3 +232,4 @@ CONFIG
 INFO
 WARNING
 SEVERE
+```
