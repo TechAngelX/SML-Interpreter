@@ -55,7 +55,7 @@ public class MulInstruction extends Instruction {
     protected void doExecute(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
-        frame.push(value1 * value2);
+        frame.push(Math.multiplyExact(value1, value2)); 
     }
 
     /**

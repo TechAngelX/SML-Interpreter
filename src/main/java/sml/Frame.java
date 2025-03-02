@@ -91,10 +91,10 @@ public class Frame {
      * @throws IndexOutOfBoundsException if the program counter exceeds the method's instruction list
      */
     public Frame advance() {
-        if (programCounter + 1 >= method.instructions().size()) {
-            return null;
-        }
-        return setProgramCounter(programCounter + 1);
+        return Optional.of(programCounter + 1)
+                .filter(pc -> pc < method.instructions().size())
+                .map(this::setProgramCounter)
+                .orElse(null);
     }
 
     /**

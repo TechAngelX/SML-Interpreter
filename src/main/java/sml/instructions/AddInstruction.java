@@ -41,9 +41,9 @@ public class AddInstruction extends Instruction {
      */
     @Override
     protected void doExecute(Frame frame) {
-        int value2 = frame.pop();
-        int value1 = frame.pop();
-        frame.push(value1 + value2);
+        frame.push(
+                frame.pop() + frame.pop()
+        );
     }
 
     /**

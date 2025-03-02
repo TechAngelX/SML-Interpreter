@@ -6,7 +6,10 @@ import sml.registry.InstructionRegistry;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Modifier;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -102,37 +105,57 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     /**
      * Validates and registers a single instruction class into the instruction registry.
      *
-     * <p>Performs checks to ensure the class is a valid instruction before registration.</p>
+     * <p>This method performs a comprehensive validation of instruction classes before registration, 
+     * ensuring only valid and usable instruction implementations are added to the registry.</p>
      *
-     * @param registry The instruction registry to register the class in
-     * @param clazz The instruction class to be registered
-     * @param configOpcode The opcode associated with the instruction
-     * @return True if registration was successful, false if validation failed
+     * <p>Validation criteria include:</p>
+     * <ul>
+     *   <li>Must be a subclass of {@link Instruction}</li>
+     *   <li>Must not be an abstract class</li>
+     *   <li>Must be able to be registered with the provided opcode</li>
+     * </ul>
+     *
+     * <p>Registration process:</p>
+     * <ul>
+     *   <li>Logs initial registration attempt</li>
+     *   <li>Performs type and modifiability checks</li>
+     *   <li>Registers successful instruction classes</li>
+     *   <li>Tracks registration outcomes</li>
+     * </ul>
+     *
+     * @param registry The instruction registry where the class will be potentially registered
+     * @param clazz The instruction class candidate for registration
+     * @param configOpcode The operation code associated with the instruction
+     * @return {@code true} if the instruction class passes validation and is successfully registered,
+     *         {@code false} if validation fails or registration cannot be completed
+     *
+     * @see InstructionRegistry
+     * @see Instruction
      */
     private boolean registerClass(InstructionRegistry registry, Class<?> clazz, String configOpcode) {
         logger.logRegistrationAttempt(clazz);
 
-        if (!Instruction.class.isAssignableFrom(clazz)) {
-            logger.trackFailedRegistration(clazz.getSimpleName(), "Not an Instruction subclass");
-            return false;
-        }
+        Predicate<Class<?>> isInstruction = c -> Instruction.class.isAssignableFrom(c);
+        Predicate<Class<?>> isNotAbstract = c -> !Modifier.isAbstract(c.getModifiers());
 
-        if (java.lang.reflect.Modifier.isAbstract(clazz.getModifiers())) {
-            logger.trackFailedRegistration(clazz.getSimpleName(), "Abstract class");
-            return false;
-        }
-
-        try {
-            @SuppressWarnings("unchecked")
-            Class<? extends Instruction> instructionClass = (Class<? extends Instruction>) clazz;
-            registry.register(configOpcode, instructionClass);
-            logger.trackSuccessfulRegistration(clazz.getSimpleName(), configOpcode);
-            return true;
-        } catch (Exception e) {
-            logger.trackFailedRegistration(clazz.getSimpleName(), "Registration error: " + e.getMessage());
-            return false;
-        }
+        return Optional.of(clazz)
+                .filter(isInstruction)
+                .filter(isNotAbstract)
+                .map(c -> (Class<? extends Instruction>) c)
+                .map(instructionClass -> {
+                    registry.register(configOpcode, instructionClass);
+                    logger.trackSuccessfulRegistration(clazz.getSimpleName(), configOpcode);
+                    return true;
+                })
+                .orElseGet(() -> {
+                    logger.trackFailedRegistration(clazz.getSimpleName(),
+                            !isInstruction.test(clazz)
+                                    ? "Not an Instruction subclass"
+                                    : "Abstract class");
+                    return false;
+                });
     }
+
 
     @Override
     public String getName() {

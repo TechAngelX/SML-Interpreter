@@ -2,6 +2,8 @@ package sml.instructions;
 
 import sml.*;
 
+import java.util.Optional;
+
 /**
  * Print instruction in the SML runtime environment.
  *
@@ -40,20 +42,26 @@ public class PrintInstruction extends Instruction {
     }
 
     /**
-     * Executes the instruction's primary operation.
+     * Executes the print instruction's core functionality.
      *
-     * <p>Performs the print operation by:</p>
+     * <p>Outputs the top value from the operand stack to the system console, 
+     * supporting runtime program state visualization and debugging.</p>
+     *
+     * <p>Key output behavior:</p>
      * <ul>
-     *   <li>Popping a value from the operand stack</li>
-     *   <li>Displaying it to the system console</li>
+     *   <li>Retrieves the topmost integer value from the execution frame's stack</li>
+     *   <li>Immediately prints the value to standard output</li>
+     *   <li>Supports diagnostic and monitoring capabilities during program execution</li>
      * </ul>
      *
-     * @param frame The current execution frame
+     * <p>Utilises Optional and method reference for concise, null-safe value extraction.</p>
+     *
+     * @param frame The current stack-based execution context containing the value to print
      */
     @Override
     protected void doExecute(Frame frame) {
-        int value = frame.pop();
-        System.out.println(value);
+        Optional.of(frame.pop())  
+                .ifPresent(System.out::println); 
     }
 
     /**
