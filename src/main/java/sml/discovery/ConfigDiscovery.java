@@ -123,6 +123,23 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
      *   <li>Tracks registration outcomes</li>
      * </ul>
      *
+     * <p>Usage:</p>
+     * <ol>
+     *   <li>Add a new opcode name and instruction class to the {@code /sml/config/opcode.properties} file in the format: {@code opcode=sml.instructions.InstructionClass}</li>
+     *   <li>Create the instruction class and place it in the {@code sml.instructions} package. Ensure that it extends the {@link Instruction} interface.</li>
+     *   <li>The new instruction will be automatically discovered and registered during the application startup.</li>
+     * </ol>
+     *
+     * <p>Example {@code opcode.properties} entry:</p>
+     * <pre>
+     * sqrt=sml.instructions.SqrtInstruction
+     * </pre>
+     *
+     * <p>Visual representation of the registration process:</p>
+     * <p>
+     * {@code <img src="path/to/registration-process.jpg" alt="Instruction registration process">}
+     * </p>
+     *
      * @param registry The instruction registry where the class will be potentially registered
      * @param clazz The instruction class candidate for registration
      * @param configOpcode The operation code associated with the instruction
@@ -155,8 +172,6 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
                     return false;
                 });
     }
-
-
     @Override
     public String getName() {
         return "Configuration File";

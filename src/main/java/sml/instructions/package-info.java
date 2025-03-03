@@ -15,13 +15,14 @@
  *     <li>{@link sml.instructions.ReturnInstruction} - Method termination operation.</li>
  * </ul>
  * <p>
- * This package forms the executable core of an SML program.
+ * This package forms the executable core of an SML program, as well as others...
  * <p>
- *   Also includes three supplementary test instruction classes, additional to the coursework assignment:
+ *   Also includes four supplementary test instruction classes, additional to the coursework assignment:
  * <ul>
  *     <li>{@link sml.instructions.NotEqInstruction} - Comparison instruction.</li>
  *     <li>{@link sml.instructions.SqrtInstruction} - Square root calculation instruction.</li>
  *     <li>{@link sml.instructions.ModInstruction} -  Modulo calculation instruction.</li>
+ *     <li>{@link sml.instructions.NumCharInstruction} -  Number to character conversion instruction.</li>
  * </ul>
  *
  * @author Ricki Angel
