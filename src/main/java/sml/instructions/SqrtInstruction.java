@@ -8,7 +8,7 @@ import sml.*;
  * <p>This class is an additional test mock-up instruction designed as a test case
  * for the dynamic instruction discovery system (both config and package scan). This 
  * is supplementary to the SDP coursework assignment, designed purely to enhance my 
- * familiarity with opcode and instruction discovery.</p> * 
+ * familiarity with opcode and instruction discovery.</p> 
  * <ul>
  *   <li>Pops an integer value from the operand stack</li>
  *   <li>Calculates its square root using Java's Math library</li>

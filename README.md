@@ -5,8 +5,7 @@
 + This assignment is to be completed **individually**, and without any AI tools or assistants.
 + The sample code mentioned in the text can be found in this repository.
 
-<img src="sml.jpg" alt="sml"/>
-
+![sml](./images/sml.jpg)
 The aim of this assignment is to give you practice with
 
 + subclasses,
@@ -24,6 +23,31 @@ amongst other skills.
 **Userid**:13928534
 
 **E-Mail**: rangel03@student.bbk.ac.uk
+
+### My Solution to the Exercise: Implement Two Instruction Discovery Methods:
+<table>
+  <tr>
+    <th align="center">Config Registration Process</th>
+    <th align="center">Package Scan Process</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/4jjzWDJ21As" target="_blank">
+        <img src="images/config_process.jpg" alt="Configuration Registration Process Video" width="380">
+      </a>
+      <br>
+      <em>Click to watch Config Registration Process</em>
+    </td>
+    <td align="center">
+      <a href="https://youtu.be/PHcSX3sMAlU" target="_blank">
+        <img src="images/package_scan_process.jpg" alt="Configuration Registration Process Video" width="380">
+      </a>
+      <br>
+      <em>Click to watch Package Scan Process</em>
+    </td>
+  </tr>
+</table>
+## Documentation
 
 ## The problem
 
