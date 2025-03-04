@@ -14,7 +14,7 @@ import sml.*;
  * If division by zero is attempted, an {@link ArithmeticException} is thrown.
  * </p>
  * <p>
- * The {@code doExecute} method defines the instruction's core operational logic.
+ * The {@code performInstructionLogic} method defines the instruction's core operational logic.
  * </p>
  *
  * @author Ricki Angel
@@ -45,7 +45,7 @@ public class DivInstruction extends Instruction {
      * @throws ArithmeticException if division by zero occurs
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         if (value2 == 0) {

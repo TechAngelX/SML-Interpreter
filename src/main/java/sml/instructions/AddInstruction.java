@@ -14,7 +14,7 @@ import sml.*;
  * Ensure sufficient operands are present before executing this instruction.
  * </p>
  * <p>
- * The {@code doExecute} method defines the instruction's core operational logic.
+ * The {@code performInstructionLogic} method defines the instruction's core operational logic.
  * </p>
  *
  * @author Ricki Angel
@@ -40,7 +40,7 @@ public class AddInstruction extends Instruction {
      * @param frame the current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         frame.push(
                 frame.pop() + frame.pop()
         );

@@ -55,7 +55,7 @@ public class InvokeInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         // No operations performed here - method invocation handled in execute()
     }
 

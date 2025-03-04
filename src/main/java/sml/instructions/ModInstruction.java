@@ -62,7 +62,7 @@ public class ModInstruction extends Instruction {
      * @throws ArithmeticException if the divisor is zero
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         if (value2 == 0) {

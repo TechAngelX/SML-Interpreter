@@ -56,7 +56,7 @@ public class PushInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         frame.push(value);
     }
 

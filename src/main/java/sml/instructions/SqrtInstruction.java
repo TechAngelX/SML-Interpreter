@@ -56,7 +56,7 @@ public class SqrtInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value = frame.pop();
         double result = Math.sqrt(value);
         frame.push((int) result);

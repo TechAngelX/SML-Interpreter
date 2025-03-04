@@ -54,7 +54,7 @@ public class GotoInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         // No operation needed - goto only changes control flow in determineNextFrame()
     }
 

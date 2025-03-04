@@ -59,7 +59,7 @@ public class PrintInstruction extends Instruction {
      * @param frame The current stack-based execution context containing the value to print
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         Optional.of(frame.pop())  
                 .ifPresent(System.out::println); 
     }

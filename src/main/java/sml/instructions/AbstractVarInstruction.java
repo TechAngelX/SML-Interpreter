@@ -90,6 +90,4 @@ public abstract  class AbstractVarInstruction extends Instruction
     protected String getOperandsString() {
         return varName.toString();
     }
-
-
 }

@@ -52,7 +52,7 @@ public class SubInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         frame.push(value1 - value2);

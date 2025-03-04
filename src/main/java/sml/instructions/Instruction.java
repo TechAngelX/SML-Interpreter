@@ -102,7 +102,7 @@ public abstract  class Instruction  {
      */
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        doExecute(frame);
+        performInstructionLogic(frame);
         Frame nextFrame = determineNextFrame(frame);
 
         if (nextFrame == null) {
@@ -121,7 +121,7 @@ public abstract  class Instruction  {
      *
      * @param frame Current execution frame
      */
-    protected abstract void doExecute(Frame frame);
+    protected abstract void performInstructionLogic(Frame frame);
 
     /**
      * Determines the next frame after instruction execution.

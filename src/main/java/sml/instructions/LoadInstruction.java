@@ -54,7 +54,7 @@ public class LoadInstruction extends AbstractVarInstruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         Variable var = frame.variable(varName);
         int value = var.load();
         frame.push(value);

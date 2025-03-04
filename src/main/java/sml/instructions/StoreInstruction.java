@@ -53,7 +53,7 @@ public class StoreInstruction extends AbstractVarInstruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value = frame.pop();
         Variable var = frame.variable(varName);
         var.store(value);

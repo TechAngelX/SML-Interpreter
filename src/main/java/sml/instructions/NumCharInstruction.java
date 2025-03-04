@@ -57,7 +57,7 @@ public class NumCharInstruction extends Instruction {
      * @param frame the execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int number = frame.pop();
         char letter = (char) ('A' + number -1);
         System.out.println(letter);
