@@ -7,6 +7,7 @@
  *   <li>{@link sml.discovery.ConfigDiscovery} - Loads instructions from configuration files</li>
  *   <li>{@link sml.discovery.PackageScanDiscovery} - Discovers instructions by scanning package directories</li>
  *   <li>{@link sml.discovery.InstructionDiscoveryStrategy} - Common interface for discovery implementations</li>
+ *   <li>{@link sml.discovery.SmlConfig} - Spring configuration for the SML application</li>
  * </ul>
  *
  * <p>These discovery mechanisms allow the SML system to be extended with new instructions
@@ -18,6 +19,14 @@
  *
  * <p>The discovery system supports dependency injection through the Spring Framework
  * and provides detailed logging of the discovery process.</p>
+ *
+ * <h2>Key Files in This Package:</h2>
+ * <ul>
+ *   <li><b>ConfigDiscovery.java</b> - Implementation that loads instructions from properties files</li>
+ *   <li><b>InstructionDiscoveryStrategy.java</b> - Interface defining the contract for discovery strategies</li>
+ *   <li><b>PackageScanDiscovery.java</b> - Implementation that discovers instructions through package scanning</li>
+ *   <li><b>SmlConfig.java</b> - Spring configuration class with component scanning and bean definitions</li>
+ * </ul>
  *
  * @author Ricki Angel
  * @see sml.registry.InstructionRegistry
@@ -47,6 +56,5 @@
  *   </tr>
  * </table>
  */
-
 
 package sml.discovery;

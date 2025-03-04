@@ -27,8 +27,8 @@ import java.util.logging.Logger;
  */
 public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     private static final Logger LOGGER = Logger.getLogger(ConfigDiscovery.class.getName());
-    private static final String CONFIG_FILE = "sml/config/opcode.properties";
-    private final InstructionRegistrationLogger logger;
+    private static final String CONFIG_FILE = "config/opcode.properties";
+private final InstructionRegistrationLogger logger;
 
     /**
      * Constructs a new ConfigDiscovery discovery method.
