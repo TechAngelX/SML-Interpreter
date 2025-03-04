@@ -181,7 +181,7 @@ of the program (you can use the `main` method in the `sml.RunSml` class to guide
   </tr>
   <tr>
     <td align="center">
-      <a href="https://youtu.be/5946Zzi-ORM" target="_blank">
+      <a href="https://youtu.be/4jjzWDJ21As" target="_blank">
         <img src="images/config_process.jpg" alt="Running an SML program via command line on Linux / Mac OS" width="380">
       </a>
       <br>
