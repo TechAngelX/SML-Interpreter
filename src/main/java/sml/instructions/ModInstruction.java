@@ -3,7 +3,7 @@ package sml.instructions;
 import sml.*;
 
 /**
- * A+ Modulo instruction in the SML runtime environment (Supplementary).
+ * A Modulo instruction in the SML runtime environment (Supplementary).
  *
  * <p>This class is an additional test mock-up instruction designed as a test case
  * for the dynamic instruction discovery system (both config and package scan). This 

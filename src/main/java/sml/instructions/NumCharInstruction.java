@@ -14,7 +14,7 @@ public class NumCharInstruction extends Instruction {
      * included in the opcode_properties config file. This instruction is supplementary 
      * to the SDP coursework assignment, designed purely to enhance my familiarity with
      * opcode and instruction discovery.</p> 
-     *  
+     *
      * <p>The NumCharInstruction converts a number to its corresponding alphabetic character,
      * prints the result, and pushes the character's ASCII value onto the stack.
      * It extends the base {@link Instruction} class and provides the implementation
@@ -50,7 +50,7 @@ public class NumCharInstruction extends Instruction {
 
     /**
      * Executes the NumChar instruction.
-     
+
      * Pops a number from the stack, converts it to the corresponding alphabetic character,
      * prints the character, and pushes the character's ASCII value onto the stack.
      *
@@ -58,11 +58,11 @@ public class NumCharInstruction extends Instruction {
      */
     @Override
     protected void doExecute(Frame frame) {
-        int number = frame.pop(); 
+        int number = frame.pop();
         char letter = (char) ('A' + number -1);
         System.out.println(letter);
         frame.push((int)letter);
-        
+
     }
 
     @Override
