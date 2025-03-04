@@ -55,6 +55,12 @@ public class Frame {
     //   - Modified by push() and pop() methods.
     //   - The stack itself is final (cannot be reassigned)
 
+    // TO Clarify, the mutable components are:  
+    // programCounter: (int) → Mutable (modified by setProgramCounter(int))  
+    // arguments: (SymbolTable<Variable.Identifier, Variable>) → Mutable if Variable is mutable  
+    // localVariables: (SymbolTable<Variable.Identifier, Variable>) → Mutable if Variable is mutable  
+    // stack: (Deque<Integer>) → Mutable (modified by push(int) and pop())  
+
     /**
      * Constructs a new Frame for a specific method.
      *

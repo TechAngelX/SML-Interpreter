@@ -17,6 +17,7 @@ import java.util.Objects;
  *
  * @author Ricki Angel
  */
+
 // Answer to Coursework Question: What are the benefits of using this record class?
 //
 // - Immutability & Type Safety: Prevents accidental modification and distinguishes labels from plain Strings.
@@ -26,8 +27,8 @@ import java.util.Objects;
 //   Comparison with `String`:
 // - Using `String`: No enforced meaning, allows null values, and risks misuse.
 // - Using `Label`: Stronger type distinction, enforced validity, and safer usage.
-
-
+// - And of course, Recordds automatically generate equals, hashcode and toString which reduces boilerplate.
+    
 public record Label(String label) {
     /**
      * Ensures the label is not null during instantiation.
@@ -58,4 +59,7 @@ public record Label(String label) {
 //
 // Default record implementation handles this correctly
 // by using String's comparison methods.
+// However, in some Instruction subclasses, overriding equals and hashCode may be necessary 
+// depending if additional fields are used for equality (value, jumpLabel, methodName etc). 
+// see PushInstruction or IfCmpgtInstruction or InvokeInstruction for example)
 }
