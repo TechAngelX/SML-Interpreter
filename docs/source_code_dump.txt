@@ -4183,34 +4183,6 @@ public class SymbolTable<K, V> {
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 }
--e \n\n===== File: ./src/main/java/sml/config/package-info.java =====\n
-/**
- * Provides Spring configuration for the Simple Machine Language application.
- * <p>
- * This package contains configuration classes that set up the Spring application context:
- * <ul>
- *   <li>{@link sml.discovery.SmlConfig} - Primary configuration with component scanning and bean definitions</li>
- * </ul>
- * </p>
- * <p>
- * The configuration enables:
- * <ul>
- *   <li>Component scanning across the entire SML application</li>
- *   <li>Dependency injection for core components</li>
- *   <li>Service registration with appropriate scopes</li>
- *   <li>Logger configuration with primary bean definitions</li>
- * </ul>
- * </p>
- * <p>
- * This package supports both Spring-managed and manual dependency injection modes,
- * allowing the SML application to run with or without a Spring context.
- * </p>
- *
- * @author Ricki Angel
- * @see sml.helperfiles.InstructionRegistrationLogger
- * @see sml.helperfiles.DefaultInstructionRegistrationLogger
- */
-package sml.config;
 -e \n\n===== File: ./src/main/java/sml/Frame.java =====\n
 package sml;
 
@@ -4916,6 +4888,7 @@ public class PackageScanDiscovery implements InstructionDiscoveryStrategy {
  *   <li>{@link sml.discovery.ConfigDiscovery} - Loads instructions from configuration files</li>
  *   <li>{@link sml.discovery.PackageScanDiscovery} - Discovers instructions by scanning package directories</li>
  *   <li>{@link sml.discovery.InstructionDiscoveryStrategy} - Common interface for discovery implementations</li>
+ *   <li>{@link sml.discovery.SmlConfig} - Spring configuration for the SML application</li>
  * </ul>
  *
  * <p>These discovery mechanisms allow the SML system to be extended with new instructions
@@ -4927,6 +4900,14 @@ public class PackageScanDiscovery implements InstructionDiscoveryStrategy {
  *
  * <p>The discovery system supports dependency injection through the Spring Framework
  * and provides detailed logging of the discovery process.</p>
+ *
+ * <h2>Key Files in This Package:</h2>
+ * <ul>
+ *   <li><b>ConfigDiscovery.java</b> - Implementation that loads instructions from properties files</li>
+ *   <li><b>InstructionDiscoveryStrategy.java</b> - Interface defining the contract for discovery strategies</li>
+ *   <li><b>PackageScanDiscovery.java</b> - Implementation that discovers instructions through package scanning</li>
+ *   <li><b>SmlConfig.java</b> - Spring configuration class with component scanning and bean definitions</li>
+ * </ul>
  *
  * @author Ricki Angel
  * @see sml.registry.InstructionRegistry
@@ -4956,7 +4937,6 @@ public class PackageScanDiscovery implements InstructionDiscoveryStrategy {
  *   </tr>
  * </table>
  */
-
 
 package sml.discovery;
 -e \n\n===== File: ./src/main/java/sml/MethodNotFoundException.java =====\n

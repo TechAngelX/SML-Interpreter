@@ -18,12 +18,6 @@
     push 9      # I
     num_char    # converts 9 to letter 'I'
     print       # prints ASCII value of 'I'
-    
-    push 0
-    num_char 
-    
-    push 27
-    num_char 
-    
+ 
     push 0      # Dummy push to prevent empty stack on return
     return
