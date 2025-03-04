@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import sml.config.SmlConfig;
+import sml.discovery.SmlConfig;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;

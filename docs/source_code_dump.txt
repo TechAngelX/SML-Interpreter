@@ -1834,7 +1834,7 @@ public class GotoInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         // No operation needed - goto only changes control flow in determineNextFrame()
     }
 
@@ -1939,7 +1939,7 @@ public class StoreInstruction extends AbstractVarInstruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value = frame.pop();
         Variable var = frame.variable(varName);
         var.store(value);
@@ -1962,7 +1962,7 @@ import sml.*;
  * Ensure sufficient operands are present before executing this instruction.
  * </p>
  * <p>
- * The {@code doExecute} method defines the instruction's core operational logic.
+ * The {@code performInstructionLogic} method defines the instruction's core operational logic.
  * </p>
  *
  * @author Ricki Angel
@@ -1988,7 +1988,7 @@ public class AddInstruction extends Instruction {
      * @param frame the current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         frame.push(
                 frame.pop() + frame.pop()
         );
@@ -2083,7 +2083,7 @@ public class NotEqInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         if (jumpLabel == null) {
             int value2 = frame.pop();
             int value1 = frame.pop();
@@ -2192,7 +2192,7 @@ public class ReturnInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value = frame.pop();
         frame.invoker().ifPresent(invoker -> invoker.push(value));
     }
@@ -2290,7 +2290,7 @@ public class NumCharInstruction extends Instruction {
      * @param frame the execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int number = frame.pop();
         char letter = (char) ('A' + number -1);
         System.out.println(letter);
@@ -2365,7 +2365,7 @@ public class PrintInstruction extends Instruction {
      * @param frame The current stack-based execution context containing the value to print
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         Optional.of(frame.pop())  
                 .ifPresent(System.out::println); 
     }
@@ -2476,8 +2476,6 @@ public abstract  class AbstractVarInstruction extends Instruction
     protected String getOperandsString() {
         return varName.toString();
     }
-
-
 }
 -e \n\n===== File: ./src/main/java/sml/instructions/DivInstruction.java =====\n
 package sml.instructions;
@@ -2496,7 +2494,7 @@ import sml.*;
  * If division by zero is attempted, an {@link ArithmeticException} is thrown.
  * </p>
  * <p>
- * The {@code doExecute} method defines the instruction's core operational logic.
+ * The {@code performInstructionLogic} method defines the instruction's core operational logic.
  * </p>
  *
  * @author Ricki Angel
@@ -2527,7 +2525,7 @@ public class DivInstruction extends Instruction {
      * @throws ArithmeticException if division by zero occurs
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         if (value2 == 0) {
@@ -2604,7 +2602,7 @@ public class InvokeInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         // No operations performed here - method invocation handled in execute()
     }
 
@@ -2714,7 +2712,7 @@ public class IfCmpgtInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         shouldJump = (value1 > value2);
@@ -2820,7 +2818,7 @@ public class LoadInstruction extends AbstractVarInstruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         Variable var = frame.variable(varName);
         int value = var.load();
         frame.push(value);
@@ -2882,7 +2880,7 @@ public class MulInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         frame.push(Math.multiplyExact(value1, value2)); 
@@ -3006,7 +3004,7 @@ public abstract  class Instruction  {
      */
     public Optional<Frame> execute(Machine machine) {
         Frame frame = machine.frame();
-        doExecute(frame);
+        performInstructionLogic(frame);
         Frame nextFrame = determineNextFrame(frame);
 
         if (nextFrame == null) {
@@ -3025,7 +3023,7 @@ public abstract  class Instruction  {
      *
      * @param frame Current execution frame
      */
-    protected abstract void doExecute(Frame frame);
+    protected abstract void performInstructionLogic(Frame frame);
 
     /**
      * Determines the next frame after instruction execution.
@@ -3162,7 +3160,7 @@ public class SubInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         frame.push(value1 - value2);
@@ -3246,7 +3244,7 @@ public class ModInstruction extends Instruction {
      * @throws ArithmeticException if the divisor is zero
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         if (value2 == 0) {
@@ -3327,7 +3325,7 @@ public class SqrtInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value = frame.pop();
         double result = Math.sqrt(value);
         frame.push((int) result);
@@ -3436,7 +3434,7 @@ public class PushInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         frame.push(value);
     }
 
@@ -3527,7 +3525,7 @@ public class IfCmpeqInstruction extends Instruction {
      * @param frame The current execution frame
      */
     @Override
-    protected void doExecute(Frame frame) {
+    protected void performInstructionLogic(Frame frame) {
         int value2 = frame.pop();
         int value1 = frame.pop();
         shouldJump = (value1 == value2);
@@ -3585,7 +3583,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
-import sml.config.SmlConfig;
+import sml.discovery.SmlConfig;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -3722,6 +3720,7 @@ import java.util.Objects;
  *
  * @author Ricki Angel
  */
+
 // Answer to Coursework Question: What are the benefits of using this record class?
 //
 // - Immutability & Type Safety: Prevents accidental modification and distinguishes labels from plain Strings.
@@ -3731,8 +3730,8 @@ import java.util.Objects;
 //   Comparison with `String`:
 // - Using `String`: No enforced meaning, allows null values, and risks misuse.
 // - Using `Label`: Stronger type distinction, enforced validity, and safer usage.
-
-
+// - And of course, Recordds automatically generate equals, hashcode and toString which reduces boilerplate.
+    
 public record Label(String label) {
     /**
      * Ensures the label is not null during instantiation.
@@ -3763,6 +3762,9 @@ public record Label(String label) {
 //
 // Default record implementation handles this correctly
 // by using String's comparison methods.
+// However, in some Instruction subclasses, overriding equals and hashCode may be necessary 
+// depending if additional fields are used for equality (value, jumpLabel, methodName etc). 
+// see PushInstruction or IfCmpgtInstruction or InvokeInstruction for example)
 }
 -e \n\n===== File: ./src/main/java/sml/Method.java =====\n
 package sml;
@@ -4181,66 +4183,13 @@ public class SymbolTable<K, V> {
                 .collect(Collectors.joining(", ", "[", "]"));
     }
 }
--e \n\n===== File: ./src/main/java/sml/config/SmlConfig.java =====\n
-package sml.config;
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import sml.helperfiles.DefaultInstructionRegistrationLogger;
-import sml.helperfiles.InstructionRegistrationLogger;
-
-/**
- * Configuration class for the Simple Machine Language (SML) application.
- * <p>
- * This configuration provides Spring framework setup and bean definitions
- * for the SML application, enabling component scanning and defining
- * essential application beans.
- * </p>
- *
- * <h2>Key Configuration Features</h2>
- * <ul>
- *     <li>Enables component scanning across the entire SML project</li>
- *     <li>Configures the primary {@link InstructionRegistrationLogger} implementation</li>
- * </ul>
- *
- * <p>
- * The {@link #instructionRegistrationLogger()} method provides the primary
- * bean for tracking instruction registrations throughout the application.
- * </p>
- *
- * @author Ricki Angel
- * @version 1.0
- * @since 1.0
- */
-@Configuration
-@ComponentScan(basePackages = "sml")
-public class SmlConfig {
-
-    /**
-     * Creates the primary {@link InstructionRegistrationLogger} bean.
-     * <p>
-     * This method instantiates the default implementation of the
-     * instruction registration logger, which will be used as the
-     * primary logging mechanism for instruction registrations.
-     * </p>
-     *
-     * @return A {@link DefaultInstructionRegistrationLogger} instance
-     */
-    @Bean
-    @Primary
-    public InstructionRegistrationLogger instructionRegistrationLogger() {
-        return new DefaultInstructionRegistrationLogger();
-    }
-}
 -e \n\n===== File: ./src/main/java/sml/config/package-info.java =====\n
 /**
  * Provides Spring configuration for the Simple Machine Language application.
  * <p>
  * This package contains configuration classes that set up the Spring application context:
  * <ul>
- *   <li>{@link sml.config.SmlConfig} - Primary configuration with component scanning and bean definitions</li>
+ *   <li>{@link sml.discovery.SmlConfig} - Primary configuration with component scanning and bean definitions</li>
  * </ul>
  * </p>
  * <p>
@@ -4319,6 +4268,12 @@ public class Frame {
     //   - Mutable structure (elements can be added/removed) - double-ended?.
     //   - Modified by push() and pop() methods.
     //   - The stack itself is final (cannot be reassigned)
+
+    // TO Clarify, the mutable components are:  
+    // programCounter: (int) → Mutable (modified by setProgramCounter(int))  
+    // arguments: (SymbolTable<Variable.Identifier, Variable>) → Mutable if Variable is mutable  
+    // localVariables: (SymbolTable<Variable.Identifier, Variable>) → Mutable if Variable is mutable  
+    // stack: (Deque<Integer>) → Mutable (modified by push(int) and pop())  
 
     /**
      * Constructs a new Frame for a specific method.
@@ -4512,8 +4467,8 @@ import java.util.logging.Logger;
  */
 public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     private static final Logger LOGGER = Logger.getLogger(ConfigDiscovery.class.getName());
-    private static final String CONFIG_FILE = "sml/config/opcode.properties";
-    private final InstructionRegistrationLogger logger;
+    private static final String CONFIG_FILE = "config/opcode.properties";
+private final InstructionRegistrationLogger logger;
 
     /**
      * Constructs a new ConfigDiscovery discovery method.
@@ -4660,6 +4615,59 @@ public class ConfigDiscovery implements InstructionDiscoveryStrategy {
     @Override
     public String getName() {
         return "Configuration File";
+    }
+}
+-e \n\n===== File: ./src/main/java/sml/discovery/SmlConfig.java =====\n
+package sml.discovery;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import sml.helperfiles.DefaultInstructionRegistrationLogger;
+import sml.helperfiles.InstructionRegistrationLogger;
+
+/**
+ * Configuration class for the Simple Machine Language (SML) application.
+ * <p>
+ * This configuration provides Spring framework setup and bean definitions
+ * for the SML application, enabling component scanning and defining
+ * essential application beans.
+ * </p>
+ *
+ * <h2>Key Configuration Features</h2>
+ * <ul>
+ *     <li>Enables component scanning across the entire SML project</li>
+ *     <li>Configures the primary {@link InstructionRegistrationLogger} implementation</li>
+ * </ul>
+ *
+ * <p>
+ * The {@link #instructionRegistrationLogger()} method provides the primary
+ * bean for tracking instruction registrations throughout the application.
+ * </p>
+ *
+ * @author Ricki Angel
+ * @version 1.0
+ * @since 1.0
+ */
+@Configuration
+@ComponentScan(basePackages = "sml")
+public class SmlConfig {
+
+    /**
+     * Creates the primary {@link InstructionRegistrationLogger} bean.
+     * <p>
+     * This method instantiates the default implementation of the
+     * instruction registration logger, which will be used as the
+     * primary logging mechanism for instruction registrations.
+     * </p>
+     *
+     * @return A {@link DefaultInstructionRegistrationLogger} instance
+     */
+    @Bean
+    @Primary
+    public InstructionRegistrationLogger instructionRegistrationLogger() {
+        return new DefaultInstructionRegistrationLogger();
     }
 }
 -e \n\n===== File: ./src/main/java/sml/discovery/InstructionDiscoveryStrategy.java =====\n

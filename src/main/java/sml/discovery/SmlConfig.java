@@ -1,4 +1,4 @@
-package sml.config;
+package sml.discovery;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

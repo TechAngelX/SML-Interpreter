@@ -3,7 +3,7 @@
  * <p>
  * This package contains configuration classes that set up the Spring application context:
  * <ul>
- *   <li>{@link sml.config.SmlConfig} - Primary configuration with component scanning and bean definitions</li>
+ *   <li>{@link sml.discovery.SmlConfig} - Primary configuration with component scanning and bean definitions</li>
  * </ul>
  * </p>
  * <p>

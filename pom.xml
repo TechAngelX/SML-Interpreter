@@ -78,13 +78,8 @@
         </plugins>
         <resources>
             <resource>
-                <directory>src/main/java/sml/config</directory>
-                <includes>
-                <include>opcode.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/doc-files</directory>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
