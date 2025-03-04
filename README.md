@@ -24,30 +24,31 @@ amongst other skills.
 
 **E-Mail**: rangel03@student.bbk.ac.uk
 
-### My Solution to the Exercise: Implement Two Instruction Discovery Methods:
+## Documentation
 <table>
   <tr>
-    <th align="center">Config Registration Process</th>
-    <th align="center">Package Scan Process</th>
+    <th align="center">Linux / Mac OS CLI</th>
+    <th align="center">Windows / PowerShell CLI</th>
   </tr>
   <tr>
     <td align="center">
-      <a href="https://youtu.be/4jjzWDJ21As" target="_blank">
-        <img src="images/config_process.jpg" alt="Configuration Registration Process Video" width="380">
+      <a href="https://youtu.be/5946Zzi-ORM" target="_blank">
+        <img src="images/MacSMLsetup.jpg" alt="Linux / Mac OS setup" width="380">
       </a>
       <br>
-      <em>Click to watch Config Registration Process</em>
+      <em>Click to watch Linux / Mac OS CLI setup</em>
     </td>
     <td align="center">
-      <a href="https://youtu.be/PHcSX3sMAlU" target="_blank">
-        <img src="images/package_scan_process.jpg" alt="Configuration Registration Process Video" width="380">
+      <a href="https://youtu.be/7FYMgWmGP08" target="_blank">
+        <img src="images/WinSMLsetup.jpg" alt="Windows (PowerShell) CLI setup" width="380">
       </a>
       <br>
-      <em>Click to watch Package Scan Process</em>
+      <em>Click to watch Windows (PowerShell) CLI setup</em>
     </td>
   </tr>
 </table>
-## Documentation
+
+
 
 ## The problem
 
@@ -171,6 +172,30 @@ We suggest that you examine the `Machine` class first, as it is the heart
 of the program (you can use the `main` method in the `sml.RunSml` class to guide you as well).
 
 ## Studying the program
+
+# My Solution to the Exercise: Implement Two Instruction Discovery Methods:
+<table>
+  <tr>
+    <th align="center">Config Registration Process</th>
+    <th align="center">Package Scan Process</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://youtu.be/5946Zzi-ORM" target="_blank">
+        <img src="images/climac.jpg" alt="Running an SML program via command line on Linux / Mac OS" width="380">
+      </a>
+      <br>
+      <em>Click to watch Config Registration Process</em>
+    </td>
+    <td align="center">
+      <a href="https://youtu.be/PHcSX3sMAlU" target="_blank">
+        <img src="images/package_scan_process.jpg" alt="Configuration Registration Process Video" width="380">
+      </a>
+      <br>
+      <em>Click to watch Package Scan Process</em>
+    </td>
+  </tr>
+</table>
 
 You are provided with some skeleton code which is on this repository.
 

@@ -1,235 +1,191 @@
-### SML Working Notes: My Workflow: Ricki Angel
+# SML Implementation Project
+## Development Documentation and Technical Notes
+This guide documents my thoughts and processes in completing the  Simple Machine Language programm -  a high-level interpreter developed as a coursework assignment for the 'Software Design and Programming' module, part of the MSc Computer Science course at Birkbeck, University of London.
 
-Create subclasses of the `Instruction` class that extend its functionality.  
-Do this **ONLY AFTER** completing methods in the `Instruction` class.
+*Author: Ricki Angel*
 
-#### Entry Point
+## Architecture Overview
 
-The entry point for the program—the `Main` method—is in the `sml.RunSml` class.  
-Remember to override `.equals()` and `.hashCode()` for the subclasses.
+The Simple Machine Language (SML) interpreter provides a virtual machine environment with core functionality including:
+- Stack-based operations
+- Method invocation and execution
+- Variable management
+- Control flow mechanisms
 
-### PART I
+## Implementation Plan
 
-#### Missing Instruction Classes to Implement:
+The implementation followed a structured approach with the following components:
 
-```
-Load        ✅  LoadInstruction class completed.
-Store       ✅  StoreInstruction class completed.
-Push        ✅  PushInstruction class completed.
-Add         ✅  AddInstruction class completed.
-Sub         ✅  SubInstruction class completed.
-Mul         ✅  MultiplyInstruction class completed.
-Div         ✅  DivInstruction class completed.
-if_cmpgt    ✅  IfGreaterGotoInstruction class completed.
-if_cmpeq    ✅  IfEqualGotoInstruction class completed.
+#### Instruction Set Implementation
 
-InstructionRegistrationManager ✅  renamed from InstructionFactory and refactored from Chain of Responsibility to Strategy pattern.
-```
+My first task was to complete an instruction set. this was Part I of the exercise.
 
-### PART II
-```
-Translator and Reflection API ✅ Completed. Test using: java sml.RunSml src/main/resources/test1.sml
-Dependency Injection (Manual) ✅ Consstructor-based DI.Complete.
-Dependency Injection (Spring) ✅ Complete. ased DI. Complete.
-Now incorporates both Spring DI and CLI base DI with two ways to run the machine via command line.
-```
+| Instruction | Status | Description |
+|-------------|:------:|-------------|
+| `Load`      | ✅ | Load values from variables to the stack |
+| `Store`     | ✅ | Store stack values to variables |
+| `Push`      | ✅ | Push constants onto the stack |
+| `Add`       | ✅ | Addition operation |
+| `Sub`       | ✅ | Subtraction operation |
+| `Mul`       | ✅ | Multiplication operation |
+| `Div`       | ✅ | Division operation |
+| `if_cmpgt`  | ✅ | Conditional branch on greater than |
+| `if_cmpeq`  | ✅ | Conditional branch on equality |
 
-### Instruction Test Status:
-Create the test classes AFTER finishing their respective concrete classes, and run each unit:
-```
-✅ LoadInstructionTest class tests completed.  
-✅ StoreInstruction class tests completed.  
-✅ PushInstruction class tests completed.  
-✅ AddInstruction class tests completed.  
-✅ SubInstruction class tests completed.  
-✅ MultiplySubInstruction class tests completed.  
-✅ DivInstruction class tests completed.  
-✅ IfGreaterGotoInstruction class tests completed.
-✅ IfEqualGotoInstruction class tests completed.
-✅ SmlIntegrationTest class tests completed.
-✅ InstructionRegistrationManagerTest class tests completed.
-✅ ConfigDiscoveryTest class tests completed.
+#### System Architecture Components
 
-```
-### Testing Strategy: Points to Note:
-```
-- Write tests that supply incorrect input values.
-- Ensure the code fails appropriately, throwing the expected exceptions.
-- Once errors are identified, correct them and re-run the tests.
-- Tests should confirm that invalid inputs trigger the appropriate runtime exceptions.
-- Learn about Parameterized tests and holistic testing of a  new InstructionRegisterManager class.
-- Implement integration tests ✅
-- Add JUnit 5 Parameterized Tess ✅
-- Research, learn and add/implement mockito to mock and produce config discovery tests. ✅
-- In POM, Scope mockito to test, not final build.
-```
+Then complete some of the base system architecture.
+| Component                      | Status | Description                                                            |
+|---------------------------------|:------:|------------------------------------------------------------------------|
+| `InstructionRegistrationManager`| ✅     | Renamed from `InstructionFactory` and refactored from Chain of Responsibility to Strategy pattern |
+| `Translator and Reflection API` | ✅     | Completed implementation with testing                                 |
+| `Manual Dependency Injection`   | ✅     | Constructor-based DI implementation                                    |
+| `Spring Dependency Injection`   | ✅     | Configuration-based Spring integration                                 |
 
-### OBSERVATIONS: Identified Problems & Solutions
-```
-```
-PROBLEM 1: DRY Issue
-The `variables()` method seems to be prevalent across most instruction subclasses.  
-In terms of **DRY (Don't Repeat Yourself)**, should `variables()` be part of an interface  
-or remain as an abstract method in a base abstract class for better implementation and inheritance?
+### Test Coverage
 
-SOLUTION 1:
-✅ Created an `AbstractVarInstruction` class to be used by `Store`, `Load`, `Push`, etc.
-```
+Comprehensive testing was implemented for all components:
 
-```
-PROBLEM 2:
-Unwieldy codebase in InstructionFactory / tight coupling.
+| Test Class | Status | Description |
+|------------|:------:|-------------|
+| `LoadInstructionTest` | ✅ | Validated variable loading operations |
+| `StoreInstructionTest` | ✅ | Verified variable storage operations |
+| `PushInstructionTest` | ✅ | Tested constant pushing operations |
+| `AddInstructionTest` | ✅ | Validated addition functionality |
+| `SubInstructionTest` | ✅ | Confirmed subtraction operations |
+| `MulInstructionTest` | ✅ | Tested multiplication logic |
+| `DivInstructionTest` | ✅ | Verified division operations and edge cases |
+| `IfCmpgtInstructionTest` | ✅ | Validated conditional branching |
+| `IfCmpeqInstructionTest` | ✅ | Tested equality comparison branching |
+| `SmlIntegrationTest` | ✅ | End-to-end system validation |
+| `InstructionRegistrationManagerTest` | ✅ | Validated instruction registration |
+| `ConfigDiscoveryTest` | ✅ | Tested configuration-based discovery |
 
-SOLUTION 2:
-✅ Now Refactored using Java ServiceLoader and modulear registration.
-```
+### Testing Strategy
 
-```
-PROBLEM 3: Execute Method Pattern Analysis*
-The execute() method implementation across instruction classes follows the Template Method pattern. However, 
-this raises a design question:
-1. Is Template Method the optimal pattern here?
-2. Would an interface-based approach provide better flexibility?
+The testing approach incorporated:
 
-SOLUTION 3: Confirm Template Method Pattern
-✅ Retained and reinforced the Template Method pattern because:
-1. The base Instruction class defines the algorithm skeleton
-2. Concrete instruction only need to implement execute() and getOperandsString()
-3. Common behavior (toString, label handling, etc.) stays in base class
-4. Pattern ensures consistent structure across all instruction
-```
-```
-PROBLEM 4: ServiceProvider - Overengineering
-Upon critically evaluating the code, it seems that the dynamic ServiceProvider solution might be overengineered. 
-Currently, the configuration already utilizes reflection to discover and load instruction classes. Additionally, 
-the design employs a factory pattern (InstructionFactory) to handle the creation of instruction. New instruction 
-can already be added without modifying existing code, simply by introducing new instruction classes. However, the 
-current implementation introduces additional complexity by creating more areas that need modification 
-when adding a new instruction. The opcode-to-class mapping is already dynamic through the INSTRUCTION_MAP, which 
-provides sufficient flexibility.
+- Input validation with both valid and invalid values
+- Exception handling verification
+- JUnit 5 parameterized tests for comprehensive coverage
+- Mockito for dependency isolation in unit tests
+- Integration tests for system-level validation
 
-SOLUTION 4:
-✅ Remove the ServiceProvider and revert to using the simpler InstructionFactory process.
+## Design Challenges and Solutions
+Then as i moved onto Part II of the exercise, I looked into various ways of implementing injecting new instruction class without modyfing the Instruction class - Dependency Injection.
+It was here where my learning increased, emboldening me to create new instruction classes (Mod, sqrt, NotEq) etc to see how these can be injected.
+Here Are some of the probllems I encountered along the way; in line with my GitHub commits:
 
-```
-```
-PROBLEM 5: Sealed Yes, Truly OCP, No.
-The use of a sealed class for the Instruction class presents some considerations with regard to the Open/Closed Principle (OCP). 
-While a sealed class provides control over which classes can inherit from it, it introduces a form of coupling between the base 
-class (Instruction.java) and any future subclasses i or anyone might add. To introduce a new type of instruction, the base class 
-must be modified to include the new subclass in the permits list. So this arguably breaks the OCP rule.
+### 1. Code Duplication in Variable Handling
 
-SOLUTION 5:
-✅ Remove Sealed/Non-sealed from base and subclasses.
-```
-```
-PROBLEM 6: Is InstructionFactory a God Class?  300 + lines with  conditional logic and reflection operations !!!
-The InstructionFactory class exhibits classic God Class symptoms: excessive size, too many responsibilities 
-(configuration loading, package scanning, reflection, instruction instantiation, logging), high complexity, 
-and low cohesion. This violates the Single Responsibility Principle and makes the code difficult to maintain and test.
+**Problem**: The `variables()` method appeared in multiple instruction subclasses, violating DRY principles.
 
-SOLUTION 6:
-✅ Refactored using a proper separation of concerns:
-- Split functionality into specialized classes (InstructionRegistry, InstructionDiscoveryStrategy interface)
-- Implemented Strategy Pattern for discovery methods (ConfigFileDiscoveryStrategy, PackageScanDiscoveryStrategy)
+**Solution**: Created an `AbstractVarInstruction` class to be extended by variable-manipulating instructions like `Store` and `Load`.
+
+### 2. Instruction Factory Complexity
+
+**Problem**: Initial implementation had unwieldy codebase in `InstructionFactory` with tight coupling.
+
+**Solution**: Refactored using modular registration system with cleaner interfaces.
+
+### 3. Template Method Pattern Evaluation
+
+**Problem**: Needed to assess if Template Method was the optimal pattern for instruction execution.
+
+**Solution**: Retained and enhanced the Template Method pattern after confirming its benefits:
+- Base `Instruction` class effectively defines the algorithm skeleton
+- Concrete instructions only need to implement `execute()` and `getOperandsString()`
+- Common behavior remains centralized in the base class
+- Pattern ensures consistent structure across all instructions
+
+### 4. Service Provider Complexity
+
+**Problem**: Initial ServiceProvider implementation introduced unnecessary complexity.
+
+**Solution**: Simplified the design by removing the ServiceProvider and using a more direct approach.
+
+### 5. Open/Closed Principle Compliance
+
+**Problem**: A realisation that Sealed classes for `Instruction` and the instruction set violated the Open/Closed Principle by requiring base class modifications.
+
+**Solution**: Removed sealed/non-sealed modifiers to allow for greater extensibility.
+
+### 6. God Class Anti-Pattern
+
+**Problem**: `InstructionFactory` exhibited God Class symptoms with excessive size and responsibilities.
+
+**Solution**: Refactored with proper separation of concerns:
+- Split functionality into specialized classes (`InstructionRegistry`, `InstructionDiscoveryStrategy`)
+- Implemented Strategy Pattern for discovery methods
 - Created a clear hierarchy of discovery approaches with graceful fallback
-- Removed legacy reflection-based discovery methods in favor of configuration-driven approach
-- Eliminated redundant convenience methods for each instruction type
-- Designed clean interfaces between components to reduce coupling.
-```
-```
+- Eliminated redundant methods and improved interfaces between components
 
-PROBLEM 7: Testing certain complext instructions in InstructionRegistrationManager!
-The challenge we face with InstructionRegistrationManagerTest is that It's trying to
-test the factory (InstructionRegistrationManager.createInstruction) which only accepts
-two parameters: an opcode and a label. Some instructions require more parameters than
-just a label, but the factory doesn't have a way to provide these extra parameters.
+### 7. Testing Complex Instructions
 
-That's why we're having issues testing these complex instructions through the factory
-the factory itself doesn't support creating them with their required parameters.
+**Problem**: Factory testing limitations for instructions requiring multiple parameters.
 
-SOLUTION 7:
-✅  Test simple instructions through complete instantiation. For complex instructions,
-simply verify they're registered and recognized by the factory Document which
-instructions are only partially testable via the factory.
+**Solution**: Implemented a dual testing approach:
+- Complete instantiation testing for simple instructions
+- Factory recognition testing for complex instructions
+- Clear documentation of testing limitations
 
-```
-```
-PROBLEM 8: Code Smell - Comment Hell !
-Upon critical evaluation of my code, it is possible I have too much comments in my classes.
-The thinking is - If you have to explain in too much detail what you're doing, there's something wrong.
+### 8. Excessive Code Comments
 
-SOLUTION 8:
-✅ Clean up code, with profeessional java-docs and remove 'guideline' comments.
-```
+**Problem**: Excessive inline comments made code harder to read and maintain. Also, weeird non-standard 'bar' lines in JavaDocs.
 
-### Additional Functionality:
+**Solution**: RFesearched how to produce professional JavaDoc and clearer code structure and annotations.
 
-Created a simple programe 'sqrtTest.sml' that:
+## Instruction Set Reference
 
-- Loads a number.
-- Computes its square root.
-- Prints both the original number and the result.
-- Ends correctly without stack errors.
+As I became bolder and more understanding of instruction design, and inline with developing a new Configuration Registration service,
+I started to design and implement my own custom instructions and .sml programs:
 
-```
-```
+| Opcode     | Description                        |
+|------------|------------------------------------|
+| `sqrt`     | Square root (supplementary)        |
+| `not_eq`   | Not equal comparison (supplementary)|
+| `mod`      | Modulo operation (supplementary)   |
+| `num_char` | Converts number to character       |
 
-### Opcodes:
+### Frequent Issues:
 
-- add
-- div
-- goto
-- if_cmpeq
-- if_cmpgt
-- invoke
-- load
-- mul
-- print
-- push
-- return
-- store
-- sub
-- sqrt - (supplementary)
-- not_eq - (supplementary)
-- mod - (supplementary)
+"Cannot pop from empty stack" errors were a frequent time consuming and recurring problem for me throughout this project.
+Eventrually, I learned to reslove the problem by:
 
-```
-```
+- Ensuring values are pushed before they are popped.
+- Adding dummy push values before return statements.
+- Implement stack size checking where appropriate.
 
-Notes to remember when creating my own SML programs:
-The "Cannot pop from empty stack" error means that the program is trying to remove (pop) a 
-value from a stack that has no values in it. This is like trying to take the top item off 
-an empty shelf. As an example: Imagine there's a have a stack of plates, and we're trying 
-to remove a plate when there are no plates left - that's essentially what's happening in the code.
+For example:
+```sml
+// Example of proper stack management
+push 10    // Push before popping
+operation  // Uses the value
 
-The solutions to prevent "cannot pop from empty stack" errors include:
-
-Ensure values are pushed before they are popped
-```
-push 10   # Always push before you pop
-pop
-```
-Add dummy push values before return
-```
-push 0   # Dummy push to prevent empty stack
+push 0     // Dummy value for return
 return
 ```
-Check stack size before popping
-```
-if (frame.stackSize() > 0) {
-frame.pop();
-}
-```
 
-LOGGING: If we want to limit amount of output data:
-```
-Java's Loging levels from most to least verbose:
-FINEST
-FINER
-FINE
-CONFIG
-INFO
-WARNING
-SEVERE
-```
+### Console Logging
+Initially I had print statements everywhere ! But eventually I used to implement Java's logging library and incorporated this into
+my output, to clearly detail when instruction classes have been registered.
+
+For controlling output verbosity, logging levels from most to least verbose:
+
+1. FINEST
+2. FINER
+3. FINE
+4. CONFIG
+5. INFO
+6. WARNING
+7. SEVERE
+
+## Overall Project Summation and Reflection
+
+This project has been intellectually challenging yet immensely rewarding, involving accelerated learning and a steep growth curve. It has provided an excellent opporunity to synthesise diverse programming concepts—from generics and lambda expressions to method references—while deepening my understanding of fundamental principles such as polymorphism, inheritance, encapsulation, modern Java usage and open extension principles like Reflection API and exposure to the Spring Framework, unit testing, and professional Java documentation.
+
+This project also deepened my understanding of operating system fundamentals, particularly regarding executable file processing. Implementing the SML interpreter gave me practical insight into how systems load and parse program files with specific extensions (.sml), and the architectural significance of file formats in language interpretation and execution pipelines.
+
+I've gained the ability to view projects from an architectural perspective, seeing how components integrate through design patterns. The guidance from my lecturer was invaluable, particularly in implementing logging mechanisms for instruction registration tracking. This experience has enhanced my ability to refactor code and make informed decisions when selecting appropriate design patterns.
+
+Overall, this has been an exceptional and stimulating educational experience that has solidified my 18 months of programming knowledge. Beyond Java-specific skills, it has strengthened my grasp of universal programming concepts and best practices applicable across modern languages.
