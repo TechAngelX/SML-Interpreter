@@ -1,6 +1,6 @@
 # 🏛 Machine Language Interpreter (SML)
 
-## Project Overview
+## Project Overview 
 
 SML is a command-line interface tool that implements a low-level Machine Language compiler and interpreter. Developed as part of an assessment for the Software Design and Programming module as part of my MSc Computer Science degree, the system mimics the architecture of the Java Virtual Machine (JVM). It utilises a stack-based execution model to parse and run custom assembly-like instructions.
 
