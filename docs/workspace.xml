@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+    <component name="AutoImportSettings">
+        <option name="autoReloadType" value="SELECTIVE"/>
+    </component>
+    <component name="ChangeListManager">
+        <list default="true" id="26b35617-69bc-4592-9723-9aa556981923" name="Changes" comment="">
+            <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml"
+                    afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/COURSEWORK ASSIGNMENT 2PM 4 MAR.iml" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/COURSEWORK ASSIGNMENT 2PM 4 MAR.iml" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml.RunSml.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml.RunSml.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Frame.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Frame.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Instruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Instruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Label.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Label.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/LabelNotFoundException.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/LabelNotFoundException.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Machine.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Machine.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Method.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Method.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/MethodNotFoundException.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/MethodNotFoundException.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/SymbolTable.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/SymbolTable.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Translator.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Translator.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/Variable.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/Variable.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/VariableNotFoundException.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/VariableNotFoundException.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/helperfiles/AbstractVarInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/helperfiles/AbstractVarInstruction.java"
+                    afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/AddInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/AddInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/GotoInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/GotoInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/InvokeInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/InvokeInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/LoadInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/LoadInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/PrintInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/PrintInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/PushInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/PushInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/ReturnInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/ReturnInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/StoreInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/StoreInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/src/sml/instruction/SubInstruction.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/src/main/java/sml/instruction/SubInstruction.java" afterDir="false"/>
+            <change beforePath="$PROJECT_DIR$/test/sml/instruction/StoreInstructionTest.java" beforeDir="false"
+                    afterPath="$PROJECT_DIR$/test/sml/instruction/StoreInstructionTest.java" afterDir="false"/>
+        </list>
+        <option name="SHOW_DIALOG" value="false"/>
+        <option name="HIGHLIGHT_CONFLICTS" value="true"/>
+        <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false"/>
+        <option name="LAST_RESOLUTION" value="IGNORE"/>
+    </component>
+    <component name="Git.Settings">
+        <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$"/>
+    </component>
+    <component name="GitHubPullRequestSearchHistory">{
+        &quot;lastFilter&quot;: {
+        &quot;state&quot;: &quot;OPEN&quot;,
+        &quot;assignee&quot;: &quot;TechAngelX&quot;
+        }
+        }
+    </component>
+    <component name="GithubPullRequestsUISettings">{
+        &quot;selectedUrlAndAccountId&quot;: {
+        &quot;url&quot;: &quot;https://github.com/Birkbeck/sdp25-coursework-TechAngelX.git&quot;,
+        &quot;accountId&quot;: &quot;f76ed396-afb1-42cc-a976-908b5e272e5e&quot;
+        }
+        }
+    </component>
+    <component name="ProjectColorInfo">{
+        &quot;associatedIndex&quot;: 5
+        }
+    </component>
+    <component name="ProjectId" id="2t34ZuYBf9IyMxT1tGiq5yaQI0H"/>
+    <component name="ProjectViewState">
+        <option name="hideEmptyMiddlePackages" value="true"/>
+        <option name="showLibraryContents" value="true"/>
+    </component>
+    <component name="PropertiesComponent">{
+        &quot;keyToString&quot;: {
+        &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+        &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+        &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+        &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+        &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+        &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+        &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+        &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+        &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+        }
+        }
+    </component>
+    <component name="RecentsManager">
+        <key name="MoveFile.RECENT_KEYS">
+            <recent name="$PROJECT_DIR$/docs"/>
+        </key>
+        <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+            <recent name=""/>
+        </key>
+    </component>
+    <component name="SharedIndexes">
+        <attachedChunks>
+            <set>
+                <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103"/>
+                <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103"/>
+            </set>
+        </attachedChunks>
+    </component>
+    <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0"
+               DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true"/>
+    <component name="TaskManager">
+        <task active="true" id="Default" summary="Default task">
+            <changelist id="26b35617-69bc-4592-9723-9aa556981923" name="Changes" comment=""/>
+            <created>1739567482572</created>
+            <option name="number" value="Default"/>
+            <option name="presentableId" value="Default"/>
+            <updated>1739567482572</updated>
+            <workItem from="1739567483653" duration="1422000"/>
+        </task>
+        <servers/>
+    </component>
+    <component name="TypeScriptGeneratedFilesManager">
+        <option name="version" value="3"/>
+    </component>
+</project>
