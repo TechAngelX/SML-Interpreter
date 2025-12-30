@@ -1,30 +1,121 @@
-# Simple (Small) Machine Language (SML)
+# 🏛 Simple Machine Language (SML) Interpreter
 
-### A coursework examining reflection API and dependency injection
+## Project Overview
+SML is a command-line interface tool that implements a low-level Machine Language compiler and interpreter. Developed as part of an assessment for the Software Design and Programming module as part of my MSc Computer Science degree, the system mimics the architecture of the Java Virtual Machine (JVM). It utilises a stack-based execution model to parse and run custom assembly-like instructions.
 
-+ This assignment is to be completed **individually**, and without any AI tools or assistants.
-+ The sample code mentioned in the text can be found in this repository.
+Not finished yet and still a work-in-progress, the purpose of this project was to learn advanced Java concepts, specifically Dependency Injection with Spring, the Reflection API, and architectural design patterns in a practical context.
 
-![sml](./images/sml.jpg)
-The aim of this assignment is to give you practice with
+The primary engineering challenge was to design the system for **open-ended extensibility** using advanced Java features like Reflection and Dependency Injection.
 
-+ subclasses,
-+ modifying existing code,
-+ testing,
-+ the use of reflection,
-+ and dependency injection,
 
-amongst other skills.
+<table>
+  <tr>
+    <th align="center">Config Registration Process</th>
+    <th align="center">Package Scan Process</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="images/config_process.jpg" alt="Configuration Registration Process" width="380">
+      <br>
+      <em>System reads mapping from external config</em>
+    </td>
+    <td align="center">
+      <img src="images/package_scan_process.jpg" alt="Package Scan Process" width="380">
+      <br>
+      <em>System auto-detects classes via Reflection</em>
+    </td>
+  </tr>
+</table>
+## Tech Stack & Key Concepts
+* **Language:** Java (JDK 17+)
+* **Frameworks:** Spring Context (Dependency Injection)
+* **Build Tool:** Gradle
+* **Testing:** JUnit 5 (High coverage)
+* **Key Concepts:**
+    * Java Reflection API
+    * SOLID Principles
+    * Design Patterns (Factory, Singleton, Strategy)
+    * TDD (Test Driven Development)
 
-## Details
+---
+## Key Features & Implementation
 
-**Name**: Ricki Angel
+### 1. Dynamic Instruction Extensibility (Reflection)
+A core requirement was to replace standard `switch` statements with a dynamic loading system. This allows third-party developers to add new machine instructions (opcodes) without recompiling the source code.
 
-**Userid**:13928534
+I implemented two distinct mechanisms for instruction discovery:
 
-**E-Mail**: rangel03@student.bbk.ac.uk
+1.  **Configuration-Driven:** Loading instruction mappings from an external file.
+2.  **Auto-Discovery:** Scanning the classpath to automatically register available instruction classes.
 
-## Documentation
+
+### 2. Dependency Injection
+The project leverages the **Spring Framework** to manage the `Machine` context. By removing hard dependencies and utilising Inversion of Control (IoC), the system components (Translator, Registers, Memory) are loosely coupled, significantly improving testability and modularity.
+
+### 3. SML Language Specification
+The interpreter supports a variety of operations, handling the "Fetch-Decode-Execute" cycle for:
+* **Arithmetic:** `add`, `sub`, `mul`, `div`
+* **Control Flow:** `goto`, `if_cmpgt` (branch if >), `if_cmpeq` (branch if =)
+* **Memory:** `load` (variable to stack), `store` (stack to variable)
+* **Functions:** `invoke` (method calls), `return`
+* **I/O:** `print`
+
+---
+## Language Specification
+
+The SML interpreter is based on a stack machine architecture similar to the JVM. It operates exclusively on the `int` data type using a system of Frames:
+
+* **Current Frame:** Represents the currently executing method. It contains local variables, arguments, and an Operand Stack.
+* **Operand Stack:** The primary work area. Instructions pop operands from this stack, perform operations (e.g., math, comparisons), and push results back onto it.
+* **Method Invocation:** When a method is invoked (`invoke`), a new frame is created and pushed onto the execution stack. When `return` is called, the current frame is destroyed, and control (along with the return value) passes back to the invoker.
+
+## Execution Architecture / Instruction Format
+
+Each instruction follows a specific syntax:
+
+```
+[label:] opcode parameter-list
+```
+
+* **Label (Optional):** A sequence of non-whitespace characters ending in a colon (e.g., `L7:`). Used as a target for jump instructions.
+* **Opcode:** The operation name (e.g., `add`, `load`).
+* **Parameter List:** Comma-separated arguments, which can be:
+    * `I`: Integer literal
+    * `V`: Variable name
+    * `L`: Label reference
+    * `M`: Method name
+
+## Instruction Set
+
+| Opcode | Parameters | Description |
+|--------|------------|-------------|
+| **Data Movement** |||
+| `load` | V | Pushes the value of variable `V` onto the operand stack. |
+| `store` | V | Pops a value from the stack and stores it in variable `V`. |
+| `push` | I | Pushes the integer constant `I` onto the stack. |
+| **Arithmetic** |||
+| `add` | - | Pops two values, adds them, and pushes the result. |
+| `sub` | - | Pops two values, subtracts them, and pushes the result. |
+| `mul` | - | Pops two values, multiplies them (lower 32-bits), and pushes the result. |
+| `div` | - | Pops two values, divides them, and pushes the result. |
+| **Control Flow** |||
+| `goto` | L | Unconditionally jumps to label `L`. |
+| `if_cmpgt` | L | Pops two values; if `value1 > value2`, jumps to label `L`. |
+| `if_cmpeq` | L | Pops two values; if `value1 == value2`, jumps to label `L`. |
+| `invoke` | M | Pops arguments, creates a new frame for method `M`, and transfers control. |
+| `return` | - | Returns execution to the caller, pushing the result onto the caller's stack. |
+| **I/O** |||
+| `print` | - | Pops a value from the stack and displays it on the console. |
+
+## Getting Started & Usage
+
+### Prerequisites
+* Java SDK 17+
+* Gradle (or use the included wrapper)
+
+### Setup Guide
+The application is designed to run via the command line on both Unix-based and Windows systems.
+
 <table>
   <tr>
     <th align="center">Linux / Mac OS CLI</th>
@@ -36,263 +127,50 @@ amongst other skills.
         <img src="images/MacSMLsetup.jpg" alt="Linux / Mac OS setup" width="380">
       </a>
       <br>
-      <em>Click to watch Linux / Mac OS CLI setup</em>
+      <em>View Setup Video (Mac/Linux)</em>
     </td>
     <td align="center">
       <a href="https://youtu.be/7FYMgWmGP08" target="_blank">
         <img src="images/WinSMLsetup.jpg" alt="Windows (PowerShell) CLI setup" width="380">
       </a>
       <br>
-      <em>Click to watch Windows (PowerShell) CLI setup</em>
+      <em>View Setup Video (Windows)</em>
     </td>
   </tr>
 </table>
 
+### How to Run
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/yourusername/sml-interpreter.git](https://github.com/yourusername/sml-interpreter.git)
+    cd sml-interpreter
+    ```
 
+2.  **Build the project:**
+    ```bash
+    ./gradlew build
+    ```
 
-## The problem
+3.  **Execute a program:**
+    Pass the path to an `.sml` file as an argument.
+    ```bash
+    java -jar build/libs/sml.jar src/main/resources/test1.sml
+    ```
 
-In this assignment you will write an interpreter for a simple machine language — `SML`.
+---
 
-The machine is similar to the Java Virtual Machine: it has no registers or flags and is based on a stack.
-Recall that a stack is a last in, first out (`LIFO`) data structure that has two operations — push and pop.
-The stack of our machine consists of *frames*. Each method invocation creates a new frame, which is used to
-store
+## Project Retrospective
 
-- values of method arguments and local variables, which are accessed by referring to their name,
-- operands of the instruction in the so-called *operand stack*
-  (so instruction can pop their arguments and push the result back on the operand stack) and
-- the value of the *program counter*, which indicates which instruction of the method will be executed next.
+This project was a significant exercise in refactoring legacy code into a clean, modern architecture.
 
-We refer to the frame of the currently executed method as the *current frame* and its operand stack
-as the *current operand stack*. When the current method returns, its frame (including the operand stack)
-is simply destroyed, and the frame that had invoked the returning method becomes the current frame.
-Most instruction read operands from the current operand stack and push the results back onto the
-current operand stack. This `SML` supports only one data type, Java's `int`.
+**Strengths:**
+* **Reflection Implementation:** The dual-strategy for instruction loading was robust and highly flexible.
+* **Testing:** Achieved extensive unit test coverage for individual instructions.
+* **Modern Java:** Utilised pattern matching for `instanceof` and consistent `equals/hashCode` implementation.
 
-The general form of an `SML` instruction is:
+**Areas for Improvement:**
+* **Dependency Inversion:** While Spring was used, further abstraction (Interfaces) could be introduced to fully satisfy the 'D' in SOLID.
+* **Statelessness:** Refactoring the abstract base classes to reduce statefulness in instruction objects would improve thread safety.
 
-```
-	[label:] opcode parameter-list
-```
-
-where
-
-* `label` — is the optional label for the line. It is a sequence of non-whitespace characters.  
-  Other instruction might “jump” to that label.
-* `opcode` — is the actual instruction name (operation code).
-  In `SML`, there are instruction, for example, for adding and comparing integers, for storing and reading them from the
-  method arguments and local variables,
-  and for conditionally branching to other labels  (like an `if` statement).
-* `parameter-list` — is the comma-separated list of parameters for the instruction. Parameters can be
-    - integer numbers (`I` in the table below),
-    - variable names (`V` in the table below),
-    - labels for branching instruction (`L` in the table below),
-    - method names for method invocation (`M` in the table below).
-
-SML has the following types of instruction:
-
-| Instruction  | Interpretation                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `load V`     | load variable: push the value of the method argument or local variable `V` onto the current operand stack                                                                                                                                                                                                                                                                                                                                                     |
-| `store V`    | store variable: pop a value from the current operand stack and store it in the method argument or local variable `V`                                                                                                                                                                                                                                                                                                                                          |
-| `push I`     | push a constant: push the value `I` onto the current operand stack                                                                                                                                                                                                                                                                                                                                                                                            |
-| `add`        | add: two integers, `value1` and `value2`, are popped from the current operand stack, and the result, `value1 + value2`, is pushed back onto the current operand stack                                                                                                                                                                                                                                                                                         |
-| `sub`        | subtract: two integers, `value1` and `value2`, are popped from the current operand stack, and the result, `value1 - value2`, is pushed back onto the current operand stack                                                                                                                                                                                                                                                                                    |
-| `mul`        | multiply: two integers, `value1` and `value2`, are popped from the current operand stack, and the lower 32 bits part of the result, `value1 * value2`, is pushed back onto the current operand stack                                                                                                                                                                                                                                                          |
-| `div`        | divide: two integers, `value1` and `value2`, are popped from the current operand stack, and the result, `value1 / value2`, is pushed back onto the current operand stack                                                                                                                                                                                                                                                                                      |
-| `goto L`     | goto: execution proceeds from the specified label `L` in the current method                                                                                                                                                                                                                                                                                                                                                                                   |
-| `print`      | print: an integer, `value`, is popped from the current operand stack and printed on screen                                                                                                                                                                                                                                                                                                                                                                    |  
-| `if_cmpgt L` | branch: two integers, `value1` and `value2`, are popped from the current operand stack and compared; if `value1 > value2`, then execution proceeds from the specified label `L` in the current method; otherwise, the next instruction is executed                                                                                                                                                                                                            |
-| `if_cmpeq L` | branch: two integers, `value1` and `value2`, are popped from the current operand stack and compared; if `value1 = value2`, then execution proceeds from the specified label `L` in the current method; otherwise, the next instruction is executed                                                                                                                                                                                                            |
-| `invoke M`   | invoke a method with `k` arguments: `k` values, `value1`, ..., `value_k`, are popped from the current operand stack; a new frame is created for method `M`; these values are stored in the arguments in the new frame: `value1` is stored in the first argument in the new frame, and so on; the local variables in the new frame are initialised to `0`; the new frame is then made current, and execution proceeds from the first instruction of method `M` |
-| `return`     | return int from method: an integer, `value`, is popped from the current operand stack and pushed onto the invoker's operand stack; the current frame is destroyed, and execution continues from the next instruction of the invoker                                                                                                                                                                                                                           |
-
-Here is an example of an `SML` program to compute the `n`th Fibonacci number using a simple recursive algorithm (see
-`test1.sml` in the `resources` folder):
-
-```
-@fib: n 
-    load n
-    push 1
-    if_cmpgt L7
-    push 1
-    return
-L7: load n
-    push 1
-    sub
-    invoke @fib
-    load n
-    push 2
-    sub
-    invoke @fib
-    add
-    return
-```
-
-Note that labels end with a colon (but the colon is not part of the label's name),
-and that label, opcode and parameters are separated by whitespace,
-with commas between parameters (if needed).
-
-A program is a collection of methods (each method declaration begins with an `@` label).
-A method declaration also specifies its arguments in
-a comma-separated list after the method name.
-In our example method `@fib`, we have one argument, `n`.
-In the `test2.sml` example, we have method `@fib2`, also with one argument, `n`. Note that
-variable names `fm2`, `fm1`, `i` and `f` used in its instruction are the local variables of `@fib2`.
-
-Execution of a program starts with method `main`.
-The instruction of a method are executed in order (starting with the first one),
-unless the order is changed by execution of a "jump" instruction such as `goto` or `if_cmpgt`.
-Execution of a method terminates when it reaches a `return` instruction. Note that a
-program is incorrect if it contains a method that does not end with a `return` instruction.
-
-Your interpreter will:
-
-1. Read the name of a file that contains the program from the command line
-   (via `String[] args` and the `sml.RunSml` class).
-2. Read the program from the file and translate it into an internal representation (classes `Machine`, `Method`,
-   `Instruction` and others).
-3. Execute the program and print its output.
-
-This looks like a tall order, but have no fear;
-we provide you with some of the code, so you can concentrate on the interesting
-use of subclasses, dependency injection and reflection.
-
-Completing the worksheets really helps as preparation for this assignment.
-
-## Design of the program
-
-We provide some of the classes, specifications for a few, and leave a few others
-for you to write/complete. The code we provide does some of the dirty work of reading
-in a program and translating it to an internal representation; you can concentrate on the
-code that executes the program.
-
-We suggest that you examine the `Machine` class first, as it is the heart
-of the program (you can use the `main` method in the `sml.RunSml` class to guide you as well).
-
-## Studying the program
-
-# My Solution to the Exercise: Implement Two Instruction Discovery Methods:
-<table>
-  <tr>
-    <th align="center">Config Registration Process</th>
-    <th align="center">Package Scan Process</th>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="https://youtu.be/4jjzWDJ21As" target="_blank">
-        <img src="images/config_process.jpg" alt="Running an SML program via command line on Linux / Mac OS" width="380">
-      </a>
-      <br>
-      <em>Click to watch Config Registration Process</em>
-    </td>
-    <td align="center">
-      <a href="https://youtu.be/PHcSX3sMAlU" target="_blank">
-        <img src="images/package_scan_process.jpg" alt="Configuration Registration Process Video" width="380">
-      </a>
-      <br>
-      <em>Click to watch Package Scan Process</em>
-    </td>
-  </tr>
-</table>
-
-You are provided with some skeleton code which is on this repository.
-
-Look at the fields of the `Machine`, `Method`, `Instruction`, `SymbolTable`, `Label` and `Variable` classes,
-which contain exactly what is needed to execute an `SML` program.
-Next examine the method `Machine.execute` and classes `Frame`, `InvokeInstruction` and `ReturnInstruction`,
-which describe execution of the program.
-It is a typical *fetch-decode-execute* cycle that all machines have in some form.
-
-At each iteration, the instruction to execute is fetched, the instruction is executed and
-the program counter is updated. In most cases, the program counter is simply incremented
-to move to the next instruction in the program (see method `advance` in `Frame`);
-some instruction (e.g., `if_cmpgt`) can change the order of execution by jumping to a specific label
-(see method `jumpTo` in `Frame`).
-
-The `Translator` class contains the methods that read in the program and translate
-it into an internal representation; be warned, very little error checking goes on here.
-
-Finally, study the `main` method of the `sml.RunSml` class (if you think it will help you).
-
-## The `Instruction` class and its subclasses
-
-All the programming that you do has to do with the `Instruction` class and its subclasses.
-The specification of the class `Instruction` has been given to you — open the file
-
-```
-	Instruction.java
-```
-
-and examine it. This class is *abstract*, because it should not be instantiated.  
-The method `execute` is also abstract, forcing every concrete subclass to implement it.
-Every instruction has an optional *label* and an *operation code* — that is exactly
-what is common to every instruction. Therefore, these properties (fields) are maintained
-in the base class of all instruction.
-
-## Tasks
-
-There are two components to this coursework assignment.
-
-##### Part I
-
-1. Complete the methods in the `Instruction` class — this may require you to add some fields,
-   which should be *protected*, so that they are accessible in all subclasses.
-
-2. Now create a subclass of `Instruction` for each kind of `SML` instruction and fix
-   the method `Translator.instruction` so that it properly translates that kind of instruction.
-
-   *Recommended*: write one instruction at a time and test it out thoroughly, before proceeding to the next!
-
-3. Start with the inspection of the `print` instruction,
-   because the implementation of this `Instruction` subclass and
-   the code for translating it is already there — in method `Translator.getInstruction`.
-
-4. For each instruction, the subclass needs appropriate fields, a constructor,
-   and methods `execute` and `toString`; these should override
-   the same methods in the `Instruction` class, with appropriate annotations.
-
-5. As you do this, you will see that each successive class can be written by
-   duplicating a previous one and modifying it.
-   Introduce auxiliary abstract classes where that can help avoid code duplication.
-
-6. Write a test class for each of the `Instruction` subclasses.
-
-7. After you finish writing a subclass for an `SML` instruction,
-   you will have to add code to the method `Translator.getInstruction` to translate
-   that instruction. The existing code for translating `print`, `goto`, `invoke` and `return`
-   should help you with this.
-
-8. There are also a few places in the code with `TODO:` labels — follow the instruction to
-   improve the provided code (or implement missing methods as required).
-   Use the Java Stream API whenever possible instead of loops.
-
-##### Part II
-
-1. Next, take the `switch` statement in `Translator.java` that decides which type of instruction is created
-   and modify the code so that it uses *reflection* to create the instances, i.e.,
-   remove the explicit calls to the subclasses and the `switch` statement.
-   This will allow the `SML` language to be extended without having to modify the original code.
-   Remember that your reflection code should not mention any instruction subclass names. It should also be
-   fairly general to accommodate new types of instruction, for example, bitwise operations on integers that work
-   similarly to `add`
-   or branching on "less than" or "not equal" and so on.
-
-2. Modify the source code to use *dependency injection*, the *singleton* design pattern,
-   and *factory* classes where you deem appropriate. (You are allowed to use other
-   design patterns if you consider them necessary.) Be careful not to introduce, for example, singletons
-   where the class is expected to have multiple instances (for example, `Machine` is not meant to be a singleton).
-
-3. Apart from the specific code mentioned above you should not modify other classes.
-
-All of these parts of the coursework should be fully tested (you do not need to provide
-tests for the original codebase).
-
-## Submission
-
-Your repository will be *cloned* at the appropriate due date and time.
-
-------
-
-###### Individual Coursework 2024-25
+---
+*This repository is archived as a showcase of academic work for the MSc Computer Science at Birkbeck, University of London.*
