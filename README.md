@@ -197,6 +197,6 @@ This project was a significant exercise in refactoring legacy code into a clean,
 
 ---
 
-*Enjoy !"
+Enjoy !
 
 *Ricki.*
