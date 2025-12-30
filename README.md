@@ -3,7 +3,7 @@
 ## Project Overview
 SML is a command-line interface tool that implements a low-level Machine Language compiler and interpreter. Developed as part of an assessment for the Software Design and Programming module as part of my MSc Computer Science degree, the system mimics the architecture of the Java Virtual Machine (JVM). It utilises a stack-based execution model to parse and run custom assembly-like instructions.
 
-Not finished yet and still a work-in-progress, the purpose of this project was to learn advanced Java concepts, specifically Dependency Injection with Spring, the Reflection API, and architectural design patterns in a practical context.
+Not finished yet and still a work-in-progress, the purpose of this project was to learn advanced Java concepts, specifically Dependency Injection with Spring, the Reflection API, and architectural design patterns in a practical context. The project also includes a comprehensive test suite, showcasing strong utilisation of the JUnit testing framework.
 
 The primary engineering challenge was to design the system for **open-ended extensibility** using advanced Java features like Reflection and Dependency Injection.
 
@@ -139,26 +139,35 @@ The application is designed to run via the command line on both Unix-based and W
   </tr>
 </table>
 
-### How to Run
+### Available Example Programs
+
+| Program | Description | Output |
+|---------|-------------|--------|
+| `test1.sml` | Recursive Fibonacci using function calls | `89` (10th Fibonacci number) |
+| `test2.sml` | Iterative Fibonacci using loops | `89` (10th Fibonacci number) |
+| `simple.sml` | Minimal stack operations demo | `18` |
+| `simplecalc.sml` | Arithmetic and conditional branching | `100`, `15` |
+| `sqrtest.sml` | Square root instruction tests | `3`, `4`, `5`, `0`, `7`, `100` |
+| `numchar.sml` | Number to ASCII character conversion | `RICKI` (as ASCII values) |
+
+## How to Run
 1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/yourusername/sml-interpreter.git](https://github.com/yourusername/sml-interpreter.git)
-    cd sml-interpreter
-    ```
-
 2.  **Build the project:**
-    ```bash
-    ./gradlew build
-    ```
-
 3.  **Execute a program:**
-    Pass the path to an `.sml` file as an argument.
-    ```bash
-    java -jar build/libs/sml.jar src/main/resources/test1.sml
-    ```
 
+ **Note:** You *must* run these commands from the root `/sml-interpreter` folder.
+```bash
+git clone https://github.com/TechAngelX/SML-Interpreter.git sml-interpreter
+cd sml-interpreter
+mvn clean package
+mvn exec:java -Dexec.mainClass="sml.RunSml" -Dexec.args="src/main/resources/test1.sml"
+```
+
+Or you can run any other `.sml` program file:
+```bash
+mvn exec:java -Dexec.mainClass="sml.RunSml" -Dexec.args="src/main/resources/sqrtest.sml"
+```
 ---
-
 ## Project Retrospective
 
 This project was a significant exercise in refactoring legacy code into a clean, modern architecture.
